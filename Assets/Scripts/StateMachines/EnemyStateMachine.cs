@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static BattleStateMachine;
 
@@ -30,6 +31,11 @@ public class EnemyStateMachine : MonoBehaviour
     public GameObject HeroToAttack;
     private float animSpeed = 10f;
     public GameObject Selector;
+    //enemy panel
+    private EnemyPanelStats stats;
+    public GameObject EnemyPanel;
+    private Transform EnemyPanelSpacer;
+    public HealthBar healthBar;
 
     //alive
     private bool alive = true;
@@ -39,6 +45,11 @@ public class EnemyStateMachine : MonoBehaviour
         // According to tutorial: 
         // currentState = TurnState.PROCESSING;
         // we skip it cause of stupidass progress bar
+        //find spacer object
+        EnemyPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("EnemyPanel").transform.Find("EnemyPanelSpacer");
+
+        //create panel and fill in info
+        CreateEnemyPanel();
         currentState = TurnState.PROCESSING;
         Selector.SetActive (false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine> ();
@@ -83,11 +94,18 @@ public class EnemyStateMachine : MonoBehaviour
                     //disable the selector
                     Selector.SetActive (false);
                     //remove all inputs
-                    for(int i = 0; i <BSM.PerformList.Count; i++)
+                    if (BSM.EnemysInBattle.Count > 0)
                     {
-                        if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                        for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
-                            BSM.PerformList.Remove(BSM.PerformList[i]);
+                            if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                            {
+                                BSM.PerformList.Remove(BSM.PerformList[i]);
+                            }
+                            else if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                            {
+                                BSM.PerformList[i].AttackersTarget = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
+                            }
                         }
                     }
                     //change the color to gray / play death animation
@@ -182,17 +200,45 @@ public class EnemyStateMachine : MonoBehaviour
 
     void DoDamage()
     {
+        //play attack animation
+
+        //do damage
         float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage);
     }
 
     public void TakeDamage(float getDamageAmount)
     {
+        //play hurt animation
+
+        //take damage
         enemy.curHP -= getDamageAmount;
         if (enemy.curHP <= 0)
         {
             enemy.curHP = 0;
             currentState = TurnState.DEAD;
         }
+        healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
+        UpdateEnemyPanel();
+    }
+
+    void CreateEnemyPanel()
+    {
+        EnemyPanel = Instantiate(EnemyPanel) as GameObject;
+        stats = EnemyPanel.GetComponent<EnemyPanelStats>();
+        stats.EnemyName.text = enemy.theName;
+        stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
+        stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
+
+        //ProgressBar = stats.ProgressBar;
+        EnemyPanel.transform.SetParent(EnemyPanelSpacer, false);
+    }
+
+    //update visual stats upon taking damage / heal
+    void UpdateEnemyPanel()
+    {
+        stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
+        stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
     }
 }
+

@@ -182,6 +182,7 @@ public class BattleStateMachine : MonoBehaviour
         //cleanup
         foreach(GameObject enemyBtn in enemyBtns)
         {
+            enemyBtn.GetComponent<EnemySelectButton>().EnemyPrefab.transform.Find("Selector").gameObject.SetActive(false);
             Destroy(enemyBtn);
         }
         enemyBtns.Clear();

@@ -24,7 +24,7 @@ public class HeroStateMachine : MonoBehaviour
     private float max_cooldown = 5f;
     private Image ProgressBar;
     */
-
+    private Image health_bar;
     public GameObject Selector;
     //IeNumerator
     public GameObject EnemyToAttack;
@@ -37,6 +37,7 @@ public class HeroStateMachine : MonoBehaviour
     private HeroPanelStats stats;
     public GameObject HeroPanel;
     private Transform HeroPanelSpacer;
+    public HealthBar healthBar;
 
     void Start()
     {
@@ -95,11 +96,18 @@ public class HeroStateMachine : MonoBehaviour
                     BSM.AttackPanel.SetActive(false);
                     BSM.EnemySelectPanel.SetActive(false);
                     //remove hero from performlist
-                    for(int i = 0; i<BSM.PerformList.Count; i++)
+                    if (BSM.HerosInBattle.Count > 0)
                     {
-                        if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                        for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
-                            BSM.PerformList.Remove(BSM.PerformList[i]);
+                            if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                            {
+                                BSM.PerformList.Remove(BSM.PerformList[i]);
+                            }
+                            else if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                            {
+                                BSM.PerformList[i].AttackersTarget = BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)];
+                            }
                         }
                     }
                     //change appearance / play death animation
@@ -184,14 +192,19 @@ public class HeroStateMachine : MonoBehaviour
             hero.curHP = 0;
             currentState = TurnState.DEAD;
         }
+        healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
         UpdateHeroPanel();
     }
 
     //do damage
     void DoDamage()
     {
+        //play attack sprites
+
+        //do damage
         float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
         EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
+        
     }
 
     //create hero panel
@@ -200,8 +213,8 @@ public class HeroStateMachine : MonoBehaviour
         HeroPanel = Instantiate(HeroPanel) as GameObject;
         stats = HeroPanel.GetComponent<HeroPanelStats>();
         stats.HeroName.text = hero.theName;
-        stats.HeroHP.text = "HP: " + hero.curHP; // + "/" + hero.maxHP;
-        stats.HeroMP.text = "MP: " + hero.curMP; // + "/" + hero.maxMP;
+        stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
+        stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
 
         //ProgressBar = stats.ProgressBar;
         HeroPanel.transform.SetParent(HeroPanelSpacer, false);
@@ -210,7 +223,7 @@ public class HeroStateMachine : MonoBehaviour
     //update visual stats upon taking damage / heal
     void UpdateHeroPanel()
     {
-        stats.HeroHP.text = "HP: " + hero.curHP; // + "/" + hero.maxHP;
-        stats.HeroMP.text = "MP: " + hero.curMP; // + "/" + hero.maxMP;
+        stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
+        stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
     }
 }
