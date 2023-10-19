@@ -437,6 +437,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5367662223709057506, guid: b5339ce5fbf798a428a857d939b2927c, type: 3}
+      propertyPath: FloatingText
+      value: 
+      objectReference: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
+    - target: {fileID: 5367662223709057506, guid: b5339ce5fbf798a428a857d939b2927c, type: 3}
       propertyPath: enemy.baseHP
       value: 1200
       objectReference: {fileID: 0}
@@ -744,8 +748,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -85, y: 66}
-  m_SizeDelta: {x: 2000, y: 1700}
+  m_AnchoredPosition: {x: -3, y: -5}
+  m_SizeDelta: {x: 2000, y: 1600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &543321591
 MonoBehaviour:
@@ -767,7 +771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5045cfcfc1ac11d4f99c7098cca13305, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb785a9617491e740b09c39cf9331563, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -950,6 +954,10 @@ PrefabInstance:
       propertyPath: hero.curATK
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: FloatingText
+      value: 
+      objectReference: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.baseATK
       value: 15
@@ -2287,6 +2295,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: FloatingText
+      value: 
+      objectReference: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.baseATK
       value: 7
       objectReference: {fileID: 0}
@@ -2353,6 +2365,10 @@ PrefabInstance:
       propertyPath: enemy.curMP
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 5367662223709057506, guid: b5339ce5fbf798a428a857d939b2927c, type: 3}
+      propertyPath: FloatingText
+      value: 
+      objectReference: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
     - target: {fileID: 5367662223709057506, guid: b5339ce5fbf798a428a857d939b2927c, type: 3}
       propertyPath: enemy.baseHP
       value: 400

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using TMPro;
 using static BattleStateMachine;
 
 public class EnemyStateMachine : MonoBehaviour
@@ -36,6 +37,7 @@ public class EnemyStateMachine : MonoBehaviour
     public GameObject EnemyPanel;
     private Transform EnemyPanelSpacer;
     public HealthBar healthBar;
+    public GameObject FloatingText;
 
     //alive
     private bool alive = true;
@@ -208,7 +210,7 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public void TakeDamage(float getDamageAmount)
-    {
+    {       
         //play hurt animation
 
         //take damage
@@ -218,6 +220,10 @@ public class EnemyStateMachine : MonoBehaviour
             enemy.curHP = 0;
             currentState = TurnState.DEAD;
         }
+        //show popup damage
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+        //update health bar
         healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
         UpdateEnemyPanel();
     }
@@ -240,5 +246,7 @@ public class EnemyStateMachine : MonoBehaviour
         stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
         stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
     }
+
+
 }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,6 +39,7 @@ public class HeroStateMachine : MonoBehaviour
     public GameObject HeroPanel;
     private Transform HeroPanelSpacer;
     public HealthBar healthBar;
+    public GameObject FloatingText;
 
     void Start()
     {
@@ -192,6 +194,10 @@ public class HeroStateMachine : MonoBehaviour
             hero.curHP = 0;
             currentState = TurnState.DEAD;
         }
+        //show popup damage
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+        //health bar
         healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
         UpdateHeroPanel();
     }
