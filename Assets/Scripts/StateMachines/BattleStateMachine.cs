@@ -76,7 +76,7 @@ public class BattleStateMachine : MonoBehaviour
         switch (battleStates)
         {
             case (PerformAction.WAIT):
-                if (PerformList.Count > 0)
+                if (PerformList.Count > 1)
                 {
                     battleStates = PerformAction.TAKEACTION;
                 }

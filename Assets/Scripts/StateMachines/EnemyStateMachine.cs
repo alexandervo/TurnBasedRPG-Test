@@ -66,20 +66,23 @@ public class EnemyStateMachine : MonoBehaviour
             case (TurnState.PROCESSING):
                 // UpgradeProgressBar ();
                 currentState = TurnState.CHOOSEACTION;
+                Debug.Log("Processing");
                 break;
 
             case (TurnState.CHOOSEACTION):
                 ChooseAction ();
                 currentState = TurnState.WAITING;
+                Debug.Log("Chooseaction");
                 break;
 
             case (TurnState.WAITING):
                 //idle state
-             
+                Debug.Log("Waiting");
                 break;
 
             case (TurnState.ACTION):
                 StartCoroutine(TimeForAction ());
+                Debug.Log("Action");
                 break;
 
             case (TurnState.DEAD):
@@ -146,7 +149,7 @@ public class EnemyStateMachine : MonoBehaviour
         
         int num = Random.Range(0, enemy.attacks.Count);
         myAttack.choosenAttack = enemy.attacks[num];
-        Debug.Log(this.gameObject.name + " has choosen " + myAttack.choosenAttack.attackName + " and does " + myAttack.choosenAttack.attackDamage + " damage.");
+        //Debug.Log(this.gameObject.name + " has choosen " + myAttack.choosenAttack.attackName + " and does " + myAttack.choosenAttack.attackDamage + " damage.");
 
         BSM.CollectActions (myAttack);
     }
@@ -206,6 +209,7 @@ public class EnemyStateMachine : MonoBehaviour
 
         //do damage
         float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        //add damage formula later on
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage);
     }
 
