@@ -49,6 +49,11 @@ public class InventorySO : ScriptableObject
         return returnValue;
 
     }
+
+    public InventoryItem GetItemAt(int itemIndex)
+    {
+        return inventoryItems[itemIndex];
+    }
 }
 
 [Serializable]
@@ -73,4 +78,5 @@ public struct InventoryItem
             item = null,
             quantity = 0,
         };
+
 }

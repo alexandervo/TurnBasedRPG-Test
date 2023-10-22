@@ -199,19 +199,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1738516379103741909, guid: 0550954c007ba2a44b39a01d12fb1f3d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1738516379103741909, guid: 0550954c007ba2a44b39a01d12fb1f3d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1738516379103741909, guid: 0550954c007ba2a44b39a01d12fb1f3d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1738516379103741909, guid: 0550954c007ba2a44b39a01d12fb1f3d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -41.00625
       objectReference: {fileID: 0}
     - target: {fileID: 2741265364301530405, guid: 0550954c007ba2a44b39a01d12fb1f3d, type: 3}
       propertyPath: m_Pivot.x
@@ -983,7 +983,7 @@ GameObject:
   - component: {fileID: 2006181945}
   - component: {fileID: 2006181944}
   m_Layer: 0
-  m_Name: DummyGameObject
+  m_Name: DummyPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,7 +1002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 703556121}
-  inventorySize: 30
+  inventoryData: {fileID: 11400000, guid: 1b354062058e3c94bb7148f8e23b54c4, type: 2}
 --- !u!4 &2006181945
 Transform:
   m_ObjectHideFlags: 0
