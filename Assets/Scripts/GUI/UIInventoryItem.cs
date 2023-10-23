@@ -6,6 +6,8 @@ using TMPro;
 using System;
 using UnityEngine.EventSystems;
 
+namespace Inventory.UI
+{
     public class UIInventoryItem : MonoBehaviour, IPointerClickHandler,
         IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
     {
@@ -64,11 +66,13 @@ using UnityEngine.EventSystems;
 
         public void OnEndDrag(PointerEventData eventData)
         {
+            itemImage.raycastTarget = true;
             OnItemEndDrag?.Invoke(this);
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
+            itemImage.raycastTarget = false;
             if (empty)
                 return;
             OnItemBeginDrag?.Invoke(this);
@@ -84,3 +88,4 @@ using UnityEngine.EventSystems;
 
         }
     }
+}
