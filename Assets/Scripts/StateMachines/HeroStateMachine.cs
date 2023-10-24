@@ -147,7 +147,7 @@ public class HeroStateMachine : MonoBehaviour
             yield return null;
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         //do damage
         DoDamage();
         //animate back to start position
@@ -178,8 +178,9 @@ public class HeroStateMachine : MonoBehaviour
     private bool MoveTowardsEnemy(Vector3 target)
     {
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
+    
     }
-
+    
     //return the sprite towards starting position on battlefield
     private bool MoveTowardsStart(Vector3 target)
     {

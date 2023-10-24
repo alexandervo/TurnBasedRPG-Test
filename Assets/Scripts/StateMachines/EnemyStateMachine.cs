@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using TMPro;
 using static BattleStateMachine;
@@ -66,23 +65,19 @@ public class EnemyStateMachine : MonoBehaviour
             case (TurnState.PROCESSING):
                 // UpgradeProgressBar ();
                 currentState = TurnState.CHOOSEACTION;
-                Debug.Log("Processing");
                 break;
 
             case (TurnState.CHOOSEACTION):
                 ChooseAction ();
                 currentState = TurnState.WAITING;
-                Debug.Log("Chooseaction");
                 break;
 
             case (TurnState.WAITING):
                 //idle state
-                Debug.Log("Waiting");
                 break;
 
             case (TurnState.ACTION):
                 StartCoroutine(TimeForAction ());
-                Debug.Log("Action");
                 break;
 
             case (TurnState.DEAD):
@@ -170,7 +165,7 @@ public class EnemyStateMachine : MonoBehaviour
             yield return null;
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
         //do damage
         DoDamage ();
 

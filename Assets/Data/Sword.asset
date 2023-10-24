@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38eea89956a11bb4dbccefba9ae1c869, type: 3}
+  m_Script: {fileID: 11500000, guid: ace3a324e3099434baee0f290c13563c, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
   <Name>k__BackingField: Sword
-  <Description>k__BackingField: Simpliest sword
-  <ItemImage>k__BackingField: {fileID: 74489898, guid: 3780d6f6a2ecd814fbd2e609fb9b9445, type: 3}
+  <Description>k__BackingField: Deals physical damage
+  <ItemImage>k__BackingField: {fileID: -1255679405, guid: 3780d6f6a2ecd814fbd2e609fb9b9445, type: 3}
+  <DefaultParametersList>k__BackingField: []
+  <actionSFX>k__BackingField: {fileID: 0}

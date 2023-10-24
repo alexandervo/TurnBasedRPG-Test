@@ -14,23 +14,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryItems:
   - quantity: 5
-    item: {fileID: 11400000, guid: f2f8373a51e956a49ad3927123304943, type: 2}
+    item: {fileID: 11400000, guid: 765164a25a7a39243a758d8a0df77653, type: 2}
+    itemState: []
   - quantity: 1
     item: {fileID: 11400000, guid: 7e251f2797aa28142a9428229f49c1a3, type: 2}
-  - quantity: 2
-    item: {fileID: 11400000, guid: f2f8373a51e956a49ad3927123304943, type: 2}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
+    itemState: []
   - quantity: 0
     item: {fileID: 0}
-  <Size>k__BackingField: 10
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  - quantity: 0
+    item: {fileID: 0}
+    itemState: []
+  <Size>k__BackingField: 20

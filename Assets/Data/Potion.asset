@@ -9,11 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38eea89956a11bb4dbccefba9ae1c869, type: 3}
+  m_Script: {fileID: 11500000, guid: 42b16d469a276be47a5275ce997e56a1, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 1
   <MaxStackSize>k__BackingField: 99
-  <Name>k__BackingField: Health Potion
-  <Description>k__BackingField: Recovers some HP
+  <Name>k__BackingField: Red Potion
+  <Description>k__BackingField: Heals certain amount of HP
   <ItemImage>k__BackingField: {fileID: 2027737465, guid: 3780d6f6a2ecd814fbd2e609fb9b9445, type: 3}
+  <DefaultParametersList>k__BackingField: []
+  modifiersData:
+  - statModifier: {fileID: 11400000, guid: ef3c10198da20fd41a23b4311ac4d2d4, type: 2}
+    value: 10
+  <actionSFX>k__BackingField: {fileID: 0}
