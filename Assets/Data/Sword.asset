@@ -17,5 +17,7 @@ MonoBehaviour:
   <Name>k__BackingField: Sword
   <Description>k__BackingField: Deals physical damage
   <ItemImage>k__BackingField: {fileID: -1255679405, guid: 3780d6f6a2ecd814fbd2e609fb9b9445, type: 3}
-  <DefaultParametersList>k__BackingField: []
-  <actionSFX>k__BackingField: {fileID: 0}
+  <DefaultParametersList>k__BackingField:
+  - itemParameter: {fileID: 11400000, guid: 37a7d33ffe5b83546b01127828f07ff2, type: 2}
+    value: 100
+  <actionSFX>k__BackingField: {fileID: 8300000, guid: 392cd785f93d805469f742f93aea4a6b, type: 3}

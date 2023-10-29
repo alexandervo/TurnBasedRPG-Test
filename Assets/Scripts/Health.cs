@@ -10,14 +10,14 @@ public class Health : MonoBehaviour
 
     [SerializeField] private GameObject bloodParticle;
 
-    [SerializeField] private Renderer renderer;
-    [SerializeField] private float flashTime = 0.2f;
+    ///[SerializeField] private Renderer renderer;
+    //[SerializeField] private float flashTime = 0.2f;
 
     private void Start()
     {
         currentHealth.Value = 1;
     }
-
+    /*
     public void Reduce(int damage)
     {
         currentHealth.Value -= damage / maxHealth;
@@ -27,6 +27,7 @@ public class Health : MonoBehaviour
             Die();
         }
     }
+    */
 
     public void AddHealth(int healthBoost)
     {
@@ -34,7 +35,7 @@ public class Health : MonoBehaviour
         int val = health + healthBoost;
         currentHealth.Value = (val > maxHealth ? maxHealth : val / maxHealth);
     }
-
+    /*
     private void CreateHitFeedback()
     {
         Instantiate(bloodParticle, transform.position, Quaternion.identity);
@@ -46,7 +47,7 @@ public class Health : MonoBehaviour
         renderer.material.SetInt("_Flash", 1);
         yield return new WaitForSeconds(flashTime);
         renderer.material.SetInt("_Flash", 0);
-    }
+    } */
 
     private void Die()
     {

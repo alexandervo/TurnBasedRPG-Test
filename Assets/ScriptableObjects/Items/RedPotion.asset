@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f9c150dce3acf04bb89ac03ea23e1a4, type: 3}
+  m_Name: RedPotion
+  m_EditorClassIdentifier: 
+  Id: 4
+  uiDisplay: {fileID: 1289955898, guid: 303bcf4559eac8c4995e563056fcceb6, type: 3}
+  type: 0
+  description: Restores 16 HP upon usage
+  buffs: []
