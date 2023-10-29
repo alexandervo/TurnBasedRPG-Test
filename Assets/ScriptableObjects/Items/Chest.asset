@@ -12,16 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5ef7b8cefc8c545b6c18dbcc3acc4a, type: 3}
   m_Name: Chest
   m_EditorClassIdentifier: 
-  Id: 2
   uiDisplay: {fileID: -2128099333, guid: 8cb8a6458000fc64f8a74bdb59b656fb, type: 3}
   type: 4
   description: Basic armor
-  buffs:
-  - attribute: 3
-    value: 0
-    min: 6
-    max: 15
-  - attribute: 2
-    value: 0
-    min: 6
-    max: 15
+  data:
+    Name: 
+    Id: 2
+    buffs: []

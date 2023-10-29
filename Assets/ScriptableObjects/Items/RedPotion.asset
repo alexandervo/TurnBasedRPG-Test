@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f9c150dce3acf04bb89ac03ea23e1a4, type: 3}
   m_Name: RedPotion
   m_EditorClassIdentifier: 
-  Id: 4
   uiDisplay: {fileID: 1289955898, guid: 303bcf4559eac8c4995e563056fcceb6, type: 3}
+  stackable: 1
   type: 0
   description: Restores 16 HP upon usage
-  buffs: []
+  data:
+    Name: 
+    Id: 4
+    buffs: []

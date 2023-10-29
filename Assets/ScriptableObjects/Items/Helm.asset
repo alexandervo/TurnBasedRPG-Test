@@ -12,16 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5ef7b8cefc8c545b6c18dbcc3acc4a, type: 3}
   m_Name: Helm
   m_EditorClassIdentifier: 
-  Id: 3
   uiDisplay: {fileID: 1751320473, guid: 303bcf4559eac8c4995e563056fcceb6, type: 3}
+  stackable: 0
   type: 1
   description: Defensive item
-  buffs:
-  - attribute: 0
-    value: 0
-    min: 5
-    max: 12
-  - attribute: 3
-    value: 0
-    min: 4
-    max: 20
+  data:
+    Name: 
+    Id: 3
+    buffs: []

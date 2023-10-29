@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da7b7c5e3f30cb44c98ac4eb846c0707, type: 3}
   m_Name: Bones
   m_EditorClassIdentifier: 
-  Id: 0
   uiDisplay: {fileID: -1481042129, guid: 303bcf4559eac8c4995e563056fcceb6, type: 3}
-  type: 2
+  stackable: 1
+  type: 6
   description: Simple lootable item
+  data:
+    Name: 
+    Id: -1
+    buffs: []

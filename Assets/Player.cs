@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
-    public MouseItem mouseItem = new MouseItem();
+   // public MouseItem mouseItem = new MouseItem();
 
     public InventoryObject inventory;
 
