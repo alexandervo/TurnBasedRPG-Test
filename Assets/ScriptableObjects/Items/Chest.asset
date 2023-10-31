@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: Chest
   m_EditorClassIdentifier: 
   uiDisplay: {fileID: -2128099333, guid: 8cb8a6458000fc64f8a74bdb59b656fb, type: 3}
+  stackable: 0
   type: 4
   description: Basic armor
   data:
     Name: 
     Id: 2
-    buffs: []
+    buffs:
+    - attribute: 2
+      value: 0
+      min: 12
+      max: 120

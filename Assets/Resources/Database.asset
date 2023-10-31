@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c16ef153fa4084daf277b9405847a4, type: 3}
   m_Name: Database
   m_EditorClassIdentifier: 
-  Items:
+  ItemObjects:
   - {fileID: 11400000, guid: 6cb5b7b93e626e744a514ca2d51d73ae, type: 2}
   - {fileID: 11400000, guid: da9c6663bb1c93340a8e03e61933aa96, type: 2}
   - {fileID: 11400000, guid: dfeaf75db235c154e8f8fec98759c898, type: 2}
