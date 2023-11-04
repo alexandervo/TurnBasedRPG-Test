@@ -41,6 +41,9 @@ public class HeroStateMachine : MonoBehaviour
     public HealthBar healthBar;
     public GameObject FloatingText;
 
+    private bool isCriticalH = false;
+
+
     void Start()
     {
         //find spacer object
@@ -147,7 +150,7 @@ public class HeroStateMachine : MonoBehaviour
             yield return null;
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(.5f);
         //do damage
         DoDamage();
         //animate back to start position
@@ -187,7 +190,7 @@ public class HeroStateMachine : MonoBehaviour
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 
-    public void TakeDamage(float getDamageAmount)
+    public void TakeDamage(float getDamageAmount, bool isCriticalE)
     {
         hero.curHP -= getDamageAmount;
         if (hero.curHP <= 0)
@@ -197,6 +200,14 @@ public class HeroStateMachine : MonoBehaviour
         }
         //show popup damage
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        if (isCriticalE == true)
+        {
+            go.GetComponent<TextMeshPro>().color = Color.red;
+
+        } else
+        {
+            go.GetComponent<TextMeshPro>().color = Color.yellow;
+        }
         go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
         //health bar
         healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
@@ -206,12 +217,18 @@ public class HeroStateMachine : MonoBehaviour
     //do damage
     void DoDamage()
     {
-        //play attack sprites
-
-        //do damage
         float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
-        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
-        
+        //play attack sprites
+        //critical strikes
+        if (Random.Range(0f, 1f) <= hero.curCRIT)
+        {
+            Debug.Log("Critical hit!");
+            isCriticalH = true;
+        calc_damage *= hero.critDamage;
+        }
+        //do damage
+        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH);
+        isCriticalH = false;
     }
 
     //create hero panel
@@ -233,4 +250,5 @@ public class HeroStateMachine : MonoBehaviour
         stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
         stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
     }
+
 }

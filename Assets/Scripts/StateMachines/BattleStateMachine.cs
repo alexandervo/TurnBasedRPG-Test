@@ -77,23 +77,23 @@ public class BattleStateMachine : MonoBehaviour
         switch (battleStates)
         {
             case (PerformAction.WAIT):
-                if (PerformList.Count == HerosInBattle.Count + EnemysInBattle.Count)
+                //if (PerformList.Count == HerosInBattle.Count + EnemysInBattle.Count)
                     //Original code:
-                    //if (PerformList.Count > 1)
+                    if (PerformList.Count > 1)
                 {
-                    battleStates = PerformAction.WAITFORINPUT;
+                    battleStates = PerformAction.TAKEACTION;
                 }
                 break;
     //TRy to implement waiting state where enemies do nothing and wait for player input
     //Activate countdown, if countdown runs out and no player input was made,
     //disable player input panels, set some bool to true and pass information to Input1()
     //should perform basic attack on random enemy target
-            case (PerformAction.WAITFORINPUT):
-                if (HeroesToManage.Count == 0)
-                {
-                    battleStates = PerformAction.TAKEACTION;
-                }
-                break;
+         //   case (PerformAction.WAITFORINPUT):
+            //    if (HeroesToManage.Count == 0)
+             //   {
+             //       battleStates = PerformAction.TAKEACTION;
+              //  }
+               // break;
                 // ^ end of approach
             case (PerformAction.TAKEACTION):
                 GameObject performer = GameObject.Find(PerformList[0].Attacker);

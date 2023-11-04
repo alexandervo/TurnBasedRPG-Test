@@ -38,6 +38,8 @@ public class EnemyStateMachine : MonoBehaviour
     public HealthBar healthBar;
     public GameObject FloatingText;
 
+    private bool isCriticalE = false;
+
     //alive
     private bool alive = true;
 
@@ -165,7 +167,7 @@ public class EnemyStateMachine : MonoBehaviour
             yield return null;
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(.5f);
         //do damage
         DoDamage ();
 
@@ -204,11 +206,19 @@ public class EnemyStateMachine : MonoBehaviour
 
         //do damage
         float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        //critical strikes
+        if (Random.Range(0f, 1f) <= enemy.curCRIT)
+        {
+            Debug.Log("Critical hit!");
+            isCriticalE = true;
+            calc_damage *= enemy.critDamage;
+        }
         //add damage formula later on
-        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage);
+        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE);
+        isCriticalE = false;
     }
 
-    public void TakeDamage(float getDamageAmount)
+    public void TakeDamage(float getDamageAmount, bool isCriticalH)
     {       
         //play hurt animation
 
@@ -221,6 +231,15 @@ public class EnemyStateMachine : MonoBehaviour
         }
         //show popup damage
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        if (isCriticalH == true)
+        {
+            go.GetComponent<TextMeshPro>().color = Color.red;
+
+        }
+        else
+        {
+            go.GetComponent<TextMeshPro>().color = Color.yellow;
+        }
         go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
         //update health bar
         healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
