@@ -192,6 +192,12 @@ public class HeroStateMachine : MonoBehaviour
 
     public void TakeDamage(float getDamageAmount, bool isCriticalE)
     {
+        getDamageAmount -= hero.curDEF;
+        if (getDamageAmount < 0)
+        {
+             getDamageAmount = 0;
+        }          
+
         hero.curHP -= getDamageAmount;
         if (hero.curHP <= 0)
         {
@@ -203,10 +209,9 @@ public class HeroStateMachine : MonoBehaviour
         if (isCriticalE == true)
         {
             go.GetComponent<TextMeshPro>().color = Color.red;
-
         } else
         {
-            go.GetComponent<TextMeshPro>().color = Color.yellow;
+            go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
         }
         go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
         //health bar

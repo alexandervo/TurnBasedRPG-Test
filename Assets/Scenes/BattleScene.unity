@@ -857,12 +857,20 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: hero.curDEF
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: FloatingText
       value: 
       objectReference: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.baseATK
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: hero.baseDEF
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.curCRIT
@@ -1445,12 +1453,20 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: hero.curDEF
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: FloatingText
       value: 
       objectReference: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.baseATK
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: hero.baseDEF
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.curCRIT
@@ -1962,6 +1978,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
+      propertyPath: hero.curDEF
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
+      propertyPath: hero.baseDEF
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
       propertyPath: hero.curCRIT
       value: 0.25
@@ -3232,6 +3256,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
+      propertyPath: hero.curDEF
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
+      propertyPath: hero.baseDEF
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
       propertyPath: hero.curCRIT
       value: 0.25

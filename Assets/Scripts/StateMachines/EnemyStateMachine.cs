@@ -219,10 +219,16 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public void TakeDamage(float getDamageAmount, bool isCriticalH)
-    {       
+    {
         //play hurt animation
 
         //take damage
+        getDamageAmount -= enemy.curDEF;
+        if (getDamageAmount < 0)
+        {
+            getDamageAmount = 0;
+        }
+
         enemy.curHP -= getDamageAmount;
         if (enemy.curHP <= 0)
         {
@@ -238,7 +244,7 @@ public class EnemyStateMachine : MonoBehaviour
         }
         else
         {
-            go.GetComponent<TextMeshPro>().color = Color.yellow;
+            go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
         }
         go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
         //update health bar
