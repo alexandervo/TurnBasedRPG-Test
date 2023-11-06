@@ -42,6 +42,7 @@ public class HeroStateMachine : MonoBehaviour
     public GameObject FloatingText;
 
     public Animator heroAnim;
+    public AudioSource heroAudio;
 
     private bool isCriticalH = false;
 
@@ -49,6 +50,7 @@ public class HeroStateMachine : MonoBehaviour
     void Start()
     {
         heroAnim = GetComponent<Animator>();
+        heroAudio = GetComponent<AudioSource>();
         //find spacer object
         HeroPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
         
@@ -155,6 +157,7 @@ public class HeroStateMachine : MonoBehaviour
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
         heroAnim.Play("Attack");
+        heroAudio.Play();
         yield return new WaitForSeconds(0.7f);
         //do damage
         DoDamage();

@@ -39,6 +39,7 @@ public class EnemyStateMachine : MonoBehaviour
     public GameObject FloatingText;
 
     public Animator enemyAnim;
+    public AudioSource enemyAudio;
 
     private bool isCriticalE = false;
 
@@ -61,6 +62,7 @@ public class EnemyStateMachine : MonoBehaviour
         startposition = transform.position;
 
         enemyAnim = GetComponent<Animator>();
+        enemyAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -173,6 +175,7 @@ public class EnemyStateMachine : MonoBehaviour
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
         enemyAnim.Play("Attack");
+        enemyAudio.Play();
         yield return new WaitForSeconds(0.5f);
         //do damage
         DoDamage ();
