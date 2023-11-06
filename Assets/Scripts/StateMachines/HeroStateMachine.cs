@@ -41,11 +41,14 @@ public class HeroStateMachine : MonoBehaviour
     public HealthBar healthBar;
     public GameObject FloatingText;
 
+    public Animator heroAnim;
+
     private bool isCriticalH = false;
 
 
     void Start()
     {
+        heroAnim = GetComponent<Animator>();
         //find spacer object
         HeroPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
         
@@ -144,13 +147,15 @@ public class HeroStateMachine : MonoBehaviour
 
         actionStarted = true;
         //animate the enemy near the hero to attack
-        Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.3f, EnemyToAttack.transform.position.y - 0.3f /*, HeroToAttack.transform.position.z */);
+        Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.6f, EnemyToAttack.transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
         while (MoveTowardsEnemy(enemyPosition))
         {
             yield return null;
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(0.25f);
+        heroAnim.Play("Attack");
+        yield return new WaitForSeconds(0.7f);
         //do damage
         DoDamage();
         //animate back to start position
@@ -183,7 +188,7 @@ public class HeroStateMachine : MonoBehaviour
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     
     }
-    
+
     //return the sprite towards starting position on battlefield
     private bool MoveTowardsStart(Vector3 target)
     {
@@ -192,6 +197,9 @@ public class HeroStateMachine : MonoBehaviour
 
     public void TakeDamage(float getDamageAmount, bool isCriticalE)
     {
+        //play hurt animation
+        heroAnim.Play("Hurt");
+
         getDamageAmount -= hero.curDEF;
         if (getDamageAmount < 0)
         {
@@ -203,6 +211,7 @@ public class HeroStateMachine : MonoBehaviour
         {
             hero.curHP = 0;
             currentState = TurnState.DEAD;
+            heroAnim.Play("Die");
         }
         //show popup damage
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
@@ -222,14 +231,16 @@ public class HeroStateMachine : MonoBehaviour
     //do damage
     void DoDamage()
     {
-        float calc_damage = hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
+        //float calc_damage = Mathf.Round(hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage);
+        float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
         //play attack sprites
         //critical strikes
         if (Random.Range(0f, 1f) <= hero.curCRIT)
         {
             Debug.Log("Critical hit!");
             isCriticalH = true;
-        calc_damage *= hero.critDamage;
+            calc_damage = Mathf.Round(calc_damage * hero.critDamage);
         }
         //do damage
         EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH);

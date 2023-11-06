@@ -38,6 +38,8 @@ public class EnemyStateMachine : MonoBehaviour
     public HealthBar healthBar;
     public GameObject FloatingText;
 
+    public Animator enemyAnim;
+
     private bool isCriticalE = false;
 
     //alive
@@ -57,6 +59,8 @@ public class EnemyStateMachine : MonoBehaviour
         Selector.SetActive (false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine> ();
         startposition = transform.position;
+
+        enemyAnim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -161,13 +165,15 @@ public class EnemyStateMachine : MonoBehaviour
         actionStarted = true;
 
         //animate the enemy near the hero to attack
-        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-0.3f, HeroToAttack.transform.position.y+0.3f /*, HeroToAttack.transform.position.z */);
+        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-0.6f, HeroToAttack.transform.position.y+0.3f /*, HeroToAttack.transform.position.z */);
         while (MoveTowardsEnemy(heroPosition))
         {
             yield return null;
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(0.25f);
+        enemyAnim.Play("Attack");
+        yield return new WaitForSeconds(0.5f);
         //do damage
         DoDamage ();
 
@@ -205,13 +211,15 @@ public class EnemyStateMachine : MonoBehaviour
         //play attack animation
 
         //do damage
-        float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        float minMaxAtk = Mathf.Round(Random.Range(enemy.minATK, enemy.maxATK));
+        //float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
+        float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
         //critical strikes
         if (Random.Range(0f, 1f) <= enemy.curCRIT)
         {
             Debug.Log("Critical hit!");
             isCriticalE = true;
-            calc_damage *= enemy.critDamage;
+            calc_damage = Mathf.Round(calc_damage * enemy.critDamage);
         }
         //add damage formula later on
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE);
@@ -221,7 +229,8 @@ public class EnemyStateMachine : MonoBehaviour
     public void TakeDamage(float getDamageAmount, bool isCriticalH)
     {
         //play hurt animation
-
+        enemyAnim.Play("Hurt");
+        //new WaitForSeconds(.25f);
         //take damage
         getDamageAmount -= enemy.curDEF;
         if (getDamageAmount < 0)
@@ -234,6 +243,7 @@ public class EnemyStateMachine : MonoBehaviour
         {
             enemy.curHP = 0;
             currentState = TurnState.DEAD;
+            enemyAnim.Play("Die");
         }
         //show popup damage
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);

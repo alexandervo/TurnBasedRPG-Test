@@ -1,0 +1,69 @@
+
+3070.png
+size: 465,465
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1_00011
+  rotate: false
+  xy: 2, 319
+  size: 279, 144
+  orig: 331, 247
+  offset: 31, 39
+  index: -1
+1_00012
+  rotate: false
+  xy: 2, 178
+  size: 235, 139
+  orig: 331, 247
+  offset: 67, 53
+  index: -1
+1_00013
+  rotate: false
+  xy: 2, 41
+  size: 189, 135
+  orig: 331, 247
+  offset: 107, 59
+  index: -1
+1_00014
+  rotate: false
+  xy: 283, 340
+  size: 180, 123
+  orig: 331, 247
+  offset: 110, 72
+  index: -1
+1_00015
+  rotate: false
+  xy: 239, 218
+  size: 201, 95
+  orig: 331, 247
+  offset: 69, 101
+  index: -1
+1_00016
+  rotate: false
+  xy: 239, 141
+  size: 211, 75
+  orig: 331, 247
+  offset: 54, 120
+  index: -1
+1_00017
+  rotate: false
+  xy: 193, 79
+  size: 208, 60
+  orig: 331, 247
+  offset: 56, 134
+  index: -1
+1_00018
+  rotate: false
+  xy: 2, 14
+  size: 182, 25
+  orig: 331, 247
+  offset: 57, 167
+  index: -1
+1_00019
+  rotate: false
+  xy: 283, 315
+  size: 163, 23
+  orig: 331, 247
+  offset: 61, 169
+  index: -1

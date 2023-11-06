@@ -1,0 +1,41 @@
+
+7200.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+vbm0001
+  rotate: false
+  xy: 2, 262
+  size: 233, 128
+  orig: 233, 128
+  offset: 0, 0
+  index: -1
+vbm0002
+  rotate: false
+  xy: 2, 132
+  size: 233, 128
+  orig: 233, 128
+  offset: 0, 0
+  index: -1
+vbm0003
+  rotate: false
+  xy: 237, 262
+  size: 233, 128
+  orig: 233, 128
+  offset: 0, 0
+  index: -1
+vbm0004
+  rotate: false
+  xy: 2, 2
+  size: 233, 128
+  orig: 233, 128
+  offset: 0, 0
+  index: -1
+vbm0006
+  rotate: false
+  xy: 237, 132
+  size: 233, 128
+  orig: 233, 128
+  offset: 0, 0
+  index: -1

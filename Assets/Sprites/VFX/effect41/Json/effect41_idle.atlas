@@ -1,0 +1,48 @@
+
+7104.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+qd0001
+  rotate: true
+  xy: 2, 119
+  size: 115, 140
+  orig: 115, 140
+  offset: 0, 0
+  index: -1
+qd0003
+  rotate: true
+  xy: 144, 119
+  size: 115, 140
+  orig: 115, 140
+  offset: 0, 0
+  index: -1
+qd0005
+  rotate: true
+  xy: 286, 119
+  size: 115, 140
+  orig: 115, 140
+  offset: 0, 0
+  index: -1
+qd0007
+  rotate: true
+  xy: 2, 2
+  size: 115, 140
+  orig: 115, 140
+  offset: 0, 0
+  index: -1
+qd0009
+  rotate: true
+  xy: 144, 2
+  size: 115, 140
+  orig: 115, 140
+  offset: 0, 0
+  index: -1
+qd0011
+  rotate: true
+  xy: 286, 2
+  size: 115, 140
+  orig: 115, 140
+  offset: 0, 0
+  index: -1

@@ -8,6 +8,8 @@ public class Poison1Spell : BaseAttack
     {
         attackName = "Poison1";
         attackDescription = "Basic poison attack";
+        minDamage = 5f;
+        maxDamage = 15f;
         attackDamage = 15f;
         attackCost = 8f;
     }

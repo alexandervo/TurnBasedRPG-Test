@@ -1,0 +1,48 @@
+
+7308.png
+size: 370,370
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+T42430B (10)
+  rotate: false
+  xy: 131, 205
+  size: 122, 163
+  orig: 141, 204
+  offset: 9, 12
+  index: -1
+T42430B (12)
+  rotate: false
+  xy: 255, 205
+  size: 112, 163
+  orig: 141, 204
+  offset: 22, 19
+  index: -1
+T42430B (2)
+  rotate: false
+  xy: 127, 22
+  size: 114, 161
+  orig: 141, 204
+  offset: 21, 22
+  index: -1
+T42430B (4)
+  rotate: false
+  xy: 243, 44
+  size: 112, 159
+  orig: 141, 204
+  offset: 21, 9
+  index: -1
+T42430B (6)
+  rotate: false
+  xy: 2, 185
+  size: 127, 183
+  orig: 141, 204
+  offset: 4, 21
+  index: -1
+T42430B (8)
+  rotate: false
+  xy: 2, 2
+  size: 123, 181
+  orig: 141, 204
+  offset: 7, 10
+  index: -1

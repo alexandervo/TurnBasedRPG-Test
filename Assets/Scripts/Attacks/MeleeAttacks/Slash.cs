@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Slash : BaseAttack
 {
+
+
     public Slash()
     {
         attackName = "Slash";
         attackDescription = "Slashes at enemy";
-        attackDamage = 10f;
+        minDamage = 7f;
+        maxDamage = 23f;
+        attackDamage = 23f;
         attackCost = 0;
     }
 }

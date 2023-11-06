@@ -1,0 +1,41 @@
+
+7006.png
+size: 430,190
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+000130001
+  rotate: false
+  xy: 147, 2
+  size: 137, 92
+  orig: 143, 93
+  offset: 0, 0
+  index: -1
+000130003
+  rotate: false
+  xy: 2, 96
+  size: 143, 92
+  orig: 143, 93
+  offset: 0, 0
+  index: -1
+000130005
+  rotate: false
+  xy: 147, 96
+  size: 140, 92
+  orig: 143, 93
+  offset: 0, 0
+  index: -1
+000130007
+  rotate: false
+  xy: 2, 2
+  size: 143, 92
+  orig: 143, 93
+  offset: 0, 0
+  index: -1
+000130009
+  rotate: false
+  xy: 289, 96
+  size: 139, 92
+  orig: 143, 93
+  offset: 0, 0
+  index: -1

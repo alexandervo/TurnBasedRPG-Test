@@ -1,0 +1,62 @@
+
+7206.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ccmp0001
+  rotate: false
+  xy: 2, 326
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0003
+  rotate: false
+  xy: 2, 164
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0005
+  rotate: false
+  xy: 164, 326
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0007
+  rotate: false
+  xy: 2, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0009
+  rotate: false
+  xy: 164, 164
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0011
+  rotate: false
+  xy: 326, 326
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0013
+  rotate: false
+  xy: 164, 2
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1
+ccmp0015
+  rotate: false
+  xy: 326, 164
+  size: 160, 160
+  orig: 160, 160
+  offset: 0, 0
+  index: -1

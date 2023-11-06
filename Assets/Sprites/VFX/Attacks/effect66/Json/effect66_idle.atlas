@@ -1,0 +1,55 @@
+
+3080.png
+size: 461,461
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+11 (1)
+  rotate: false
+  xy: 238, 213
+  size: 158, 121
+  orig: 284, 179
+  offset: 126, 33
+  index: -1
+11 (2)
+  rotate: false
+  xy: 2, 103
+  size: 157, 124
+  orig: 284, 179
+  offset: 127, 30
+  index: -1
+11 (3)
+  rotate: false
+  xy: 2, 229
+  size: 234, 118
+  orig: 284, 179
+  offset: 37, 14
+  index: -1
+11 (4)
+  rotate: false
+  xy: 2, 349
+  size: 242, 110
+  orig: 284, 179
+  offset: 15, 21
+  index: -1
+11 (5)
+  rotate: false
+  xy: 246, 336
+  size: 179, 123
+  orig: 284, 179
+  offset: 5, 30
+  index: -1
+11 (6)
+  rotate: false
+  xy: 161, 90
+  size: 141, 121
+  orig: 284, 179
+  offset: 11, 34
+  index: -1
+11 (7)
+  rotate: false
+  xy: 304, 94
+  size: 155, 117
+  orig: 284, 179
+  offset: 16, 40
+  index: -1

@@ -8,7 +8,9 @@ public class Fire1Spell : BaseAttack
     {
         attackName = "Fire 1";
         attackDescription = "Basic fire spell";
-        attackDamage = 20f;
+        minDamage = 5f;
+        maxDamage = 15f;
+        attackDamage = 15f;
         attackCost = 10f;
     }
 }

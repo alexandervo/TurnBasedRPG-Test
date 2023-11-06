@@ -1,0 +1,41 @@
+
+7201.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ssss0001
+  rotate: false
+  xy: 2, 397
+  size: 278, 113
+  orig: 278, 113
+  offset: 0, 0
+  index: -1
+ssss0002
+  rotate: false
+  xy: 2, 282
+  size: 278, 113
+  orig: 278, 113
+  offset: 0, 0
+  index: -1
+ssss0003
+  rotate: true
+  xy: 2, 2
+  size: 278, 113
+  orig: 278, 113
+  offset: 0, 0
+  index: -1
+ssss0004
+  rotate: true
+  xy: 117, 2
+  size: 278, 113
+  orig: 278, 113
+  offset: 0, 0
+  index: -1
+ssss0005
+  rotate: true
+  xy: 232, 2
+  size: 278, 113
+  orig: 278, 113
+  offset: 0, 0
+  index: -1

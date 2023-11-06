@@ -1,0 +1,41 @@
+
+7212.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1 (2)
+  rotate: false
+  xy: 318, 293
+  size: 180, 80
+  orig: 180, 80
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 160, 244
+  size: 156, 129
+  orig: 156, 129
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 2, 188
+  size: 156, 185
+  orig: 156, 185
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 2, 2
+  size: 156, 184
+  orig: 156, 184
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 160, 72
+  size: 113, 170
+  orig: 113, 170
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,48 @@
+
+7830.png
+size: 509,509
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+3_00003
+  rotate: false
+  xy: 241, 17
+  size: 43, 165
+  orig: 59, 168
+  offset: 6, 0
+  index: -1
+4_00007
+  rotate: false
+  xy: 241, 344
+  size: 237, 163
+  orig: 256, 200
+  offset: 10, 0
+  index: -1
+4_00010
+  rotate: false
+  xy: 2, 334
+  size: 237, 173
+  orig: 256, 200
+  offset: 10, 0
+  index: -1
+4_00011
+  rotate: false
+  xy: 2, 161
+  size: 237, 171
+  orig: 256, 200
+  offset: 10, 0
+  index: -1
+4_00012
+  rotate: false
+  xy: 2, 2
+  size: 236, 157
+  orig: 256, 200
+  offset: 10, 9
+  index: -1
+4_00013
+  rotate: false
+  xy: 241, 184
+  size: 235, 158
+  orig: 256, 200
+  offset: 11, 14
+  index: -1

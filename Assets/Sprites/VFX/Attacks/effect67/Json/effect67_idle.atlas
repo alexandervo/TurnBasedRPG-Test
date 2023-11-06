@@ -1,0 +1,48 @@
+
+7107.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dao30001
+  rotate: false
+  xy: 2, 94
+  size: 150, 90
+  orig: 150, 90
+  offset: 0, 0
+  index: -1
+dao30002
+  rotate: false
+  xy: 2, 2
+  size: 150, 90
+  orig: 150, 90
+  offset: 0, 0
+  index: -1
+dao30003
+  rotate: false
+  xy: 154, 94
+  size: 150, 90
+  orig: 150, 90
+  offset: 0, 0
+  index: -1
+dao30004
+  rotate: false
+  xy: 154, 2
+  size: 150, 90
+  orig: 150, 90
+  offset: 0, 0
+  index: -1
+dao30005
+  rotate: false
+  xy: 306, 94
+  size: 150, 90
+  orig: 150, 90
+  offset: 0, 0
+  index: -1
+dao30006
+  rotate: false
+  xy: 306, 2
+  size: 150, 90
+  orig: 150, 90
+  offset: 0, 0
+  index: -1

@@ -1,0 +1,118 @@
+
+chenggongxin.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+images/xinxin/11/hj0001
+  rotate: true
+  xy: 262, 2
+  size: 49, 58
+  orig: 110, 110
+  offset: 31, 25
+  index: -1
+images/xinxin/11/hj0002
+  rotate: false
+  xy: 378, 7
+  size: 73, 67
+  orig: 110, 110
+  offset: 18, 21
+  index: -1
+images/xinxin/11/hj0003
+  rotate: true
+  xy: 385, 164
+  size: 90, 80
+  orig: 110, 110
+  offset: 9, 16
+  index: -1
+images/xinxin/11/hj0004
+  rotate: true
+  xy: 288, 60
+  size: 97, 88
+  orig: 110, 110
+  offset: 5, 12
+  index: -1
+images/xinxin/11/hj0005
+  rotate: true
+  xy: 195, 53
+  size: 101, 91
+  orig: 110, 110
+  offset: 3, 11
+  index: -1
+images/xinxin/11/hj0006
+  rotate: true
+  xy: 2, 47
+  size: 103, 94
+  orig: 110, 110
+  offset: 2, 10
+  index: -1
+images/xinxin/11/hj0007
+  rotate: true
+  xy: 2, 152
+  size: 102, 96
+  orig: 110, 110
+  offset: 2, 9
+  index: -1
+images/xinxin/11/hj0008
+  rotate: true
+  xy: 98, 50
+  size: 100, 95
+  orig: 110, 110
+  offset: 3, 9
+  index: -1
+images/xinxin/11/hj0009
+  rotate: true
+  xy: 100, 156
+  size: 98, 95
+  orig: 110, 110
+  offset: 4, 9
+  index: -1
+images/xinxin/11/hj0010
+  rotate: true
+  xy: 197, 159
+  size: 95, 93
+  orig: 110, 110
+  offset: 6, 10
+  index: -1
+images/xinxin/11/hj0011
+  rotate: true
+  xy: 292, 161
+  size: 93, 91
+  orig: 110, 110
+  offset: 7, 11
+  index: -1
+images/xinxin/11/hj0012
+  rotate: true
+  xy: 378, 76
+  size: 83, 89
+  orig: 110, 110
+  offset: 12, 12
+  index: -1
+images/xinxin/11/hj0013
+  rotate: true
+  xy: 173, 3
+  size: 45, 87
+  orig: 110, 110
+  offset: 37, 13
+  index: -1
+images/xinxin/11/hj0014
+  rotate: true
+  xy: 2, 3
+  size: 42, 85
+  orig: 110, 110
+  offset: 38, 14
+  index: -1
+images/xinxin/11/hj0015
+  rotate: true
+  xy: 89, 6
+  size: 39, 82
+  orig: 110, 110
+  offset: 40, 15
+  index: -1
+images/xinxin/234
+  rotate: true
+  xy: 322, 18
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1

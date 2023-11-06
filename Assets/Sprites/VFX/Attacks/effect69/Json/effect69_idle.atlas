@@ -1,0 +1,41 @@
+
+7271.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+t1 (1)
+  rotate: false
+  xy: 2, 122
+  size: 131, 118
+  orig: 131, 118
+  offset: 0, 0
+  index: -1
+t1 (2)
+  rotate: false
+  xy: 2, 2
+  size: 131, 118
+  orig: 131, 118
+  offset: 0, 0
+  index: -1
+t1 (3)
+  rotate: false
+  xy: 135, 122
+  size: 131, 118
+  orig: 131, 118
+  offset: 0, 0
+  index: -1
+t1 (4)
+  rotate: false
+  xy: 135, 2
+  size: 131, 118
+  orig: 131, 118
+  offset: 0, 0
+  index: -1
+t1 (5)
+  rotate: false
+  xy: 268, 140
+  size: 110, 100
+  orig: 110, 100
+  offset: 0, 0
+  index: -1

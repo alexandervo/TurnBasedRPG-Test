@@ -1,0 +1,41 @@
+
+7740.png
+size: 485,485
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+0000_00013
+  rotate: false
+  xy: 219, 193
+  size: 203, 132
+  orig: 265, 302
+  offset: 33, 18
+  index: -1
+0000_00014
+  rotate: false
+  xy: 219, 327
+  size: 216, 156
+  orig: 265, 302
+  offset: 32, 12
+  index: -1
+0000_00015
+  rotate: false
+  xy: 2, 85
+  size: 209, 197
+  orig: 265, 302
+  offset: 33, 13
+  index: -1
+0000_00016
+  rotate: false
+  xy: 2, 284
+  size: 215, 199
+  orig: 265, 302
+  offset: 33, 13
+  index: -1
+0000_00017
+  rotate: false
+  xy: 213, 2
+  size: 167, 189
+  orig: 265, 302
+  offset: 64, 23
+  index: -1

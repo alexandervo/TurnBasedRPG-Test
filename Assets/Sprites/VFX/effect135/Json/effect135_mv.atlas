@@ -1,0 +1,118 @@
+
+be_stonelight.png
+size: 999,576
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+_0005_aaa_00019
+  rotate: false
+  xy: 798, 15
+  size: 196, 159
+  orig: 200, 174
+  offset: 0, 12
+  index: -1
+_0006_aaa_00018
+  rotate: false
+  xy: 400, 3
+  size: 198, 169
+  orig: 200, 174
+  offset: 0, 3
+  index: -1
+_0007_aaa_00017
+  rotate: false
+  xy: 600, 2
+  size: 196, 171
+  orig: 200, 174
+  offset: 0, 3
+  index: -1
+_0009_aaa_00015
+  rotate: true
+  xy: 2, 374
+  size: 200, 172
+  orig: 200, 174
+  offset: 0, 0
+  index: -1
+_0010_aaa_00014
+  rotate: false
+  xy: 2, 3
+  size: 198, 167
+  orig: 200, 174
+  offset: 0, 4
+  index: -1
+_0011_aaa_00013
+  rotate: true
+  xy: 176, 375
+  size: 199, 169
+  orig: 200, 174
+  offset: 0, 4
+  index: -1
+_0012_aaa_00012
+  rotate: false
+  xy: 202, 3
+  size: 196, 167
+  orig: 200, 174
+  offset: 0, 4
+  index: -1
+_0013_aaa_00011
+  rotate: true
+  xy: 672, 378
+  size: 196, 163
+  orig: 200, 174
+  offset: 0, 9
+  index: -1
+_0014_aaa_00010
+  rotate: true
+  xy: 490, 175
+  size: 198, 164
+  orig: 200, 174
+  offset: 0, 9
+  index: -1
+_0015_aaa_00009
+  rotate: true
+  xy: 326, 174
+  size: 199, 162
+  orig: 200, 174
+  offset: 0, 11
+  index: -1
+_0016_aaa_00008
+  rotate: true
+  xy: 837, 378
+  size: 196, 160
+  orig: 200, 174
+  offset: 0, 13
+  index: -1
+_0018_aaa_00006
+  rotate: true
+  xy: 347, 375
+  size: 199, 161
+  orig: 200, 174
+  offset: 0, 12
+  index: -1
+_0019_aaa_00005
+  rotate: true
+  xy: 2, 172
+  size: 200, 160
+  orig: 200, 174
+  offset: 0, 13
+  index: -1
+_0020_aaa_00004
+  rotate: true
+  xy: 510, 376
+  size: 198, 160
+  orig: 200, 174
+  offset: 0, 13
+  index: -1
+_0021_aaa_00003
+  rotate: true
+  xy: 164, 172
+  size: 200, 160
+  orig: 200, 174
+  offset: 0, 13
+  index: -1
+_0024_aaa_00000
+  rotate: true
+  xy: 656, 176
+  size: 198, 154
+  orig: 200, 174
+  offset: 0, 18
+  index: -1

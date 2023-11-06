@@ -128,8 +128,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 5
+  m_fontSizeBase: 5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80dce1bce60a5ac49b2261b6250fb8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyTime: 1
+  DestroyTime: 0.4
 --- !u!95 &5418699812450068369
 Animator:
   serializedVersion: 5
