@@ -110,7 +110,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278232261
+    rgba: 4194346181
   m_fontColor: {r: 0.7735849, g: 0.64138615, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80dce1bce60a5ac49b2261b6250fb8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestroyTime: 0.4
+  DestroyTime: 0.6
 --- !u!95 &5418699812450068369
 Animator:
   serializedVersion: 5
