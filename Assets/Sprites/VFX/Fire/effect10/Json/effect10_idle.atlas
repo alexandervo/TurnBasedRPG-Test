@@ -1,0 +1,48 @@
+
+2025.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1
+  rotate: false
+  xy: 2, 64
+  size: 120, 60
+  orig: 120, 60
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 2, 2
+  size: 120, 60
+  orig: 120, 60
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 124, 64
+  size: 120, 60
+  orig: 120, 60
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 124, 2
+  size: 120, 60
+  orig: 120, 60
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 246, 64
+  size: 120, 60
+  orig: 120, 60
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 246, 2
+  size: 120, 60
+  orig: 120, 60
+  offset: 0, 0
+  index: -1
