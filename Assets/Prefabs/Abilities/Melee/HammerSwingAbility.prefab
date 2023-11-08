@@ -46,5 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Hammer Swing
   attackDescription: Swings hammer at enemy
+  attackType: Melee
+  minDamage: 10
+  maxDamage: 25
   attackDamage: 15
   attackCost: 0

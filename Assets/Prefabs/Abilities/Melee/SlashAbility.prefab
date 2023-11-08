@@ -46,5 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Slash
   attackDescription: Slashes at enemy
+  attackType: Melee
+  minDamage: 7
+  maxDamage: 23
   attackDamage: 10
   attackCost: 0

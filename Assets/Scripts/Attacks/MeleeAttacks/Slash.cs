@@ -10,6 +10,7 @@ public class Slash : BaseAttack
     {
         attackName = "Slash";
         attackDescription = "Slashes at enemy";
+        attackType = "Melee";
         minDamage = 7f;
         maxDamage = 23f;
         attackDamage = 23f;

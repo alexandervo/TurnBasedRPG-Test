@@ -26,6 +26,7 @@ public class HeroStateMachine : MonoBehaviour
     private Image ProgressBar;
     */
     private Image health_bar;
+    private Image rage_bar;
     public GameObject Selector;
     //IeNumerator
     public GameObject EnemyToAttack;
@@ -39,10 +40,15 @@ public class HeroStateMachine : MonoBehaviour
     public GameObject HeroPanel;
     private Transform HeroPanelSpacer;
     public HealthBar healthBar;
+    public RageBar rageBar;
+    private int rageAmount;
+    //needed for melee / magic animations / hero movements
+    private bool isMelee;
+
     public GameObject FloatingText;
 
-    public Animator heroAnim;
-    public AudioSource heroAudio;
+    private Animator heroAnim;
+    private AudioSource heroAudio;
 
     private bool isCriticalH = false;
 
@@ -62,6 +68,9 @@ public class HeroStateMachine : MonoBehaviour
         Selector.SetActive(false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         currentState = TurnState.PROCESSING;
+
+        //Set player rage
+        rageBar.SetSize(((hero.curRage * 100) / hero.maxRage) / 100);
     }
 
     void Update()
@@ -149,11 +158,24 @@ public class HeroStateMachine : MonoBehaviour
 
         actionStarted = true;
         //animate the enemy near the hero to attack
-        Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.6f, EnemyToAttack.transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
-        while (MoveTowardsEnemy(enemyPosition))
+        if (BSM.PerformList[0].choosenAttack.attackType != "Melee")
         {
-            yield return null;
+            isMelee = false;
         }
+        else
+        {
+            isMelee = true;
+        }
+
+        if (isMelee)
+        {
+            Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.6f, EnemyToAttack.transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
+            while (MoveTowardsEnemy(enemyPosition))
+            {
+                yield return null;
+            }
+        }
+
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
         heroAnim.Play("Attack");
@@ -210,11 +232,20 @@ public class HeroStateMachine : MonoBehaviour
         }          
 
         hero.curHP -= getDamageAmount;
+
         if (hero.curHP <= 0)
         {
             hero.curHP = 0;
             currentState = TurnState.DEAD;
             heroAnim.Play("Die");
+        }
+
+        //each successful incoming attack increases the rage
+        AddRage(20); //adjust incoming rage
+
+        if (hero.curRage >= hero.maxRage)
+        {
+            hero.curRage = hero.maxRage;
         }
         //show popup damage
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
@@ -228,6 +259,8 @@ public class HeroStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
         //health bar
         healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
+        //rage bar
+        rageBar.SetSize(((hero.curRage * 100) / hero.maxRage) / 100);
         UpdateHeroPanel();
     }
 
@@ -244,9 +277,11 @@ public class HeroStateMachine : MonoBehaviour
             Debug.Log("Critical hit!");
             isCriticalH = true;
             calc_damage = Mathf.Round(calc_damage * hero.critDamage);
+            AddRage(30);
         }
         //do damage
         EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH);
+        AddRage(10);
         isCriticalH = false;
     }
 
@@ -268,6 +303,19 @@ public class HeroStateMachine : MonoBehaviour
     {
         stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
         stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
+    }
+
+    //Add rage based on the events like attack, critical attack, damage taken, dodge, etc.
+    void AddRage(int rageAmount)
+    {
+        if (hero != null)
+        {
+            hero.curRage += rageAmount;
+            if (hero.curRage >= hero.maxRage)
+            {
+                hero.curRage = hero.maxRage;
+            }
+        }
     }
 
 }

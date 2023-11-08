@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d42605972f9755743ac5e03dd056d56c
+guid: 2a6e621437ef3e9408590d19b09447fc
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,133 +121,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: nov_idle_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 61.666668
-        height: 90
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1096d0d9e7c2c7c4eb8344c6f2955715
-      internalID: 1012258298
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: nov_idle_1
-      rect:
-        serializedVersion: 2
-        x: 61
-        y: 0
-        width: 61.666668
-        height: 90
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a33bb8d0115590f4aa2099f3d7cb7af7
-      internalID: 741887796
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: nov_idle_2
-      rect:
-        serializedVersion: 2
-        x: 122
-        y: 0
-        width: 61.666668
-        height: 90
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d266faf77bac71c4d89480b40c3455b3
-      internalID: -405136721
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: nov_idle_3
-      rect:
-        serializedVersion: 2
-        x: 183
-        y: 0
-        width: 61.666668
-        height: 90
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6befa79ba1e780d44bca732bd1cc5423
-      internalID: -747217411
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: nov_idle_4
-      rect:
-        serializedVersion: 2
-        x: 244
-        y: 0
-        width: 61.666668
-        height: 90
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 65030f35f02762746b2089272f3f835c
-      internalID: -867457187
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: nov_idle_5
-      rect:
-        serializedVersion: 2
-        x: 305
-        y: 0
-        width: 61.666668
-        height: 90
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 33cde5b4b45908e4298c46e7fa544218
-      internalID: -806381175
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -258,13 +132,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      nov_idle_0: 1012258298
-      nov_idle_1: 741887796
-      nov_idle_2: -405136721
-      nov_idle_3: -747217411
-      nov_idle_4: -867457187
-      nov_idle_5: -806381175
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

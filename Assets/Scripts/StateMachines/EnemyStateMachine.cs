@@ -38,8 +38,10 @@ public class EnemyStateMachine : MonoBehaviour
     public HealthBar healthBar;
     public GameObject FloatingText;
 
-    public Animator enemyAnim;
-    public AudioSource enemyAudio;
+    private bool isMelee;
+
+    private Animator enemyAnim;
+    private AudioSource enemyAudio;
 
     private bool isCriticalE = false;
 
@@ -152,6 +154,17 @@ public class EnemyStateMachine : MonoBehaviour
         
         int num = Random.Range(0, enemy.attacks.Count);
         myAttack.choosenAttack = enemy.attacks[num];
+
+        if (myAttack.choosenAttack.attackType != "Melee")
+        {
+            isMelee = false;
+        }
+        else
+        {
+            isMelee = true;
+        }
+
+
         //Debug.Log(this.gameObject.name + " has choosen " + myAttack.choosenAttack.attackName + " and does " + myAttack.choosenAttack.attackDamage + " damage.");
 
         BSM.CollectActions (myAttack);
@@ -167,10 +180,14 @@ public class EnemyStateMachine : MonoBehaviour
         actionStarted = true;
 
         //animate the enemy near the hero to attack
-        Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-0.6f, HeroToAttack.transform.position.y+0.3f /*, HeroToAttack.transform.position.z */);
-        while (MoveTowardsEnemy(heroPosition))
+
+        if (isMelee)
         {
-            yield return null;
+            Vector3 heroPosition = new Vector3(HeroToAttack.transform.position.x-0.6f, HeroToAttack.transform.position.y+0.3f /*, HeroToAttack.transform.position.z */);
+            while (MoveTowardsEnemy(heroPosition))
+            {
+                yield return null;
+            }
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);

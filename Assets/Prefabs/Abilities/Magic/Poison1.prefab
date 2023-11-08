@@ -46,5 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Poison1
   attackDescription: Basic poison attack
+  attackType: Spell
+  attackVFX: {fileID: 7400000, guid: 1e2725a6844530e4da27ee78bf3f3003, type: 2}
+  minDamage: 5
+  maxDamage: 15
   attackDamage: 15
   attackCost: 8
