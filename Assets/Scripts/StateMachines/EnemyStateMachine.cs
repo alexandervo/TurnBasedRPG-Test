@@ -50,6 +50,11 @@ public class EnemyStateMachine : MonoBehaviour
     //alive
     private bool alive = true;
 
+    private void Awake()
+    {
+        SetParams();
+    }
+
     void Start()
     {
         // According to tutorial: 
@@ -322,6 +327,51 @@ public class EnemyStateMachine : MonoBehaviour
         stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
     }
 
+    private void SetParams()
+    {
+        //for randomness
+
+        enemy.strength = Random.Range(10, 40);
+        enemy.intellect = Random.Range(10, 40);
+        enemy.dexterity = Random.Range(10, 40);
+        enemy.agility = Random.Range(10, 40);
+        enemy.stamina = Random.Range(20, 40);
+
+        //Calculate HP based on Stats
+        enemy.baseHP = Mathf.Round(enemy.strength * enemy.hpPerStr) + (enemy.stamina * enemy.hpPerSta);
+        enemy.curHP = enemy.baseHP;
+
+        //Calculate MP based on stats
+        enemy.baseMP = Mathf.Round((enemy.intellect * enemy.mpPerInt) * 5);
+        enemy.curMP = enemy.baseMP;
+
+        //Calculate Attack based on stats
+        enemy.baseATK = Mathf.Round((enemy.strength * enemy.atkPerStr) + (enemy.intellect * enemy.atkPerInt) / 10);
+        enemy.curATK = enemy.baseATK;
+
+        enemy.maxATK = enemy.baseATK + Random.Range(10, 50);
+        enemy.minATK = enemy.baseATK;
+
+        //Calculate HIT based on stats
+        enemy.baseHit = Mathf.Round(enemy.dexterity * enemy.hitPerDex);
+        enemy.curHit = enemy.baseHit;
+
+        //Calculate dodge based on stats
+        enemy.baseDodge = Mathf.Round(enemy.agility * enemy.dodgePerAgi);
+        enemy.curDodge = enemy.baseDodge;
+
+        //calculate def based on stats
+        enemy.baseDEF = Mathf.Round((enemy.stamina * enemy.defPerSta) / 2);
+        enemy.curDEF = enemy.baseDEF;
+
+        //calculate critrate based on stats
+        //enemy.curCRIT = enemy.baseCRIT;
+
+        //calculate speed based on stats
+        enemy.baseSpeed = Mathf.Round(enemy.agility * enemy.spdPerAgi);
+        enemy.curSpeed = enemy.baseSpeed;
+
+    }
 
 }
 

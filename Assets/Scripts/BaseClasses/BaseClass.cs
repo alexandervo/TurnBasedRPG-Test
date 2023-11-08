@@ -27,22 +27,31 @@ public class BaseClass
 
     public float critDamage = 1.5f;
 
-    public int baseSpeed = 15;
-    public int curSpeed = 15;
+    public float baseSpeed;
+    public float curSpeed;
 
-    public float curDodge = 100f;
-    public float curHit = 50f;
+    public float curDodge;
+    public float baseDodge;
 
-    //public float hpPerStr = 10;
-    //public float atkPerStr = 5;
-    //public float mpPerInt = 5;
-    //public float atkPerInt = 5;
-    //public float spdPerAgi = 2;
-    //public float evasionPerAgi = 2;
-    //public float hitPerDex = 2;
-    //public float atkPerDex = 2;
-    //public float hpPerSta = 15;
-    //public float defPerSta = 5;
+    public float baseHit;
+    public float curHit;
+
+    public float hpPerStr = 10;
+    public float atkPerStr = 5;
+    public float mpPerInt = 10;
+    public float atkPerInt = 5;
+    public float spdPerAgi = 2;
+    public float dodgePerAgi = 3;
+    public float hitPerDex = 2;
+    public float atkPerDex = 2;
+    public float hpPerSta = 25;
+    public float defPerSta = 5;
+
+    public int strength;
+    public int intellect;
+    public int dexterity;
+    public int agility;
+    public int stamina;
 
 
     public List<BaseAttack> attacks = new List<BaseAttack>();

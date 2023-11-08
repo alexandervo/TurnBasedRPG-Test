@@ -10,7 +10,7 @@ public class BattleStateMachine : MonoBehaviour
     public enum PerformAction
     {
         WAIT,
-        WAITFORINPUT,
+        //WAITFORINPUT,
         TAKEACTION,
         PERFORMACTION,
         CHECKALIVE,

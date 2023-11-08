@@ -55,6 +55,12 @@ public class HeroStateMachine : MonoBehaviour
     private bool isCriticalH = false;
 
 
+    private void Awake()
+    {
+        SetParams();
+        //UpdateHeroPanel();
+    }
+
     void Start()
     {
         //Set player rage
@@ -74,8 +80,6 @@ public class HeroStateMachine : MonoBehaviour
         Selector.SetActive(false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         currentState = TurnState.PROCESSING;
-
-
 
     }
 
@@ -334,4 +338,41 @@ public class HeroStateMachine : MonoBehaviour
         }
     }
 
+    private void SetParams()
+    {
+        //Calculate HP based on Stats
+        hero.baseHP = Mathf.Round(hero.strength * hero.hpPerStr) + (hero.stamina * hero.hpPerSta);
+        hero.curHP = hero.baseHP;
+
+        //Calculate MP based on stats
+        hero.baseMP = Mathf.Round(hero.intellect * hero.mpPerInt);
+        hero.curMP = hero.baseMP;
+
+        //Calculate Attack based on stats
+        hero.baseATK = Mathf.Round((hero.strength * hero.atkPerStr) + (hero.intellect * hero.atkPerInt) / 10);
+        hero.curATK = hero.baseATK;
+
+        hero.maxATK = hero.baseATK + Random.Range(10, 50);
+        hero.minATK = hero.baseATK;
+
+        //Calculate HIT based on stats
+        hero.baseHit = Mathf.Round(hero.dexterity * hero.hitPerDex);
+        hero.curHit = hero.baseHit;
+
+        //Calculate dodge based on stats
+        hero.baseDodge = Mathf.Round(hero.agility * hero.dodgePerAgi);
+        hero.curDodge = hero.baseDodge;
+
+        //calculate def based on stats
+        hero.baseDEF = Mathf.Round((hero.stamina * hero.defPerSta) / 2);
+        hero.curDEF = hero.baseDEF;
+
+        //calculate critrate based on stats
+        //hero.curCRIT = hero.baseCRIT;
+
+        //calculate speed based on stats
+        hero.baseSpeed = Mathf.Round(hero.agility * hero.spdPerAgi);
+        hero.curSpeed = hero.baseSpeed;
+
+    }
 }
