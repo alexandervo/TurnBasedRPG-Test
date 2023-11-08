@@ -1764,6 +1764,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: hero.maxRage
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.theName
       value: Hero 4
       objectReference: {fileID: 0}
@@ -2586,6 +2590,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hero 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3127793725905325731, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6338738886247678136, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5
@@ -2709,6 +2717,10 @@ PrefabInstance:
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.curRage
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
+      propertyPath: hero.maxRage
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 8263524711266038324, guid: 142dcf8053074d44486a9914f8b926b9, type: 3}
       propertyPath: hero.theName
@@ -3823,6 +3835,10 @@ PrefabInstance:
     - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
       propertyPath: hero.curRage
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
+      propertyPath: hero.maxRage
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
       propertyPath: hero.theName
@@ -6917,7 +6933,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
       propertyPath: hero.curRage
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
+      propertyPath: hero.maxRage
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 1599438921834976721, guid: f9a60accf2589bc409358ca6c380a842, type: 3}
       propertyPath: hero.stamina

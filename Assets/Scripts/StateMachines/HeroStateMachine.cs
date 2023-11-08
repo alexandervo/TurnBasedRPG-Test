@@ -42,8 +42,10 @@ public class HeroStateMachine : MonoBehaviour
     public HealthBar healthBar;
     public RageBar rageBar;
     private int rageAmount;
+
     //needed for melee / magic animations / hero movements
     private bool isMelee;
+    private float hitChance;
 
     public GameObject FloatingText;
 
@@ -224,47 +226,57 @@ public class HeroStateMachine : MonoBehaviour
         return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
     }
 
-    public void TakeDamage(float getDamageAmount, bool isCriticalE)
+
+    public void TakeDamage(float getDamageAmount, bool isCriticalE, float enemyHit, bool isDodgeable)
     {
-        //play hurt animation
-        heroAnim.Play("Hurt");
-
-        getDamageAmount -= hero.curDEF;
-        if (getDamageAmount < 0)
+        hitChance = (enemyHit / hero.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
+        if (!isDodgeable)
         {
-             getDamageAmount = 0;
-        }          
-
-        hero.curHP -= getDamageAmount;
-
-        if (hero.curHP <= 0)
-        {
-            hero.curHP = 0;
-            currentState = TurnState.DEAD;
-            heroAnim.Play("Die");
+            hitChance = 100;
         }
+        if (Random.Range(1, 100) <= hitChance) //in 20 outs out of 100 we dodge
+        {
+            heroAnim.Play("Hurt");
+            getDamageAmount -= hero.curDEF;
+            if (getDamageAmount < 0)
+            {
+                getDamageAmount = 0;
+            }
 
-        //each successful incoming attack increases the rage
-        AddRage(20); //adjust incoming rage
+            hero.curHP -= getDamageAmount;
 
-        if (hero.curRage >= hero.maxRage)
-        {
-            hero.curRage = hero.maxRage;
+            if (hero.curHP <= 0)
+            {
+                hero.curHP = 0;
+                currentState = TurnState.DEAD;
+                heroAnim.Play("Die");
+            }
+
+            //show popup damage
+            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+            if (isCriticalE == true)
+            {
+                go.GetComponent<TextMeshPro>().fontSize = 7;
+                go.GetComponent<TextMeshPro>().color = Color.red;
+            }
+            else
+            {
+                go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
+            }
+            go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+            //health bar
+            healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
+            //rage bar
+            rageBar.SetRageBarSize(((hero.curRage * 100) / hero.maxRage) / 100);
         }
-        //show popup damage
-        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-        if (isCriticalE == true)
+        else
         {
-            go.GetComponent<TextMeshPro>().color = Color.red;
-        } else
-        {
-            go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
+            heroAnim.Play("Hurt"); // replace with step away animation later
+            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
+            go.GetComponent<TextMeshPro>().fontSize = 2;
+            go.GetComponent<TextMeshPro>().text = "DODGE";
         }
-        go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
-        //health bar
-        healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
-        //rage bar
-        rageBar.SetRageBarSize(((hero.curRage * 100) / hero.maxRage) / 100);
+        AddRage(20);
         UpdateHeroPanel();
     }
 
@@ -284,7 +296,7 @@ public class HeroStateMachine : MonoBehaviour
             AddRage(30);
         }
         //do damage
-        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH);
+        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
         AddRage(10);
         isCriticalH = false;
     }

@@ -30,6 +30,9 @@ public class BaseClass
     public int baseSpeed = 15;
     public int curSpeed = 15;
 
+    public float curDodge = 100f;
+    public float curHit = 50f;
+
     //public float hpPerStr = 10;
     //public float atkPerStr = 5;
     //public float mpPerInt = 5;

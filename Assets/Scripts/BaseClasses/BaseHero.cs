@@ -11,8 +11,8 @@ public class BaseHero : BaseClass
     public int agility;
     public int stamina;
 
-    public float maxRage;
-    public float curRage;
+    public float maxRage = 150f;
+    public float curRage = 0f;
 
     //public float hpPerStr = 10;
     //public float atkPerStr = 5;

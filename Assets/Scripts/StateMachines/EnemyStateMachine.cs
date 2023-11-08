@@ -9,6 +9,7 @@ public class EnemyStateMachine : MonoBehaviour
     
     public BaseEnemy enemy;
     private BattleStateMachine BSM;
+    //private BaseHero hero;
 
     public enum TurnState
     {
@@ -39,6 +40,7 @@ public class EnemyStateMachine : MonoBehaviour
     public GameObject FloatingText;
 
     private bool isMelee;
+    private float hitChance;
 
     private Animator enemyAnim;
     private AudioSource enemyAudio;
@@ -164,7 +166,7 @@ public class EnemyStateMachine : MonoBehaviour
             isMelee = true;
         }
 
-
+        
         //Debug.Log(this.gameObject.name + " has choosen " + myAttack.choosenAttack.attackName + " and does " + myAttack.choosenAttack.attackDamage + " damage.");
 
         BSM.CollectActions (myAttack);
@@ -228,9 +230,12 @@ public class EnemyStateMachine : MonoBehaviour
 
     void DoDamage()
     {
-        //play attack animation
-
-        //do damage
+        //dodge / hit calculations for all attack types (magic perfect hit to be added later)
+        //get enemy hit value get target dodge value
+        //hit / dodge x 100 = chance to hit call it hitChance
+        //if hit > dodge, just proceed if hit < dodge random range (1, 100) < hitChance =  
+        //
+                //do damage
         float minMaxAtk = Mathf.Round(Random.Range(enemy.minATK, enemy.maxATK));
         //float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
@@ -242,44 +247,60 @@ public class EnemyStateMachine : MonoBehaviour
             calc_damage = Mathf.Round(calc_damage * enemy.critDamage);
         }
         //add damage formula later on
-        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE);
+        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee);
         isCriticalE = false;
     }
 
-    public void TakeDamage(float getDamageAmount, bool isCriticalH)
+    public void TakeDamage(float getDamageAmount, bool isCriticalH, float heroHit, bool isDodgeable)
     {
-        //play hurt animation
-        enemyAnim.Play("Hurt");
-        //new WaitForSeconds(.25f);
-        //take damage
-        getDamageAmount -= enemy.curDEF;
-        if (getDamageAmount < 0)
+        //Calculate if the attack hits
+        hitChance = (heroHit / enemy.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
+        if (!isDodgeable)
         {
-            getDamageAmount = 0;
+            hitChance = 100;
         }
-
-        enemy.curHP -= getDamageAmount;
-        if (enemy.curHP <= 0)
+        if (Random.Range(1, 100) <= hitChance) //in 20 outs out of 100 we dodge
         {
-            enemy.curHP = 0;
-            currentState = TurnState.DEAD;
-            enemyAnim.Play("Die");
-        }
-        //show popup damage
-        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-        if (isCriticalH == true)
-        {
-            go.GetComponent<TextMeshPro>().color = Color.red;
+            enemyAnim.Play("Hurt");
+            //new WaitForSeconds(.25f);
+            //take damage
+            getDamageAmount -= enemy.curDEF;
+            if (getDamageAmount < 0)
+            {
+                getDamageAmount = 0;
+            }
 
+            enemy.curHP -= getDamageAmount;
+            if (enemy.curHP <= 0)
+            {
+                enemy.curHP = 0;
+                currentState = TurnState.DEAD;
+                enemyAnim.Play("Die");
+            }
+            //show popup damage
+            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+            if (isCriticalH == true)
+            {
+                go.GetComponent<TextMeshPro>().fontSize = 7;
+                go.GetComponent<TextMeshPro>().color = Color.red;
+
+            }
+            else
+            {
+                go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
+            }
+            go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+            //update health bar
+            healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
         }
         else
         {
-            go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
+            enemyAnim.Play("Hurt"); // replace with step away animation later
+            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
+            go.GetComponent<TextMeshPro>().fontSize = 2;
+            go.GetComponent<TextMeshPro>().text = "DODGE";
         }
-        go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
-        //update health bar
-        healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
-        UpdateEnemyPanel();
+            UpdateEnemyPanel();
     }
 
     void CreateEnemyPanel()
