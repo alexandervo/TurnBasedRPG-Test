@@ -5,13 +5,13 @@ using UnityEngine;
 public class RageBar : MonoBehaviour
 {
     private Transform bar;
-    private void Start()
+    private void Awake()
     {
         bar = transform.Find("Bar");
     }
 
-    public void SetSize(float sizeNormalized)
+    public void SetRageBarSize(float sizeNormalized)
     {
-        bar.localScale = new Vector3 (sizeNormalized, 1f);
+            bar.localScale = new Vector3(sizeNormalized, 1f);
     }
 }

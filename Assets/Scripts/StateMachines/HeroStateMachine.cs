@@ -55,6 +55,10 @@ public class HeroStateMachine : MonoBehaviour
 
     void Start()
     {
+        //Set player rage
+        rageBar.SetRageBarSize((((hero.curRage * 100) / hero.maxRage) / 100));
+
+
         heroAnim = GetComponent<Animator>();
         heroAudio = GetComponent<AudioSource>();
         //find spacer object
@@ -69,8 +73,8 @@ public class HeroStateMachine : MonoBehaviour
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         currentState = TurnState.PROCESSING;
 
-        //Set player rage
-        rageBar.SetSize(((hero.curRage * 100) / hero.maxRage) / 100);
+
+
     }
 
     void Update()
@@ -260,7 +264,7 @@ public class HeroStateMachine : MonoBehaviour
         //health bar
         healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
         //rage bar
-        rageBar.SetSize(((hero.curRage * 100) / hero.maxRage) / 100);
+        rageBar.SetRageBarSize(((hero.curRage * 100) / hero.maxRage) / 100);
         UpdateHeroPanel();
     }
 
