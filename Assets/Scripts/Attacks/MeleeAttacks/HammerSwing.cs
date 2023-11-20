@@ -8,6 +8,7 @@ public class HammerSwing : BaseAttack
     {
         attackName = "Hammer Swing";
         attackDescription = "Swings hammer at enemy";
+        attackType = "Melee";
         minDamage = 10f;
         maxDamage = 25f;
         attackDamage = 25f;

@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2200249006659198290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2000428899830978981}
+  - component: {fileID: 927697220542865968}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2000428899830978981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200249006659198290}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &927697220542865968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2200249006659198290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 072761c8c0b2e77418478b4139875d24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curRegions: 0
+  Regions:
+  - regionName: Region1
+    maxAmountEnemys: 4
+    battleScene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+    possibleEnemys:
+    - {fileID: 7057369032997318516, guid: be0de2cb071a0be418e63c1f83ff8e69, type: 3}
+    - {fileID: 8537304429141612486, guid: 2c2a271e55623a04ab156dd73d3e08a6, type: 3}
+  - regionName: Region2
+    maxAmountEnemys: 4
+    battleScene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+    possibleEnemys:
+    - {fileID: 5774448323417542181, guid: b9f68bf5e426ebe4597c5bd5cbbe1a86, type: 3}
+    - {fileID: 3018317819303018656, guid: aae1d2a20ec47374dab3d8eb078b05fc, type: 3}
+  heroCharacter: {fileID: 7145779858995605606, guid: 93fbc1f117ef27645997dfde2ff7f304, type: 3}
+  nextHeroPosition: {x: 0, y: 0, z: 0}
+  lastHeroPosition: {x: 0, y: 0, z: 0}
+  sceneToLoad: 
+  lastScene: 
+  isWalking: 1
+  canGetEncounter: 0
+  gotAttacked: 0
+  enemysToBattle: []
+  enemyAmount: 0
+  gameState: 0

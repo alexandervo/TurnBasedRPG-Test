@@ -129,21 +129,26 @@ public class HeroStateMachine : MonoBehaviour
                     {
                         for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
-                            if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                            if (i != 0)
                             {
-                                BSM.PerformList.Remove(BSM.PerformList[i]);
-                            }
-                            else if (BSM.PerformList[i].AttackersTarget == this.gameObject)
-                            {
-                                BSM.PerformList[i].AttackersTarget = BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)];
+                                if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                                {
+                                    BSM.PerformList.Remove(BSM.PerformList[i]);
+                                }
+
+                                if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                                {
+                                    BSM.PerformList[i].AttackersTarget = BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)];
+                                }
                             }
                         }
                     }
                     //change appearance / play death animation
                     this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
+                    alive = false;
                     //reset hero input
                     BSM.battleStates = BattleStateMachine.PerformAction.CHECKALIVE;
-                    alive = false;
+                    
                 }
             break;
         }
@@ -194,10 +199,13 @@ public class HeroStateMachine : MonoBehaviour
         //do damage
         DoDamage();
         //animate back to start position
-        Vector3 firstPosition = startPosition;
-        while (MoveTowardsStart(firstPosition))
+        if (isMelee)
         {
-            yield return null;
+            Vector3 firstPosition = startPosition;
+            while (MoveTowardsStart(firstPosition))
+            {
+                yield return null;
+            }
         }
         //remove this performer from the list in BSM
         BSM.PerformList.RemoveAt(0);
@@ -205,8 +213,7 @@ public class HeroStateMachine : MonoBehaviour
         if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
         {
             BSM.battleStates = BattleStateMachine.PerformAction.WAIT;
-            //end coroutine
-            actionStarted = false;
+        
             //reset this enemy state
             //cur_cooldown = 0f;
             currentState = TurnState.PROCESSING;
@@ -215,6 +222,8 @@ public class HeroStateMachine : MonoBehaviour
         {
             currentState = TurnState.WAITING;
         }
+        //end coroutine
+        actionStarted = false;
     }
 
     //Move sprite towards target
@@ -275,10 +284,7 @@ public class HeroStateMachine : MonoBehaviour
         }
         else
         {
-            heroAnim.Play("Hurt"); // replace with step away animation later
-            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
-            go.GetComponent<TextMeshPro>().fontSize = 2;
-            go.GetComponent<TextMeshPro>().text = "DODGE";
+            DodgePopup();
         }
         AddRage(20);
         UpdateHeroPanel();
@@ -374,5 +380,14 @@ public class HeroStateMachine : MonoBehaviour
         hero.baseSpeed = Mathf.Round(hero.agility * hero.spdPerAgi);
         hero.curSpeed = hero.baseSpeed;
 
+    }
+
+    void DodgePopup()
+    {
+        heroAnim.Play("Hurt"); // replace with step away animation later
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
+        go.GetComponent<TextMeshPro>().fontSize = 2;
+        go.GetComponent<TextMeshPro>().color = Color.white;
+        go.GetComponent<TextMeshPro>().text = "DODGE";
     }
 }

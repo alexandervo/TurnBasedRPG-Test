@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static BattleStateMachine;
+using System.Linq.Expressions;
+using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -115,13 +117,16 @@ public class EnemyStateMachine : MonoBehaviour
                     {
                         for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
-                            if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                            if (i != 0)
                             {
-                                BSM.PerformList.Remove(BSM.PerformList[i]);
-                            }
-                            else if (BSM.PerformList[i].AttackersTarget == this.gameObject)
-                            {
-                                BSM.PerformList[i].AttackersTarget = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
+                                if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                                {
+                                    BSM.PerformList.Remove(BSM.PerformList[i]);
+                                }
+                                if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                                {
+                                    BSM.PerformList[i].AttackersTarget = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
+                                }
                             }
                         }
                     }
@@ -204,11 +209,14 @@ public class EnemyStateMachine : MonoBehaviour
         //do damage
         DoDamage ();
 
-        //animate back to start position
-        Vector3 firstPosition = startposition;
-        while (MoveTowardsStart(firstPosition))
+        if (isMelee)
         {
-            yield return null;
+            //animate back to start position
+            Vector3 firstPosition = startposition;
+            while (MoveTowardsStart(firstPosition))
+            {
+                yield return null;
+            }
         }
         //remove this performer from the list in BSM
         BSM.PerformList.RemoveAt(0);
@@ -300,12 +308,9 @@ public class EnemyStateMachine : MonoBehaviour
         }
         else
         {
-            enemyAnim.Play("Hurt"); // replace with step away animation later
-            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
-            go.GetComponent<TextMeshPro>().fontSize = 2;
-            go.GetComponent<TextMeshPro>().text = "DODGE";
+            DodgePopup();
         }
-            UpdateEnemyPanel();
+        UpdateEnemyPanel();
     }
 
     void CreateEnemyPanel()
@@ -331,10 +336,10 @@ public class EnemyStateMachine : MonoBehaviour
     {
         //for randomness
 
-        enemy.strength = Random.Range(10, 40);
-        enemy.intellect = Random.Range(10, 40);
-        enemy.dexterity = Random.Range(10, 40);
-        enemy.agility = Random.Range(10, 40);
+        enemy.strength = Random.Range(10, 30);
+        enemy.intellect = Random.Range(10, 30);
+        enemy.dexterity = Random.Range(10, 30);
+        enemy.agility = Random.Range(10, 20);
         enemy.stamina = Random.Range(20, 40);
 
         //Calculate HP based on Stats
@@ -371,6 +376,15 @@ public class EnemyStateMachine : MonoBehaviour
         enemy.baseSpeed = Mathf.Round(enemy.agility * enemy.spdPerAgi);
         enemy.curSpeed = enemy.baseSpeed;
 
+    }
+
+    void DodgePopup()
+    {
+        enemyAnim.Play("Hurt"); // replace with step away animation later
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
+        go.GetComponent<TextMeshPro>().fontSize = 2;
+        go.GetComponent<TextMeshPro>().color = Color.white;
+        go.GetComponent<TextMeshPro>().text = "DODGE";
     }
 
 }

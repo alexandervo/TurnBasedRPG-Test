@@ -57,10 +57,24 @@ public class BattleStateMachine : MonoBehaviour
     //enemy buttons
     private List<GameObject> enemyBtns = new List<GameObject> ();
 
+    //spawnpoints
+    public List<Transform> spawnPoints = new List<Transform>();
+
+    void Awake()
+    {
+        for (int i = 0; i < GameManager.instance.enemyAmount; i++)
+        {
+            GameObject NewEnemy = Instantiate(GameManager.instance.enemysToBattle[i], spawnPoints[i].position, Quaternion.identity) as GameObject;
+            NewEnemy.name = NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName + " " + (i+1);
+            NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName = NewEnemy.name;
+            EnemysInBattle.Add(NewEnemy);
+        }
+    }
+
     void Start()
     {
         battleStates = PerformAction.WAIT;
-        EnemysInBattle.AddRange (GameObject.FindGameObjectsWithTag ("Enemy"));
+        //EnemysInBattle.AddRange (GameObject.FindGameObjectsWithTag ("Enemy"));
         HerosInBattle.AddRange (GameObject.FindGameObjectsWithTag ("Hero"));
         HeroInput = HeroGUI.ACTIVATE;
 
@@ -77,24 +91,11 @@ public class BattleStateMachine : MonoBehaviour
         switch (battleStates)
         {
             case (PerformAction.WAIT):
-                //if (PerformList.Count == HerosInBattle.Count + EnemysInBattle.Count)
-                    //Original code:
                     if (PerformList.Count > 1)
                 {
                     battleStates = PerformAction.TAKEACTION;
                 }
                 break;
-    //TRy to implement waiting state where enemies do nothing and wait for player input
-    //Activate countdown, if countdown runs out and no player input was made,
-    //disable player input panels, set some bool to true and pass information to Input1()
-    //should perform basic attack on random enemy target
-         //   case (PerformAction.WAITFORINPUT):
-            //    if (HeroesToManage.Count == 0)
-             //   {
-             //       battleStates = PerformAction.TAKEACTION;
-              //  }
-               // break;
-                // ^ end of approach
             case (PerformAction.TAKEACTION):
                 GameObject performer = GameObject.Find(PerformList[0].Attacker);
                 if (PerformList[0].Type == "Enemy")
@@ -128,7 +129,7 @@ public class BattleStateMachine : MonoBehaviour
                 break;
 
             case (PerformAction.PERFORMACTION):
-
+                //idle
                 break;
 
             case (PerformAction.CHECKALIVE):
@@ -151,7 +152,9 @@ public class BattleStateMachine : MonoBehaviour
                 break;
 
             case (PerformAction.LOSE):
-
+                {
+                    Debug.Log("You lost the battle");
+                }
                 break;
 
             case (PerformAction.WIN):
@@ -160,6 +163,10 @@ public class BattleStateMachine : MonoBehaviour
                     {
                         HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
                     }
+
+                    GameManager.instance.LoadSceneAfterBattle();
+                    GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+                    GameManager.instance.enemysToBattle.Clear();
                 }
                 break;
         }

@@ -7,10 +7,11 @@ public class BaseEnemy : BaseClass
 {
      public enum Type
     {
-        GRASS,
-        FIRE,
-        WATER,
-        ELECTRIC
+        NORMAL,
+        STRONG,
+        ELITE,
+        MINIBOSS,
+        MVP
     }
 
     public enum Rarity
