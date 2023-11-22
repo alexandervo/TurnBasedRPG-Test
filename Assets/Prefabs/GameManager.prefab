@@ -53,12 +53,17 @@ MonoBehaviour:
     - {fileID: 7057369032997318516, guid: be0de2cb071a0be418e63c1f83ff8e69, type: 3}
     - {fileID: 8537304429141612486, guid: 2c2a271e55623a04ab156dd73d3e08a6, type: 3}
   - regionName: Region2
-    maxAmountEnemys: 4
+    maxAmountEnemys: 2
     battleScene: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
     possibleEnemys:
     - {fileID: 5774448323417542181, guid: b9f68bf5e426ebe4597c5bd5cbbe1a86, type: 3}
     - {fileID: 3018317819303018656, guid: aae1d2a20ec47374dab3d8eb078b05fc, type: 3}
   heroCharacter: {fileID: 7145779858995605606, guid: 93fbc1f117ef27645997dfde2ff7f304, type: 3}
+  battleHeroes:
+  - {fileID: 3994671865931211291, guid: 79cc6e993ba0c834dbb852818d38298e, type: 3}
+  - {fileID: 6551568099286242969, guid: ecbf6aa0d5db3e0418a497f06eb6e267, type: 3}
+  - {fileID: 2262316920283830301, guid: 35e8b471f8b5347459c51a260551e4e2, type: 3}
+  - {fileID: 6919839667973672288, guid: 1f866f7b695236e46b1984a084700deb, type: 3}
   nextHeroPosition: {x: 0, y: 0, z: 0}
   lastHeroPosition: {x: 0, y: 0, z: 0}
   sceneToLoad: 

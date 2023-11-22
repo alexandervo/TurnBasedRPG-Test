@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class RageBar : MonoBehaviour
 {
-    private Transform bar;
+    private Transform rbar;
     private void Awake()
     {
-        bar = transform.Find("Bar");
+        rbar = transform.Find("Bar");
     }
 
     public void SetRageBarSize(float sizeNormalized)
     {
-            bar.localScale = new Vector3(sizeNormalized, 1f);
+        rbar.localScale = new Vector3 (sizeNormalized, 1f);
     }
 }

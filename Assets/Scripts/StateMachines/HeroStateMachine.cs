@@ -1,4 +1,5 @@
 using System.Collections;
+//using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -41,7 +42,9 @@ public class HeroStateMachine : MonoBehaviour
     private Transform HeroPanelSpacer;
     public HealthBar healthBar;
     public RageBar rageBar;
+
     private int rageAmount;
+
 
     //needed for melee / magic animations / hero movements
     private bool isMelee;
@@ -54,18 +57,19 @@ public class HeroStateMachine : MonoBehaviour
 
     private bool isCriticalH = false;
 
-
     private void Awake()
     {
         SetParams();
+        hero.level = new Level(1, OnLevelUp);
         //UpdateHeroPanel();
+       
     }
 
     void Start()
     {
+        
         //Set player rage
         rageBar.SetRageBarSize((((hero.curRage * 100) / hero.maxRage) / 100));
-
 
         heroAnim = GetComponent<Animator>();
         heroAudio = GetComponent<AudioSource>();
@@ -76,6 +80,7 @@ public class HeroStateMachine : MonoBehaviour
         CreateHeroPanel();
         // dadsa
         startPosition = transform.position;
+
         // cur_cooldown = Random.Range (0, 2.5f);
         Selector.SetActive(false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
@@ -85,6 +90,11 @@ public class HeroStateMachine : MonoBehaviour
 
     void Update()
     {
+        //exp add by hand
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            hero.level.AddExp(100);
+        }
         switch(currentState) 
         {
             case (TurnState.PROCESSING):
@@ -266,28 +276,21 @@ public class HeroStateMachine : MonoBehaviour
             }
 
             //show popup damage
-            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-            if (isCriticalE == true)
-            {
-                go.GetComponent<TextMeshPro>().fontSize = 7;
-                go.GetComponent<TextMeshPro>().color = Color.red;
-            }
-            else
-            {
-                go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
-            }
-            go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+            DamagePopup(isCriticalE, getDamageAmount);
             //health bar
             healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
-            //rage bar
-            rageBar.SetRageBarSize(((hero.curRage * 100) / hero.maxRage) / 100);
+            
+            
         }
         else
         {
             DodgePopup();
+            AddRage(10);
         }
         AddRage(20);
         UpdateHeroPanel();
+        //rage bar
+        UpdateRageBar();
     }
 
     //do damage
@@ -309,6 +312,8 @@ public class HeroStateMachine : MonoBehaviour
         EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
         AddRage(10);
         isCriticalH = false;
+        //rage bar
+        UpdateRageBar();
     }
 
     //create hero panel
@@ -329,6 +334,11 @@ public class HeroStateMachine : MonoBehaviour
     {
         stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
         stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
+    }
+
+    void UpdateRageBar()
+    {
+        rageBar.SetRageBarSize(((hero.curRage * 100) / hero.maxRage) / 100);
     }
 
     //Add rage based on the events like attack, critical attack, damage taken, dodge, etc.
@@ -379,7 +389,6 @@ public class HeroStateMachine : MonoBehaviour
         //calculate speed based on stats
         hero.baseSpeed = Mathf.Round(hero.agility * hero.spdPerAgi);
         hero.curSpeed = hero.baseSpeed;
-
     }
 
     void DodgePopup()
@@ -390,4 +399,32 @@ public class HeroStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().color = Color.white;
         go.GetComponent<TextMeshPro>().text = "DODGE";
     }
+    
+    public void DamagePopup(bool isCriticalE, float getDamageAmount)
+    {
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        if (isCriticalE == true)
+          {
+            go.GetComponent<TextMeshPro>().fontSize = 7;
+            go.GetComponent<TextMeshPro>().color = Color.red;
+        }
+        else
+        {
+            go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
+        }
+        go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+    }
+    public void OnLevelUp()
+    {
+        print("Hero leveled up!");
+        hero.unspentStatPoints += hero.statpointsPerLevel;
+        hero.strength += hero.statIncreasePerLevel;
+        hero.intellect += hero.statIncreasePerLevel;
+        hero.dexterity += hero.statIncreasePerLevel;
+        hero.agility += hero.statIncreasePerLevel;
+        hero.stamina += hero.statIncreasePerLevel;
+        SetParams();
+        UpdateHeroPanel();
+    }
+
 }

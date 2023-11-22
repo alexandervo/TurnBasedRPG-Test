@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
     //Hero
     public GameObject heroCharacter;
 
+    //Battlers
+    public List<GameObject> battleHeroes = new List<GameObject>();
+
+
     //Positions
     public Vector3 nextHeroPosition;
     public Vector3 lastHeroPosition; //battle
@@ -55,6 +59,7 @@ public class GameManager : MonoBehaviour
     //Battle
     public List<GameObject> enemysToBattle = new List<GameObject>();
     public int enemyAmount;
+    public int heroAmount;
     public GameStates gameState;
 
     // Start is called before the first frame update
@@ -137,6 +142,9 @@ public class GameManager : MonoBehaviour
 
     void StartBattle()
     {
+        //set amount of heroes in party
+        heroAmount = battleHeroes.Count;
+
         //set the amount of enemys we can encounter
         enemyAmount = Random.Range(1, Regions[curRegions].maxAmountEnemys + 1);
 

@@ -11,9 +11,15 @@ public class BaseHero : BaseClass
     //public int agility;
     //public int stamina;
 
+    [Header("Statpoints")]
+    public int unspentStatPoints;
+
+    [Header("Secondary Attributes")]
     public float maxRage = 150f;
     public float curRage = 0f;
 
-    public List<BaseAttack> MagicAttacks = new List<BaseAttack>();
+    [Header("Statpoint growth")]
+    public int statpointsPerLevel = 5;
+    public int statIncreasePerLevel = 1;
 
 }

@@ -59,6 +59,7 @@ public class BattleStateMachine : MonoBehaviour
 
     //spawnpoints
     public List<Transform> spawnPoints = new List<Transform>();
+    public List<Transform> heroSpawnPoints = new List<Transform>();
 
     void Awake()
     {
@@ -69,13 +70,22 @@ public class BattleStateMachine : MonoBehaviour
             NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName = NewEnemy.name;
             EnemysInBattle.Add(NewEnemy);
         }
+
+        for (int i = 0; i < GameManager.instance.heroAmount; i++)
+        {
+            GameObject NewHero = Instantiate(GameManager.instance.battleHeroes[i], heroSpawnPoints[i].position, Quaternion.identity) as GameObject;
+            NewHero.name = NewHero.GetComponent<HeroStateMachine>().hero.theName;
+            NewHero.GetComponent<HeroStateMachine>().hero.theName = NewHero.name;
+            HerosInBattle.Add(NewHero);
+        }
+
     }
 
     void Start()
     {
         battleStates = PerformAction.WAIT;
         //EnemysInBattle.AddRange (GameObject.FindGameObjectsWithTag ("Enemy"));
-        HerosInBattle.AddRange (GameObject.FindGameObjectsWithTag ("Hero"));
+        //HerosInBattle.AddRange (GameObject.FindGameObjectsWithTag ("Hero"));
         HeroInput = HeroGUI.ACTIVATE;
 
         AttackPanel.SetActive(false);
@@ -162,6 +172,8 @@ public class BattleStateMachine : MonoBehaviour
                     for(int i = 0; i<HerosInBattle.Count; i++)
                     {
                         HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
+                        HerosInBattle[i].GetComponent<HeroStateMachine>().hero.level.AddExp(1000);
+                        Debug.Log("Gained 1000exp");
                     }
 
                     GameManager.instance.LoadSceneAfterBattle();
