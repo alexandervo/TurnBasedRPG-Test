@@ -4,21 +4,39 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float speed = 5f;
     public GameObject player;
 
     Vector3 curPos, lastPos;
 
+    public long steps;
+    public float stepSize = 1f;
+    public float distanceTraveled = 0f;
+    public float moveSpeed = 5f;
+    private Vector2 movement;
+    private Vector2 lastMove;
+    private Animator anim;
+
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
 
     private void Start()
     {
         transform.position = GameManager.instance.nextHeroPosition;
     }
 
+    void Update()
+    {
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Move();
+    }
+
     void FixedUpdate()
     {
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        /*if (Input.GetKey(KeyCode.RightArrow))
         {
             transform.position += Vector3.right * speed * Time.deltaTime;
         }
@@ -33,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.DownArrow))
         {
             transform.position += Vector3.down * speed * Time.deltaTime;
-        }
+        }*/
 
         curPos = transform.position;
         if (curPos == lastPos)
@@ -89,6 +107,32 @@ public class PlayerMovement : MonoBehaviour
         if (other.tag == "Region1" || other.tag == "Region2")
         {
             GameManager.instance.canGetEncounter = false;
+        }
+    }
+
+    public void Move()
+    {
+        anim.SetFloat("MoveX", movement.x);
+        anim.SetFloat("MoveY", movement.y);
+        if (movement != Vector2.zero)
+        {
+            anim.SetBool("isMoving", true);
+            lastMove = movement;
+            anim.SetFloat("LastMoveX", lastMove.x);
+            anim.SetFloat("LastMoveY", lastMove.y);
+
+            movement.Normalize();
+            transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
+            distanceTraveled += movement.magnitude * moveSpeed * Time.deltaTime;
+            if (distanceTraveled >= stepSize)
+            {
+                steps++;
+                distanceTraveled -= stepSize;
+            }
+        }
+        else
+        {
+            anim.SetBool("isMoving", false);
         }
     }
 }

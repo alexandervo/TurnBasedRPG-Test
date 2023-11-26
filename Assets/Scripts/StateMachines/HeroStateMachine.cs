@@ -395,24 +395,27 @@ public class HeroStateMachine : MonoBehaviour
     {
         heroAnim.Play("Hurt"); // replace with step away animation later
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
+        go.GetComponentInChildren<SpriteRenderer>().enabled = false;
         go.GetComponent<TextMeshPro>().fontSize = 2;
         go.GetComponent<TextMeshPro>().color = Color.white;
         go.GetComponent<TextMeshPro>().text = "DODGE";
     }
     
-    public void DamagePopup(bool isCriticalE, float getDamageAmount)
+    void DamagePopup(bool isCritical, float DamageAmount)
     {
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-        if (isCriticalE == true)
+        if (isCritical == true)
           {
-            go.GetComponent<TextMeshPro>().fontSize = 7;
+            go.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            go.GetComponent<TextMeshPro>().fontSize = 6;
             go.GetComponent<TextMeshPro>().color = Color.red;
         }
         else
         {
+            go.GetComponentInChildren<SpriteRenderer>().enabled = false;
             go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
         }
-        go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+        go.GetComponent<TextMeshPro>().text = DamageAmount.ToString();
     }
     public void OnLevelUp()
     {

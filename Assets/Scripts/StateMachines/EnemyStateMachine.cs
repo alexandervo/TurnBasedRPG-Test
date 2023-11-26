@@ -87,7 +87,7 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
 
             case (TurnState.CHOOSEACTION):
-                ChooseAction ();
+                ChooseAction();
                 currentState = TurnState.WAITING;
                 break;
 
@@ -96,7 +96,7 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
 
             case (TurnState.ACTION):
-                StartCoroutine(TimeForAction ());
+                StartCoroutine(TimeForAction());
                 break;
 
             case (TurnState.DEAD):
@@ -157,7 +157,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     void ChooseAction()
     {
-        HandleTurn myAttack = new HandleTurn ();
+        HandleTurn myAttack = new HandleTurn();
         myAttack.Attacker = enemy.theName;
         myAttack.Type = "Enemy";
         myAttack.AttackersGameObject = this.gameObject;
@@ -179,7 +179,7 @@ public class EnemyStateMachine : MonoBehaviour
         
         //Debug.Log(this.gameObject.name + " has choosen " + myAttack.choosenAttack.attackName + " and does " + myAttack.choosenAttack.attackDamage + " damage.");
 
-        BSM.CollectActions (myAttack);
+        BSM.CollectActions(myAttack);
     }
 
     private IEnumerator TimeForAction()
@@ -207,7 +207,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemyAudio.Play();
         yield return new WaitForSeconds(0.5f);
         //do damage
-        DoDamage ();
+        DoDamage();
 
         if (isMelee)
         {
@@ -291,18 +291,7 @@ public class EnemyStateMachine : MonoBehaviour
                 enemyAnim.Play("Die");
             }
             //show popup damage
-            var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-            if (isCriticalH == true)
-            {
-                go.GetComponent<TextMeshPro>().fontSize = 7;
-                go.GetComponent<TextMeshPro>().color = Color.red;
-
-            }
-            else
-            {
-                go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
-            }
-            go.GetComponent<TextMeshPro>().text = getDamageAmount.ToString();
+            DamagePopup(isCriticalH, getDamageAmount);
             //update health bar
             healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
         }
@@ -382,10 +371,27 @@ public class EnemyStateMachine : MonoBehaviour
     {
         enemyAnim.Play("Hurt"); // replace with step away animation later
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform); //tell that we dodged and no damage is dealt
+        go.GetComponentInChildren<SpriteRenderer>().enabled = false;
         go.GetComponent<TextMeshPro>().fontSize = 2;
         go.GetComponent<TextMeshPro>().color = Color.white;
         go.GetComponent<TextMeshPro>().text = "DODGE";
     }
 
+    void DamagePopup(bool isCritical, float DamageAmount)
+    {
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        if (isCritical == true)
+        {
+            go.GetComponentInChildren<SpriteRenderer>().enabled = true;
+            go.GetComponent<TextMeshPro>().fontSize = 6;
+            go.GetComponent<TextMeshPro>().color = Color.red;
+        }
+        else
+        {
+            go.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
+        }
+        go.GetComponent<TextMeshPro>().text = DamageAmount.ToString();
+    }
 }
 

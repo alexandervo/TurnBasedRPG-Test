@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     }
 
     public int curRegions;
+    [Range(1, 10)] public int encounterRate = 5;
 
     public List<RegionData> Regions = new List<RegionData>();
 
@@ -131,7 +132,8 @@ public class GameManager : MonoBehaviour
     {
         if (isWalking && canGetEncounter)
         {
-            if(Random.Range(0, 1000) < 10)
+            int eRate = Mathf.Abs(encounterRate - 11);
+            if(Random.Range(0, (eRate*1000)) < 10)
             {
                 //Debug.Log("We got encounter!");
                 gotAttacked = true;
