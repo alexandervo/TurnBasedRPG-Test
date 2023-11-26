@@ -294,6 +294,17 @@ public class BattleStateMachine : MonoBehaviour
         MagicAttackButton.transform.SetParent(actionSpacer, false);
         atkBtns.Add(MagicAttackButton);
 
+
+        //add flee button allowing to flee the battle
+        //TODO: Only flee if no enemy is in ACTION state.
+        //This will be only doable after implementing real turn system
+        GameObject FleeButton = Instantiate(actionButton) as GameObject;
+        Text FleeButtonText = FleeButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        FleeButtonText.text = "Flee";
+        FleeButton.GetComponent<Button>().onClick.AddListener(() => Input5());
+        FleeButton.transform.SetParent(actionSpacer, false);
+        atkBtns.Add(FleeButton);
+
         if (HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks.Count > 0)
         {
             foreach(BaseAttack magicAtk in HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks)
@@ -329,4 +340,17 @@ public class BattleStateMachine : MonoBehaviour
         AttackPanel.SetActive(false);
         MagicPanel.SetActive(true);
     }
+    public void Input5() //fleeing from battle and clearing the current battle information
+    {
+        for (int i = 0; i < HerosInBattle.Count; i++)
+        {
+            HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
+            Debug.Log("Fleed from battle");
+        }
+
+        GameManager.instance.LoadSceneAfterBattle();
+        GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+        GameManager.instance.enemysToBattle.Clear();
+    }
+
 }
