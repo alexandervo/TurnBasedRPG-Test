@@ -32,13 +32,15 @@ public class ItemDatabase : ScriptableObject
 		LoadItems();
 	}
 
-	private void OnEnable()
-	{
-		EditorApplication.projectWindowChanged -= LoadItems;
+    [System.Obsolete]
+    private void OnEnable()
+    {
+        EditorApplication.projectWindowChanged -= LoadItems;
 		EditorApplication.projectWindowChanged += LoadItems;
 	}
 
-	private void OnDisable()
+    [System.Obsolete]
+    private void OnDisable()
 	{
 		EditorApplication.projectWindowChanged -= LoadItems;
 	}

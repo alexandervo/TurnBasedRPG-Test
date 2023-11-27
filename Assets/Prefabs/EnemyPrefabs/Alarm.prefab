@@ -126,7 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy:
     theName: Alarm
-    displayName: 
     level:
       experience: 0
       currentlevel: 0
@@ -168,12 +167,21 @@ MonoBehaviour:
     atkPerDex: 2
     hpPerSta: 25
     defPerSta: 5
-    attacks:
-    - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    - {fileID: -5125260466007318381, guid: 3a76cf1f2d6745a4c9ab6c3063921802, type: 3}
+    attacks: []
     MagicAttacks: []
     EnemyType: 0
     rarity: 0
+  PossibleSkills:
+  - possibleSkill: {fileID: -826301957630506485, guid: 96935a23224caf34ea228d0cbcf534d9, type: 3}
+    skillSpawnChance: 100
+  - possibleSkill: {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
+    skillSpawnChance: 25
+  - possibleSkill: {fileID: 1694769272929344705, guid: 4ada8336e4f6f034a93ea26858aed2c4, type: 3}
+    skillSpawnChance: 25
+  - possibleSkill: {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
+    skillSpawnChance: 50
+  - possibleSkill: {fileID: -5125260466007318381, guid: 3a76cf1f2d6745a4c9ab6c3063921802, type: 3}
+    skillSpawnChance: 50
   currentState: 0
   HeroToAttack: {fileID: 0}
   Selector: {fileID: 7052549903821035250}

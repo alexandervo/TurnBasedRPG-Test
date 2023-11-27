@@ -126,6 +126,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy:
     theName: Knight
+    level:
+      experience: 0
+      currentlevel: 0
+      requiredExp: 0
+      MAX_EXP: 0
+      NEXT_EXP: 0
+      MAX_LEVEL: 0
     baseHP: 400
     curHP: 400
     baseMP: 10
@@ -145,6 +152,11 @@ MonoBehaviour:
     baseDodge: 0
     baseHit: 0
     curHit: 0
+    strength: 0
+    intellect: 0
+    dexterity: 0
+    agility: 0
+    stamina: 0
     hpPerStr: 10
     atkPerStr: 5
     mpPerInt: 10
@@ -155,18 +167,11 @@ MonoBehaviour:
     atkPerDex: 2
     hpPerSta: 25
     defPerSta: 5
-    strength: 0
-    intellect: 0
-    dexterity: 0
-    agility: 0
-    stamina: 0
-    attacks:
-    - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    - {fileID: -5125260466007318381, guid: 3a76cf1f2d6745a4c9ab6c3063921802, type: 3}
-    - {fileID: 1694769272929344705, guid: 4ada8336e4f6f034a93ea26858aed2c4, type: 3}
-    - {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
+    attacks: []
+    MagicAttacks: []
     EnemyType: 4
     rarity: 0
+  PossibleSkills: []
   currentState: 0
   HeroToAttack: {fileID: 0}
   Selector: {fileID: 6570381885943164561}

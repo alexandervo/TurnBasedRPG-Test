@@ -167,12 +167,17 @@ MonoBehaviour:
     atkPerDex: 2
     hpPerSta: 25
     defPerSta: 5
-    attacks:
-    - {fileID: 1694769272929344705, guid: 4ada8336e4f6f034a93ea26858aed2c4, type: 3}
-    - {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
+    attacks: []
     MagicAttacks: []
     EnemyType: 0
     rarity: 0
+  PossibleSkills:
+  - possibleSkill: {fileID: -826301957630506485, guid: 96935a23224caf34ea228d0cbcf534d9, type: 3}
+    skillSpawnChance: 100
+  - possibleSkill: {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
+    skillSpawnChance: 57
+  - possibleSkill: {fileID: 1694769272929344705, guid: 4ada8336e4f6f034a93ea26858aed2c4, type: 3}
+    skillSpawnChance: 17
   currentState: 0
   HeroToAttack: {fileID: 0}
   Selector: {fileID: 718186600861525843}

@@ -5,11 +5,25 @@ using TMPro;
 using static BattleStateMachine;
 using System.Linq.Expressions;
 using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
+using UnityEditor;
+using static GameManager;
 
 public class EnemyStateMachine : MonoBehaviour
 {
     
     public BaseEnemy enemy;
+
+    [System.Serializable]
+    public class SkillSet
+    {
+        public BaseAttack possibleSkill;
+        [Range(0,100)]public int skillSpawnChance = 25;
+    }
+
+    public List<SkillSet> PossibleSkills = new List<SkillSet>();
+
+    //public List<ScriptableObject> Skills = new List<ScriptableObject>();
+
     private BattleStateMachine BSM;
     //private BaseHero hero;
 
@@ -55,6 +69,7 @@ public class EnemyStateMachine : MonoBehaviour
     private void Awake()
     {
         SetParams();
+        PopulateSkilllist();
     }
 
     void Start()
@@ -260,6 +275,7 @@ public class EnemyStateMachine : MonoBehaviour
             calc_damage = Mathf.Round(calc_damage * enemy.critDamage);
         }
         //add damage formula later on
+        VampireHP(calc_damage);
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee);
         isCriticalE = false;
     }
@@ -291,7 +307,7 @@ public class EnemyStateMachine : MonoBehaviour
                 enemyAnim.Play("Die");
             }
             //show popup damage
-            DamagePopup(isCriticalH, getDamageAmount);
+            DamagePopup(isCriticalH, getDamageAmount, false);
             //update health bar
             healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
         }
@@ -367,6 +383,26 @@ public class EnemyStateMachine : MonoBehaviour
 
     }
 
+    void PopulateSkilllist() //Take skills from the list of possible skills, calculate chances and spawn in according lists
+    {
+        for (int i = 0; i < PossibleSkills.Count; i++)
+        {
+            if(Random.Range(0, 100) < PossibleSkills[i].skillSpawnChance)
+            {
+                BaseAttack NewSkill = PossibleSkills[i].possibleSkill;
+                //Debug.Log(NewSkill.attackType);
+                if (NewSkill.attackType == "Spell")
+                {
+                    enemy.MagicAttacks.Add(NewSkill);
+                }
+                else
+                {
+                    enemy.attacks.Add(NewSkill);
+                }
+            }
+        }
+    }
+
     void DodgePopup()
     {
         enemyAnim.Play("Hurt"); // replace with step away animation later
@@ -377,7 +413,8 @@ public class EnemyStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().text = "DODGE";
     }
 
-    void DamagePopup(bool isCritical, float DamageAmount)
+
+    void DamagePopup(bool isCritical, float DamageAmount, bool isHeal)
     {
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
         if (isCritical == true)
@@ -386,12 +423,32 @@ public class EnemyStateMachine : MonoBehaviour
             go.GetComponent<TextMeshPro>().fontSize = 6;
             go.GetComponent<TextMeshPro>().color = Color.red;
         }
+
+        if (isHeal)
+        {
+            go.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            go.GetComponent<TextMeshPro>().color = Color.green;
+        }
+
         else
         {
             go.GetComponentInChildren<SpriteRenderer>().enabled = false;
             go.GetComponent<TextMeshPro>().color = new Color32(197, 164, 0, 255);
         }
+
         go.GetComponent<TextMeshPro>().text = DamageAmount.ToString();
+    }
+
+    void VampireHP(float damage)
+    {
+        float vampAmount = Mathf.Round((damage * 30) / 100);
+        enemy.curHP += vampAmount;
+        if(enemy.curHP > enemy.baseHP)
+        {
+            enemy.curHP = enemy.baseHP;
+        }
+        DamagePopup(false, vampAmount, true);
+        healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
     }
 }
 

@@ -61,7 +61,7 @@ public class BaseClass
     public float hpPerSta = 25;
     public float defPerSta = 5;
 
-    [Header("Abilities")]
+    //[Header("Abilities")]
     public List<BaseAttack> attacks = new List<BaseAttack>();
     public List<BaseAttack> MagicAttacks = new List<BaseAttack>();
 

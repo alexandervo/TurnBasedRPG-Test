@@ -8,7 +8,7 @@ public class Fire1Spell : BaseAttack
     {
         attackName = "Fire 1";
         attackDescription = "Basic fire spell";
-        attackType = "Ranged";
+        attackType = "Spell";
         minDamage = 5f;
         maxDamage = 15f;
         attackDamage = 15f;

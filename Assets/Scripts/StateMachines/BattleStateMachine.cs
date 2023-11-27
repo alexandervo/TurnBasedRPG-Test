@@ -345,9 +345,9 @@ public class BattleStateMachine : MonoBehaviour
         for (int i = 0; i < HerosInBattle.Count; i++)
         {
             HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
-            Debug.Log("Fleed from battle");
         }
 
+        Debug.Log("Fleed from battle");
         GameManager.instance.LoadSceneAfterBattle();
         GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
         GameManager.instance.enemysToBattle.Clear();

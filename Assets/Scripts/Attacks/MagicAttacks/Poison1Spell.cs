@@ -8,7 +8,7 @@ public class Poison1Spell : BaseAttack
     {
         attackName = "Poison1";
         attackDescription = "Basic poison attack";
-        attackType = "Ranged";
+        attackType = "Spell";
         minDamage = 5f;
         maxDamage = 15f;
         attackDamage = 15f;
