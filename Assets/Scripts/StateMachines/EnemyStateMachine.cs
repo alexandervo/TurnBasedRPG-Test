@@ -62,6 +62,11 @@ public class EnemyStateMachine : MonoBehaviour
     private AudioSource enemyAudio;
 
     private bool isCriticalE = false;
+    
+    //For testing purpouses
+    public bool doubleHit = false;
+
+
 
     //alive
     private bool alive = true;
@@ -218,11 +223,19 @@ public class EnemyStateMachine : MonoBehaviour
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
+
+        if (doubleHit)
+        {
+            enemyAnim.Play("Attack");
+            enemyAudio.Play();
+            DoDamage();
+            yield return new WaitForSeconds(0.75f);
+        }
         enemyAnim.Play("Attack");
         enemyAudio.Play();
-        yield return new WaitForSeconds(0.5f);
         //do damage
         DoDamage();
+        yield return new WaitForSeconds(0.75f);
 
         if (isMelee)
         {
@@ -274,7 +287,14 @@ public class EnemyStateMachine : MonoBehaviour
             isCriticalE = true;
             calc_damage = Mathf.Round(calc_damage * enemy.critDamage);
         }
+
         //add damage formula later on
+        float opponentDef = HeroToAttack.GetComponent<HeroStateMachine>().hero.curDEF;
+        calc_damage -= opponentDef;
+        if (calc_damage < 0)
+        {
+            calc_damage = 0;
+        }
         VampireHP(calc_damage);
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee);
         isCriticalE = false;
@@ -439,7 +459,7 @@ public class EnemyStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().text = DamageAmount.ToString();
     }
 
-    void VampireHP(float damage)
+    public void VampireHP(float damage)
     {
         float vampAmount = Mathf.Round((damage * 30) / 100);
         enemy.curHP += vampAmount;

@@ -260,14 +260,14 @@ public class HeroStateMachine : MonoBehaviour
         if (Random.Range(1, 100) <= hitChance) //in 20 outs out of 100 we dodge
         {
             heroAnim.Play("Hurt");
-            getDamageAmount -= hero.curDEF;
-            if (getDamageAmount < 0)
-            {
-                getDamageAmount = 0;
-            }
+            //getDamageAmount -= hero.curDEF;
+            //if (getDamageAmount < 0)
+            //{
+            //    getDamageAmount = 0;
+            //}
 
             hero.curHP -= getDamageAmount;
-
+            
             if (hero.curHP <= 0)
             {
                 hero.curHP = 0;
