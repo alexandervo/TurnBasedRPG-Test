@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public class RegionData
     {
         public string regionName;
-        public int maxAmountEnemys = 4;
+        public int maxAmountEnemys = 8;
         public SceneAsset battleScene;
         public List<GameObject> possibleEnemys = new List<GameObject>();
     }

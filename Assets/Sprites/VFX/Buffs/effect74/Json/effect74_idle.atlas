@@ -1,0 +1,48 @@
+
+7504.png
+size: 462,462
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1_00003
+  rotate: false
+  xy: 2, 277
+  size: 194, 183
+  orig: 200, 200
+  offset: 6, 9
+  index: -1
+1_00004
+  rotate: false
+  xy: 198, 296
+  size: 182, 164
+  orig: 200, 200
+  offset: 14, 17
+  index: -1
+1_00005
+  rotate: false
+  xy: 198, 147
+  size: 165, 147
+  orig: 200, 200
+  offset: 21, 25
+  index: -1
+1_00006
+  rotate: false
+  xy: 2, 4
+  size: 157, 132
+  orig: 200, 200
+  offset: 18, 34
+  index: -1
+1_00007
+  rotate: false
+  xy: 2, 138
+  size: 158, 137
+  orig: 200, 200
+  offset: 16, 36
+  index: -1
+1_00008
+  rotate: false
+  xy: 162, 2
+  size: 148, 143
+  orig: 200, 200
+  offset: 20, 34
+  index: -1

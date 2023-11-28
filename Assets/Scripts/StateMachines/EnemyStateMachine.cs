@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEditor;
 using static GameManager;
+using Unity.VisualScripting;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -54,6 +55,8 @@ public class EnemyStateMachine : MonoBehaviour
     private Transform EnemyPanelSpacer;
     public HealthBar healthBar;
     public GameObject FloatingText;
+    public GameObject HealVFX;
+    public GameObject RessurectVFX;
 
     private bool isMelee;
     private float hitChance;
@@ -64,9 +67,8 @@ public class EnemyStateMachine : MonoBehaviour
     private bool isCriticalE = false;
     
     //For testing purpouses
-    public bool doubleHit = false;
-
-
+    public bool doubleHit;
+    private int killStreak = 0;
 
     //alive
     private bool alive = true;
@@ -75,6 +77,7 @@ public class EnemyStateMachine : MonoBehaviour
     {
         SetParams();
         PopulateSkilllist();
+        doubleHit = true;
     }
 
     void Start()
@@ -224,19 +227,29 @@ public class EnemyStateMachine : MonoBehaviour
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
 
-        if (doubleHit)
+        enemyAnim.Play("Attack");
+        enemyAudio.Play();
+        DoDamage();
+        yield return new WaitForSeconds(0.75f);
+
+        //Double Hit mechanic testing
+        //If target died from first attack, do not attack for the second time
+        if (doubleHit && HeroToAttack.GetComponent<HeroStateMachine>().hero.curHP > 0)
         {
             enemyAnim.Play("Attack");
             enemyAudio.Play();
             DoDamage();
             yield return new WaitForSeconds(0.75f);
         }
-        enemyAnim.Play("Attack");
-        enemyAudio.Play();
-        //do damage
-        DoDamage();
-        yield return new WaitForSeconds(0.75f);
 
+        //testing kill streak mechanics
+        //after killing one target the killer should choose next one and attack it and do it untill he can't kill the next target
+        if (HeroToAttack.GetComponent<HeroStateMachine>().hero.curHP <= 0)
+        {
+            killStreak++;
+            Debug.Log("Kill Streak = " + killStreak);
+        }
+              
         if (isMelee)
         {
             //animate back to start position
@@ -295,8 +308,13 @@ public class EnemyStateMachine : MonoBehaviour
         {
             calc_damage = 0;
         }
-        VampireHP(calc_damage);
+
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee);
+        if (HeroToAttack.GetComponent<HeroStateMachine>().dodgedAtt == false)
+        {
+            VampireHP(calc_damage);
+        }
+    
         isCriticalE = false;
     }
 
@@ -323,8 +341,10 @@ public class EnemyStateMachine : MonoBehaviour
             if (enemy.curHP <= 0)
             {
                 enemy.curHP = 0;
-                currentState = TurnState.DEAD;
-                enemyAnim.Play("Die");
+                //passive ressurect skill testing
+
+                SelfRessurect(50, 50);
+
             }
             //show popup damage
             DamagePopup(isCriticalH, getDamageAmount, false);
@@ -361,9 +381,9 @@ public class EnemyStateMachine : MonoBehaviour
     {
         //for randomness
 
-        enemy.strength = Random.Range(10, 30);
+        enemy.strength = Random.Range(40, 70);
         enemy.intellect = Random.Range(10, 30);
-        enemy.dexterity = Random.Range(10, 30);
+        enemy.dexterity = Random.Range(50, 70);
         enemy.agility = Random.Range(10, 20);
         enemy.stamina = Random.Range(20, 40);
 
@@ -468,7 +488,23 @@ public class EnemyStateMachine : MonoBehaviour
             enemy.curHP = enemy.baseHP;
         }
         DamagePopup(false, vampAmount, true);
+        Instantiate(HealVFX, transform.position, Quaternion.identity, transform);
         healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
+    }
+
+    public void SelfRessurect(int resChance, int resHP)
+    {
+        if (Random.Range(0, 100) < resChance)
+        {
+            enemy.curHP = Mathf.Round((enemy.baseHP / 100) * resHP);
+            DamagePopup(false, enemy.curHP, true);
+            Instantiate(RessurectVFX, transform.position, Quaternion.identity, transform);
+        }
+        else
+        {
+            currentState = TurnState.DEAD;
+            enemyAnim.Play("Die");
+        }
     }
 }
 

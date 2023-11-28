@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 //using System;
 using System.Collections.Generic;
@@ -26,8 +27,6 @@ public class HeroStateMachine : MonoBehaviour
     private float max_cooldown = 5f;
     private Image ProgressBar;
     */
-    private Image health_bar;
-    private Image rage_bar;
     public GameObject Selector;
     //IeNumerator
     public GameObject EnemyToAttack;
@@ -44,7 +43,8 @@ public class HeroStateMachine : MonoBehaviour
     public RageBar rageBar;
 
     private int rageAmount;
-
+    //testing
+    public bool dodgedAtt = false;
 
     //needed for melee / magic animations / hero movements
     private bool isMelee;
@@ -255,17 +255,12 @@ public class HeroStateMachine : MonoBehaviour
         hitChance = (enemyHit / hero.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
         if (!isDodgeable)
         {
-            hitChance = 100;
+            hitChance = 101;
         }
-        if (Random.Range(1, 100) <= hitChance) //in 20 outs out of 100 we dodge
+        if (Random.Range(1, 101) <= hitChance) //in 20 outs out of 100 we dodge
         {
+            dodgedAtt = false;
             heroAnim.Play("Hurt");
-            //getDamageAmount -= hero.curDEF;
-            //if (getDamageAmount < 0)
-            //{
-            //    getDamageAmount = 0;
-            //}
-
             hero.curHP -= getDamageAmount;
             
             if (hero.curHP <= 0)
@@ -279,11 +274,11 @@ public class HeroStateMachine : MonoBehaviour
             DamagePopup(isCriticalE, getDamageAmount);
             //health bar
             healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
-            
-            
+   
         }
         else
         {
+            dodgedAtt = true;
             DodgePopup();
             AddRage(10);
         }
@@ -368,7 +363,7 @@ public class HeroStateMachine : MonoBehaviour
         hero.baseATK = Mathf.Round((hero.strength * hero.atkPerStr) + (hero.intellect * hero.atkPerInt) / 10);
         hero.curATK = hero.baseATK;
 
-        hero.maxATK = hero.baseATK + Random.Range(10, 50);
+        hero.maxATK = hero.baseATK + Random.Range(150, 500);
         hero.minATK = hero.baseATK;
 
         //Calculate HIT based on stats

@@ -66,7 +66,7 @@ public class BattleStateMachine : MonoBehaviour
         for (int i = 0; i < GameManager.instance.enemyAmount; i++)
         {
             GameObject NewEnemy = Instantiate(GameManager.instance.enemysToBattle[i], spawnPoints[i].position, Quaternion.identity) as GameObject;
-            NewEnemy.name = NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName + " " + (i+1);
+            NewEnemy.name = NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName + " [" + (i+1) + "]";
             NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName = NewEnemy.name;
             EnemysInBattle.Add(NewEnemy);
         }

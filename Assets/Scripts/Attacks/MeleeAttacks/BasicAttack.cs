@@ -14,4 +14,5 @@ public class BasicAttack : BaseAttack
         attackDamage = 0;
         attackCost = 0;
     }
+
 }
