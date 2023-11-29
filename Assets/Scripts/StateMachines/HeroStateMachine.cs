@@ -77,7 +77,7 @@ public class HeroStateMachine : MonoBehaviour
         HeroPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
         
         //create panel and fill in info
-        CreateHeroPanel();
+        //CreateHeroPanel();
         // dadsa
         startPosition = transform.position;
 
@@ -208,6 +208,19 @@ public class HeroStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         //do damage
         DoDamage();
+
+        //try mass magic
+        //if (!isMelee && BSM.PerformList[0].choosenAttack.attackTargets == "Multiple")
+        //{
+        //    
+        //    yield return new WaitForSeconds(0.25f);
+        //    heroAnim.Play("Attack");
+        //    heroAudio.Play();
+        //    yield return new WaitForSeconds(0.7f);
+        //    //do damage
+        //    DoDamage();
+       // }
+
         //animate back to start position
         if (isMelee)
         {
@@ -283,7 +296,7 @@ public class HeroStateMachine : MonoBehaviour
             AddRage(10);
         }
         AddRage(20);
-        UpdateHeroPanel();
+        //UpdateHeroPanel();
         //rage bar
         UpdateRageBar();
     }
@@ -422,7 +435,7 @@ public class HeroStateMachine : MonoBehaviour
         hero.agility += hero.statIncreasePerLevel;
         hero.stamina += hero.statIncreasePerLevel;
         SetParams();
-        UpdateHeroPanel();
+        //UpdateHeroPanel();
     }
 
 }

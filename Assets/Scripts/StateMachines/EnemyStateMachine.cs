@@ -8,6 +8,7 @@ using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEditor;
 using static GameManager;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -21,7 +22,14 @@ public class EnemyStateMachine : MonoBehaviour
         [Range(0,100)]public int skillSpawnChance = 25;
     }
 
+    public class PassiveSkillSet
+    {
+        public PassiveSkill posPassive;
+        [Range(0, 100)] public int skillSpawnChance = 25;
+    }
+
     public List<SkillSet> PossibleSkills = new List<SkillSet>();
+    public List<PassiveSkillSet> PossiblePassives = new List<PassiveSkillSet>();
 
     //public List<ScriptableObject> Skills = new List<ScriptableObject>();
 
@@ -89,7 +97,7 @@ public class EnemyStateMachine : MonoBehaviour
         EnemyPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("EnemyPanel").transform.Find("EnemyPanelSpacer");
 
         //create panel and fill in info
-        CreateEnemyPanel();
+        //CreateEnemyPanel();
         currentState = TurnState.PROCESSING;
         Selector.SetActive (false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine> ();
@@ -234,12 +242,17 @@ public class EnemyStateMachine : MonoBehaviour
 
         //Double Hit mechanic testing
         //If target died from first attack, do not attack for the second time
+        //If we intend to attack, it has 35% chance to do so
+
         if (doubleHit && HeroToAttack.GetComponent<HeroStateMachine>().hero.curHP > 0)
         {
-            enemyAnim.Play("Attack");
-            enemyAudio.Play();
-            DoDamage();
-            yield return new WaitForSeconds(0.75f);
+            if (Random.Range(0, 100) < 35)
+            {
+                enemyAnim.Play("Attack");
+                enemyAudio.Play();
+                DoDamage();
+                yield return new WaitForSeconds(0.75f);
+            }
         }
 
         //testing kill streak mechanics
@@ -341,9 +354,9 @@ public class EnemyStateMachine : MonoBehaviour
             if (enemy.curHP <= 0)
             {
                 enemy.curHP = 0;
-                //passive ressurect skill testing
+                //passive ressurect skill testing (Chance%, HP%)
 
-                SelfRessurect(50, 50);
+                SelfRessurect(30, 50);
 
             }
             //show popup damage
@@ -355,7 +368,7 @@ public class EnemyStateMachine : MonoBehaviour
         {
             DodgePopup();
         }
-        UpdateEnemyPanel();
+        //UpdateEnemyPanel();
     }
 
     void CreateEnemyPanel()
@@ -458,7 +471,7 @@ public class EnemyStateMachine : MonoBehaviour
     {
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
         if (isCritical == true)
-        {
+        {   
             go.GetComponentInChildren<SpriteRenderer>().enabled = true;
             go.GetComponent<TextMeshPro>().fontSize = 6;
             go.GetComponent<TextMeshPro>().color = Color.red;
@@ -479,6 +492,14 @@ public class EnemyStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().text = DamageAmount.ToString();
     }
 
+    void ResPopup(float ResHP)
+    {
+        var go2 = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        go2.GetComponentInChildren<SpriteRenderer>().enabled = false;
+        go2.GetComponent<TextMeshPro>().color = Color.green;
+        go2.GetComponent<TextMeshPro>().text = ResHP.ToString();
+    }
+
     public void VampireHP(float damage)
     {
         float vampAmount = Mathf.Round((damage * 30) / 100);
@@ -497,7 +518,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (Random.Range(0, 100) < resChance)
         {
             enemy.curHP = Mathf.Round((enemy.baseHP / 100) * resHP);
-            DamagePopup(false, enemy.curHP, true);
+            ResPopup(enemy.curHP);
             Instantiate(RessurectVFX, transform.position, Quaternion.identity, transform);
         }
         else

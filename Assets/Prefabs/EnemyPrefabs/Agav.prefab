@@ -167,10 +167,8 @@ MonoBehaviour:
     atkPerDex: 2
     hpPerSta: 25
     defPerSta: 5
-    attacks:
-    - {fileID: 0}
-    MagicAttacks:
-    - {fileID: 0}
+    attacks: []
+    MagicAttacks: []
     EnemyType: 0
     rarity: 0
   PossibleSkills:

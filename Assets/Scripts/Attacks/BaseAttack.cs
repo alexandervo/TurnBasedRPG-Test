@@ -8,6 +8,7 @@ public class BaseAttack : MonoBehaviour
     public string attackName;
     public string attackDescription;
     public string attackType;
+    public string attackTargets;
     public Animation attackVFX;
     public float minDamage;
     public float maxDamage;

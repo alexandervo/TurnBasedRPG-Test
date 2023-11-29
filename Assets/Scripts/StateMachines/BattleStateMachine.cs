@@ -66,7 +66,7 @@ public class BattleStateMachine : MonoBehaviour
         for (int i = 0; i < GameManager.instance.enemyAmount; i++)
         {
             GameObject NewEnemy = Instantiate(GameManager.instance.enemysToBattle[i], spawnPoints[i].position, Quaternion.identity) as GameObject;
-            NewEnemy.name = NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName + " [" + (i+1) + "]";
+            NewEnemy.name = NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName + " " + (i+1);
             NewEnemy.GetComponent<EnemyStateMachine>().enemy.theName = NewEnemy.name;
             EnemysInBattle.Add(NewEnemy);
         }
@@ -101,7 +101,7 @@ public class BattleStateMachine : MonoBehaviour
         switch (battleStates)
         {
             case (PerformAction.WAIT):
-                    if (PerformList.Count > 1)
+                    if (PerformList.Count >= 1)
                 {
                     battleStates = PerformAction.TAKEACTION;
                 }
@@ -164,6 +164,14 @@ public class BattleStateMachine : MonoBehaviour
             case (PerformAction.LOSE):
                 {
                     Debug.Log("You lost the battle");
+                    for (int i = 0; i < HerosInBattle.Count; i++)
+                    {
+                        HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
+                    }
+
+                    GameManager.instance.LoadSceneAfterBattle();
+                    GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+                    GameManager.instance.enemysToBattle.Clear();
                 }
                 break;
 
