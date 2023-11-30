@@ -142,6 +142,8 @@ MonoBehaviour:
     curMP: 50
     baseATK: 15
     curATK: 15
+    baseMATK: 50
+    curMATK: 50
     maxATK: 25
     minATK: 10
     baseDEF: 10

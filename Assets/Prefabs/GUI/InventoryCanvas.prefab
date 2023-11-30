@@ -170,7 +170,6 @@ RectTransform:
   - {fileID: 6909772828481952067}
   - {fileID: 1315599879616752112}
   - {fileID: 5169606133322343915}
-  - {fileID: 4733961966481157785}
   - {fileID: 2433159176118524633}
   - {fileID: 2464228990104372012}
   m_Father: {fileID: 0}
@@ -979,59 +978,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &7740039805944989663
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4733961966481157785}
-  - component: {fileID: 767958358994332282}
-  m_Layer: 5
-  m_Name: Inventory Input
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &4733961966481157785
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7740039805944989663}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8268766757247207159}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &767958358994332282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7740039805944989663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9d9a5919f0b0d6489870ac3011ac335, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterPanelGameObject: {fileID: 852689536190365871}
-  equipmentPanelGameObject: {fileID: 853102933134240715}
-  toggleCharacterPanelKeys: 6300000069000000
-  toggleInventoryKeys: 62000000
-  showAndHideMouse: 0
 --- !u!1001 &852267392657248235
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1980,11 +1926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &852689536190365871 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1829793853738820, guid: dc69fe1bf2b466941ba986adc552cb2a, type: 3}
-  m_PrefabInstance: {fileID: 852267392657248235}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &852967563880925739 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1554535276758464, guid: dc69fe1bf2b466941ba986adc552cb2a, type: 3}

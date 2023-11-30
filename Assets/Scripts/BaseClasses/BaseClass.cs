@@ -22,6 +22,9 @@ public class BaseClass
     public float baseATK;
     public float curATK;
 
+    public float baseMATK = 50;
+    public float curMATK = 50;
+
     public float maxATK;
     public float minATK;
 
