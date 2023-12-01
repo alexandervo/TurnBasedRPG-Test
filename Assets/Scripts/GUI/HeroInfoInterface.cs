@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
@@ -10,11 +11,12 @@ public class HeroInfoInterface : MonoBehaviour
     [SerializeField] GameObject TestHero;
     [SerializeField] Transform HeroListDisplay;
     [SerializeField] GameObject button;
-    //public TMP_Text buttonText;
+
+    public List<GameObject> heroList = new List<GameObject>();
 
     //Main information and stat display
     [Header("Display Information")]
-    public TMP_Text heroListName;
+    //public TMP_Text heroListName;
     public TMP_Text heroSlots;
 
     public TMP_Text heroName;
@@ -105,7 +107,7 @@ public class HeroInfoInterface : MonoBehaviour
     public float defPerSta = 5;
 
     //test
-    private string[] cars = { "Volvo", "BMW", "Ford", "Mazda" };
+    private string[] chars = { "Novice", "Elemental", "Merchant", "Scholar" };
 
     private void Start()
     {
@@ -120,24 +122,18 @@ public class HeroInfoInterface : MonoBehaviour
 
         curStatpts = TestHero.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
 
+        
+
     }
 
     void CreateFewButtons()
     {
-        //Button = Instantiate(Button) as GameObject;
-        //Button.GetComponent<TextMeshProUGUI>().text = "Test1";
-
-        //ProgressBar = stats.ProgressBar;
-        //Button.transform.SetParent(HeroListDisplay, false);
-        foreach (string i in cars)
+        foreach (string i in chars)
         {
-            GameObject AttackButton = Instantiate(button) as GameObject;
-            //Text AttackButtonText = AttackButton.transform.Find("Text").gameObject.GetComponent<Text>();
-            //AttackButtonText.text = "Attack";
-            //AttackButton.GetComponent<Button>().onClick.AddListener(() => UpdateStats());
-            //AttackButton.GetComponent<TextMeshProUGUI>().text = "Hero" + (i+1);
-            Debug.Log(AttackButton.GetComponentInChildren<TextMeshProUGUI>().text);
-            AttackButton.transform.SetParent(HeroListDisplay, false);
+            GameObject Btn = Instantiate(button);
+            Btn.GetComponentInChildren<TextMeshProUGUI>().text = i;
+            Btn.GetComponent<Button>().onClick.AddListener(() => Clean());
+            Btn.transform.SetParent(HeroListDisplay, false);
         }
 
     }
@@ -322,7 +318,7 @@ public class HeroInfoInterface : MonoBehaviour
 
     public void UpdateStats()
     {
-        heroListName.text = TestHero.GetComponent<HeroStateMachine>().hero.theName;
+        //heroListName.text = TestHero.GetComponent<HeroStateMachine>().hero.theName;
 
         heroName.text = TestHero.GetComponent<HeroStateMachine>().hero.theName;
         heroLevel.text = TestHero.GetComponent<HeroStateMachine>().hero.level.currentlevel.ToString();
