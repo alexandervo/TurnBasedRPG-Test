@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-using UnityEngine.UIElements;
 
 public class HeroInfoInterface : MonoBehaviour
 {
     [SerializeField] GameObject HeroInfoPanelGameObject;
     [SerializeField] GameObject TestHero;
+    [SerializeField] Transform HeroListDisplay;
+    [SerializeField] GameObject button;
+    //public TMP_Text buttonText;
 
     //Main information and stat display
     [Header("Display Information")]
@@ -101,22 +104,14 @@ public class HeroInfoInterface : MonoBehaviour
     public float hpPerSta = 25;
     public float defPerSta = 5;
 
-    //Not used anywhere? Delete bit later
-    //public float curHP;
-    //public float curMP;
-    //public float curAtk;
-    //public float curMatk;
-    //public float curdDef;
-
-    //public float curCrit;
-    //public float curDodge;
-    //public float curHit;
-    //public float curSpeed;
+    //test
+    private string[] cars = { "Volvo", "BMW", "Ford", "Mazda" };
 
     private void Start()
     {
         UpdateStats();
         UpdateDisplayStats();
+        CreateFewButtons();
         curStr = TestHero.GetComponent<HeroStateMachine>().hero.strength;
         curInt = TestHero.GetComponent<HeroStateMachine>().hero.intellect;
         curDex = TestHero.GetComponent<HeroStateMachine>().hero.dexterity;
@@ -125,20 +120,27 @@ public class HeroInfoInterface : MonoBehaviour
 
         curStatpts = TestHero.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
 
+    }
 
-        //Not used anywhere? Delete bit later
-        //curHP = TestHero.GetComponent<HeroStateMachine>().hero.baseHP;
-        //curMP = TestHero.GetComponent<HeroStateMachine>().hero.baseMP;
-        //curAtk = TestHero.GetComponent<HeroStateMachine>().hero.baseATK;
-        //curMatk = TestHero.GetComponent<HeroStateMachine>().hero.baseMATK;
-        //curdDef = TestHero.GetComponent<HeroStateMachine>().hero.baseDEF;
+    void CreateFewButtons()
+    {
+        //Button = Instantiate(Button) as GameObject;
+        //Button.GetComponent<TextMeshProUGUI>().text = "Test1";
 
-        //curCrit = TestHero.GetComponent<HeroStateMachine>().hero.baseCRIT;
+        //ProgressBar = stats.ProgressBar;
+        //Button.transform.SetParent(HeroListDisplay, false);
+        foreach (string i in cars)
+        {
+            GameObject AttackButton = Instantiate(button) as GameObject;
+            //Text AttackButtonText = AttackButton.transform.Find("Text").gameObject.GetComponent<Text>();
+            //AttackButtonText.text = "Attack";
+            //AttackButton.GetComponent<Button>().onClick.AddListener(() => UpdateStats());
+            //AttackButton.GetComponent<TextMeshProUGUI>().text = "Hero" + (i+1);
+            Debug.Log(AttackButton.GetComponentInChildren<TextMeshProUGUI>().text);
+            AttackButton.transform.SetParent(HeroListDisplay, false);
+        }
 
-        //curDodge = TestHero.GetComponent<HeroStateMachine>().hero.baseDodge;
-        //curHit = TestHero.GetComponent<HeroStateMachine>().hero.baseHit;
-        //curSpeed = TestHero.GetComponent<HeroStateMachine>().hero.baseSpeed;
-}
+    }
 
     public void DecrStatpointDisplay()
     {
@@ -462,8 +464,7 @@ public class HeroInfoInterface : MonoBehaviour
             TestHero.GetComponent<HeroStateMachine>().hero.curSpeed = TestHero.GetComponent<HeroStateMachine>().hero.baseSpeed;
 
             Clean();
-            UpdateStats();
-            UpdateDisplayStats();
+
         }
     }
 
@@ -485,6 +486,9 @@ public class HeroInfoInterface : MonoBehaviour
         addedDodge = 0;
         addedHit = 0;
         addedSpeed = 0;
+
+        UpdateStats();
+        UpdateDisplayStats();
     }
 
     void CalculateStatBonus()
@@ -516,4 +520,11 @@ public class HeroInfoInterface : MonoBehaviour
         //calculate speed based on stats
         addedSpeed = Mathf.Round(addedAgi * spdPerAgi);
     }
+
+    void OnDisable()
+    {
+        Clean();
+
+    }
+
 }
