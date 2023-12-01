@@ -2504,8 +2504,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 68929266}
   m_HandleRect: {fileID: 68929265}
   m_Direction: 2
-  m_Value: -0.0000013025933
-  m_Size: 0.70400465
+  m_Value: 0.0000010854947
+  m_Size: 0.7039687
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11653,6 +11653,11 @@ MonoBehaviour:
   heroStatpts: {fileID: 1966668650}
   heroLoyalty: {fileID: 2045483088}
   heroExp: {fileID: 1889095394}
+  newStr: 0
+  newInt: 0
+  newDex: 0
+  newAgi: 0
+  newSta: 0
 --- !u!1 &1354031691
 GameObject:
   m_ObjectHideFlags: 0
@@ -11687,7 +11692,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 70.284996}
+  m_AnchoredPosition: {x: 0, y: 70.28489}
   m_SizeDelta: {x: 170, y: 237.453}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1354031693
