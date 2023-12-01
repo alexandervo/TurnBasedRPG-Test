@@ -59,7 +59,7 @@ public class HeroStateMachine : MonoBehaviour
 
     private void Awake()
     {
-        SetParams();
+        //SetParams();
         hero.level = new Level(1, OnLevelUp);
         //UpdateHeroPanel();
        
@@ -362,7 +362,7 @@ public class HeroStateMachine : MonoBehaviour
         }
     }
 
-    private void SetParams()
+    /* private void SetParams()
     {
         //Calculate HP based on Stats
         hero.baseHP = Mathf.Round(hero.strength * hero.hpPerStr) + (hero.stamina * hero.hpPerSta);
@@ -398,6 +398,7 @@ public class HeroStateMachine : MonoBehaviour
         hero.baseSpeed = Mathf.Round(hero.agility * hero.spdPerAgi);
         hero.curSpeed = hero.baseSpeed;
     }
+    */
 
     void DodgePopup()
     {
@@ -434,7 +435,7 @@ public class HeroStateMachine : MonoBehaviour
         hero.dexterity += hero.statIncreasePerLevel;
         hero.agility += hero.statIncreasePerLevel;
         hero.stamina += hero.statIncreasePerLevel;
-        SetParams();
+        //SetParams();
         //UpdateHeroPanel();
     }
 
