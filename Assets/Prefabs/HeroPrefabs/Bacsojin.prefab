@@ -157,11 +157,11 @@ MonoBehaviour:
     baseDodge: 0
     baseHit: 0
     curHit: 0
-    strength: 99
-    intellect: 24
-    dexterity: 14
+    strength: 100
+    intellect: 28
+    dexterity: 21
     agility: 61
-    stamina: 30
+    stamina: 80
     hpPerStr: 10
     atkPerStr: 5
     mpPerInt: 5

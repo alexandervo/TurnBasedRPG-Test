@@ -723,7 +723,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1053557087}
+  m_Father: {fileID: 1329592624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1743,7 +1743,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 224353272}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: DecrInt
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &224353272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1864,7 +1876,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 224468240}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: IncrSta
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &224468240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2480,8 +2504,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 68929266}
   m_HandleRect: {fileID: 68929265}
   m_Direction: 2
-  m_Value: -0.00000043419737
-  m_Size: 0.70400447
+  m_Value: -0.0000013025933
+  m_Size: 0.70400465
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3282,7 +3306,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8268766757247207159, guid: e9ea31f7cf8d01e49a5db3488641337e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 72491867}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9ea31f7cf8d01e49a5db3488641337e, type: 3}
 --- !u!1 &300167728
@@ -4086,7 +4113,7 @@ GameObject:
   - component: {fileID: 405424234}
   - component: {fileID: 405424233}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: StatsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5599,7 +5626,7 @@ GameObject:
   - component: {fileID: 637642898}
   - component: {fileID: 637642897}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: AvatarPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6603,7 +6630,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 737848577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: IncrInt
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &737848577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7173,7 +7212,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 791492847}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: IncrStr
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &791492847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7330,7 +7393,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 795982584}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: DecrAgi
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &795982584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8666,7 +8741,7 @@ GameObject:
   - component: {fileID: 1053557090}
   - component: {fileID: 1053557089}
   - component: {fileID: 1053557088}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8686,7 +8761,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1344140941}
-  - {fileID: 72491867}
   m_Father: {fileID: 1134033510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8755,7 +8829,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!1 &1063194393
 GameObject:
@@ -10958,7 +11032,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1296273916}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: IncrAgi
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1296273916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11228,7 +11314,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1318956428}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140940}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1318956428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11354,7 +11452,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1331591580}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: DecrStr
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1331591580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11467,7 +11577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.00012207031, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344140942
@@ -11520,6 +11630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca97c3aa73980e2498e860ba2ebeb3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HeroInfoPanelGameObject: {fileID: 1344140940}
   TestHero: {fileID: 3994671865931211291, guid: 79cc6e993ba0c834dbb852818d38298e, type: 3}
   heroListName: {fileID: 76126929}
   heroSlots: {fileID: 2012725535}
@@ -11539,7 +11650,7 @@ MonoBehaviour:
   heroDex: {fileID: 1763652338}
   heroAgi: {fileID: 1602413718}
   heroSta: {fileID: 891380058}
-  heroPts: {fileID: 1966668650}
+  heroStatpts: {fileID: 1966668650}
   heroLoyalty: {fileID: 2045483088}
   heroExp: {fileID: 1889095394}
 --- !u!1 &1354031691
@@ -11576,7 +11687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 70.28497}
+  m_AnchoredPosition: {x: 0, y: 70.284996}
   m_SizeDelta: {x: 170, y: 237.453}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1354031693
@@ -12401,7 +12512,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1459301939}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: IncrDex
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1459301939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12946,7 +13069,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1570588631}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: DecrSta
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1570588631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14320,7 +14455,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1800122872}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1344140944}
+        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
+        m_MethodName: DecrDex
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1800122872
 MonoBehaviour:
   m_ObjectHideFlags: 0
