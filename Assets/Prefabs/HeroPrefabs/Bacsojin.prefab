@@ -136,14 +136,14 @@ MonoBehaviour:
       MAX_EXP: 0
       NEXT_EXP: 0
       MAX_LEVEL: 0
-    baseHP: 1000
-    curHP: 1000
+    baseHP: 1100
+    curHP: 1100
     baseMP: 50
     curMP: 50
-    baseATK: 15
-    curATK: 15
-    baseMATK: 50
-    curMATK: 50
+    baseATK: 65
+    curATK: 65
+    baseMATK: 100
+    curMATK: 100
     maxATK: 25
     minATK: 10
     baseDEF: 10
@@ -155,18 +155,18 @@ MonoBehaviour:
     curSpeed: 14
     curDodge: 0
     baseDodge: 0
-    baseHit: 0
-    curHit: 0
-    strength: 100
+    baseHit: 14
+    curHit: 14
+    strength: 110
     intellect: 28
-    dexterity: 21
+    dexterity: 28
     agility: 61
     stamina: 80
     attacks:
     - {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
     MagicAttacks:
     - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    unspentStatPoints: 50
+    unspentStatPoints: 64
     maxRage: 150
     curRage: 0
     statpointsPerLevel: 5

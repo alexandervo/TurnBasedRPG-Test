@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4469841159587240542}
   - component: {fileID: 818527997604542632}
   - component: {fileID: 8727525618429059032}
+  - component: {fileID: 2030431252792848154}
   m_Layer: 5
   m_Name: HeroInListButton
   m_TagString: Untagged
@@ -121,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 41258921429660790, guid: bc323d209dc2cce4cb2dee6dddfc2a0f, type: 3}
-        m_TargetAssemblyTypeName: HeroInfoInterface, Assembly-CSharp
-        m_MethodName: Clean
+      - m_Target: {fileID: 2030431252792848154}
+        m_TargetAssemblyTypeName: HeroOrderInList, Assembly-CSharp
+        m_MethodName: TransmitNumber
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -133,6 +134,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2030431252792848154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774544648219994839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4112a5be9821c14468f1e8fb8256d55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listOrder: 0
 --- !u!1 &7704966356477723801
 GameObject:
   m_ObjectHideFlags: 0

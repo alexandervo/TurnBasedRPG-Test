@@ -8,11 +8,15 @@ using TMPro;
 public class HeroInfoInterface : MonoBehaviour
 {
     [SerializeField] GameObject HeroInfoPanelGameObject;
-    [SerializeField] GameObject TestHero;
+    //[SerializeField] GameObject TestHero;
     [SerializeField] Transform HeroListDisplay;
     [SerializeField] GameObject button;
 
     public List<GameObject> heroList = new List<GameObject>();
+    public List<Button> buttonList = new List<Button>();
+
+    [Header("TEST")]
+    [SerializeField] GameObject heroPrefab;
 
     //Main information and stat display
     [Header("Display Information")]
@@ -87,12 +91,14 @@ public class HeroInfoInterface : MonoBehaviour
     public float addedSpeed;
 
     [Header("Temporal display values")]
-    public int curStr;
-    public int curInt;
-    public int curDex;
-    public int curAgi;
-    public int curSta;
+    //public int curStr;
+    //public int curInt;
+    //public int curDex;
+    //public int curAgi;
+    //public int curSta;
     public int curStatpts;
+
+    public int curSlots;
 
     [Header("Attribute multipliers")]
     public float hpPerStr = 10;
@@ -106,41 +112,70 @@ public class HeroInfoInterface : MonoBehaviour
     public float hpPerSta = 25;
     public float defPerSta = 5;
 
-    //test
-    private string[] chars = { "Novice", "Elemental", "Merchant", "Scholar" };
+
+    private void Awake()
+    {
+        heroPrefab = heroList[0];
+        CreateCharNameButtons2();
+
+    }
 
     private void Start()
     {
         UpdateStats();
+        SetCurStats();
         UpdateDisplayStats();
-        CreateFewButtons();
-        curStr = TestHero.GetComponent<HeroStateMachine>().hero.strength;
-        curInt = TestHero.GetComponent<HeroStateMachine>().hero.intellect;
-        curDex = TestHero.GetComponent<HeroStateMachine>().hero.dexterity;
-        curAgi = TestHero.GetComponent<HeroStateMachine>().hero.agility;
-        curSta = TestHero.GetComponent<HeroStateMachine>().hero.stamina;
-
-        curStatpts = TestHero.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
-
-        
-
+        AssignClickEvents();
     }
 
-    void CreateFewButtons()
+    public void CreateCharNameButtons2()
     {
-        foreach (string i in chars)
+        for (int i = 0; i < heroList.Count; i++)
         {
             GameObject Btn = Instantiate(button);
-            Btn.GetComponentInChildren<TextMeshProUGUI>().text = i;
-            Btn.GetComponent<Button>().onClick.AddListener(() => Clean());
+            Btn.GetComponentInChildren<TextMeshProUGUI>().text = heroList[i].GetComponent<HeroStateMachine>().hero.theName;
+            Btn.GetComponent<HeroOrderInList>().listOrder = i;
+            int a = i;
+            Btn.GetComponent<Button>().onClick.AddListener(() => { EnableHeroEditing(a); });
+            //Debug.Log("Iteration " + i);
             Btn.transform.SetParent(HeroListDisplay, false);
+            buttonList.Add(Btn.GetComponent<Button>());
         }
+    }
 
+
+    private void AssignClickEvents()
+    {
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            int a = i;
+            buttonList[i].GetComponent<Button>().onClick.AddListener(() => { EnableHeroEditing(a); });
+        }
+    }
+    public void EnableHeroEditing(int a)
+    {
+        Debug.Log(a);
+        heroPrefab = heroList[a];
+        SetCurStats();
+        UpdateStats();
+        curStatpts = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
+        Debug.Log(curStatpts);
     }
 
     public void DecrStatpointDisplay()
     {
         heroStatptsPre.text = "-" + addedStatpts.ToString();
+    }
+
+    void SetCurStats()
+    {
+        //curStr = heroPrefab.GetComponent<HeroStateMachine>().hero.strength;
+        //curInt = heroPrefab.GetComponent<HeroStateMachine>().hero.intellect;
+        //curDex = heroPrefab.GetComponent<HeroStateMachine>().hero.dexterity;
+        //curAgi = heroPrefab.GetComponent<HeroStateMachine>().hero.agility;
+        //curSta = heroPrefab.GetComponent<HeroStateMachine>().hero.stamina;
+
+        
     }
 
     public void IncrStr()
@@ -318,32 +353,35 @@ public class HeroInfoInterface : MonoBehaviour
 
     public void UpdateStats()
     {
-        //heroListName.text = TestHero.GetComponent<HeroStateMachine>().hero.theName;
+        if (heroPrefab != null)
+        {
+            //heroListName.text = heroPrefab.GetComponent<HeroStateMachine>().hero.theName;
+            heroSlots.text = heroList.Count.ToString() + " / " + heroList.Count.ToString();
+            heroName.text = heroPrefab.GetComponent<HeroStateMachine>().hero.theName.ToString();
+            heroLevel.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.currentlevel.ToString();
 
-        heroName.text = TestHero.GetComponent<HeroStateMachine>().hero.theName;
-        heroLevel.text = TestHero.GetComponent<HeroStateMachine>().hero.level.currentlevel.ToString();
+            heroHP.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curHP.ToString() + " / " + heroPrefab.GetComponent<HeroStateMachine>().hero.baseHP.ToString();
+            heroMP.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curMP.ToString() + " / " + heroPrefab.GetComponent<HeroStateMachine>().hero.baseMP.ToString();
 
-        heroHP.text = TestHero.GetComponent<HeroStateMachine>().hero.curHP.ToString() + " / " + TestHero.GetComponent<HeroStateMachine>().hero.baseHP.ToString();
-        heroMP.text = TestHero.GetComponent<HeroStateMachine>().hero.curMP.ToString() + " / " + TestHero.GetComponent<HeroStateMachine>().hero.baseMP.ToString();
+            heroAtk.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curATK.ToString();
+            heroMatk.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curMATK.ToString();
+            heroDef.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curDEF.ToString();
 
-        heroAtk.text = TestHero.GetComponent<HeroStateMachine>().hero.curATK.ToString();
-        heroMatk.text = TestHero.GetComponent<HeroStateMachine>().hero.curMATK.ToString();
-        heroDef.text = TestHero.GetComponent<HeroStateMachine>().hero.curDEF.ToString();
+            heroDodge.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curDodge.ToString();
+            heroHit.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curHit.ToString();
+            heroCrit.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curCRIT.ToString();
+            heroSpeed.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curSpeed.ToString();
 
-        heroDodge.text = TestHero.GetComponent<HeroStateMachine>().hero.curDodge.ToString();
-        heroHit.text = TestHero.GetComponent<HeroStateMachine>().hero.curHit.ToString();
-        heroCrit.text = TestHero.GetComponent<HeroStateMachine>().hero.curCRIT.ToString();
-        heroSpeed.text = TestHero.GetComponent<HeroStateMachine>().hero.curSpeed.ToString();
+            heroStr.text = heroPrefab.GetComponent<HeroStateMachine>().hero.strength.ToString();
+            heroInt.text = heroPrefab.GetComponent<HeroStateMachine>().hero.intellect.ToString();
+            heroDex.text = heroPrefab.GetComponent<HeroStateMachine>().hero.dexterity.ToString();
+            heroAgi.text = heroPrefab.GetComponent<HeroStateMachine>().hero.agility.ToString();
+            heroSta.text = heroPrefab.GetComponent<HeroStateMachine>().hero.stamina.ToString();
 
-        heroStr.text = TestHero.GetComponent<HeroStateMachine>().hero.strength.ToString();
-        heroInt.text = TestHero.GetComponent<HeroStateMachine>().hero.intellect.ToString();
-        heroDex.text = TestHero.GetComponent<HeroStateMachine>().hero.dexterity.ToString();
-        heroAgi.text = TestHero.GetComponent<HeroStateMachine>().hero.agility.ToString();
-        heroSta.text = TestHero.GetComponent<HeroStateMachine>().hero.stamina.ToString();
+            heroStatpts.text = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints.ToString();
 
-        heroStatpts.text = TestHero.GetComponent<HeroStateMachine>().hero.unspentStatPoints.ToString();
-
-        heroExp.text = TestHero.GetComponent<HeroStateMachine>().hero.level.experience.ToString() + " / " + TestHero.GetComponent<HeroStateMachine>().hero.level.requiredExp.ToString();
+            heroExp.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.experience.ToString() + " / " + heroPrefab.GetComponent<HeroStateMachine>().hero.level.requiredExp.ToString();
+        }
     }
 
     public void UpdateDisplayStats()
@@ -427,37 +465,37 @@ public class HeroInfoInterface : MonoBehaviour
 
     public void FireStatIncrease()
     {
-        if (TestHero != null)
+        if (heroPrefab != null)
         {
-            TestHero.GetComponent<HeroStateMachine>().hero.strength += addedStr;
-            TestHero.GetComponent<HeroStateMachine>().hero.intellect += addedInt;
-            TestHero.GetComponent<HeroStateMachine>().hero.dexterity += addedDex;
-            TestHero.GetComponent<HeroStateMachine>().hero.agility += addedAgi;
-            TestHero.GetComponent<HeroStateMachine>().hero.stamina += addedSta;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.strength += addedStr;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.intellect += addedInt;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.dexterity += addedDex;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.agility += addedAgi;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.stamina += addedSta;
 
-            TestHero.GetComponent<HeroStateMachine>().hero.unspentStatPoints -= addedStatpts;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints -= addedStatpts;
 
-            TestHero.GetComponent<HeroStateMachine>().hero.baseHP += addedHP;
-            TestHero.GetComponent<HeroStateMachine>().hero.curHP = TestHero.GetComponent<HeroStateMachine>().hero.baseHP;
-            TestHero.GetComponent<HeroStateMachine>().hero.baseMP += addedMP;
-            TestHero.GetComponent<HeroStateMachine>().hero.curMP = TestHero.GetComponent<HeroStateMachine>().hero.baseMP;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseHP += addedHP;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curHP = heroPrefab.GetComponent<HeroStateMachine>().hero.baseHP;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseMP += addedMP;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curMP = heroPrefab.GetComponent<HeroStateMachine>().hero.baseMP;
 
 
-            TestHero.GetComponent<HeroStateMachine>().hero.baseATK += addedAtk;
-            TestHero.GetComponent<HeroStateMachine>().hero.curATK = TestHero.GetComponent<HeroStateMachine>().hero.baseATK;
-            TestHero.GetComponent<HeroStateMachine>().hero.baseMATK += addedMatk;
-            TestHero.GetComponent<HeroStateMachine>().hero.curMATK = TestHero.GetComponent<HeroStateMachine>().hero.baseMATK;
-            TestHero.GetComponent<HeroStateMachine>().hero.baseDEF += addedDef;
-            TestHero.GetComponent<HeroStateMachine>().hero.curDEF = TestHero.GetComponent<HeroStateMachine>().hero.baseDEF;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseATK += addedAtk;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curATK = heroPrefab.GetComponent<HeroStateMachine>().hero.baseATK;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseMATK += addedMatk;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curMATK = heroPrefab.GetComponent<HeroStateMachine>().hero.baseMATK;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseDEF += addedDef;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curDEF = heroPrefab.GetComponent<HeroStateMachine>().hero.baseDEF;
 
-            TestHero.GetComponent<HeroStateMachine>().hero.baseCRIT += addedCrit;
-            TestHero.GetComponent<HeroStateMachine>().hero.curCRIT = TestHero.GetComponent<HeroStateMachine>().hero.baseCRIT;
-            TestHero.GetComponent<HeroStateMachine>().hero.baseDodge += addedDodge;
-            TestHero.GetComponent<HeroStateMachine>().hero.curDodge = TestHero.GetComponent<HeroStateMachine>().hero.baseDodge;
-            TestHero.GetComponent<HeroStateMachine>().hero.baseHit += addedHit;
-            TestHero.GetComponent<HeroStateMachine>().hero.curHit = TestHero.GetComponent<HeroStateMachine>().hero.baseHit;
-            TestHero.GetComponent<HeroStateMachine>().hero.baseSpeed += addedSpeed;
-            TestHero.GetComponent<HeroStateMachine>().hero.curSpeed = TestHero.GetComponent<HeroStateMachine>().hero.baseSpeed;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseCRIT += addedCrit;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curCRIT = heroPrefab.GetComponent<HeroStateMachine>().hero.baseCRIT;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseDodge += addedDodge;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curDodge = heroPrefab.GetComponent<HeroStateMachine>().hero.baseDodge;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseHit += addedHit;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curHit = heroPrefab.GetComponent<HeroStateMachine>().hero.baseHit;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.baseSpeed += addedSpeed;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.curSpeed = heroPrefab.GetComponent<HeroStateMachine>().hero.baseSpeed;
 
             Clean();
 

@@ -142,6 +142,8 @@ MonoBehaviour:
     curMP: 50
     baseATK: 15
     curATK: 15
+    baseMATK: 50
+    curMATK: 50
     maxATK: 25
     minATK: 10
     baseDEF: 10
@@ -160,21 +162,11 @@ MonoBehaviour:
     dexterity: 24
     agility: 22
     stamina: 25
-    hpPerStr: 10
-    atkPerStr: 5
-    mpPerInt: 5
-    atkPerInt: 5
-    spdPerAgi: 2
-    dodgePerAgi: 3
-    hitPerDex: 2
-    atkPerDex: 2
-    hpPerSta: 25
-    defPerSta: 5
     attacks:
     - {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
     MagicAttacks:
     - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    unspentStatPoints: 0
+    unspentStatPoints: 98
     maxRage: 150
     curRage: 0
     statpointsPerLevel: 5
