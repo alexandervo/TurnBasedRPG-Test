@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 921685976, guid: c7c4c8c8abd8cbc4eaa352c2ea8041a1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9de15b6cccf08674784590afb35134b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -130,26 +130,26 @@ MonoBehaviour:
   hero:
     theName: Elemental
     level:
-      experience: 0
+      experience: 2525
       currentlevel: 0
       requiredExp: 0
       MAX_EXP: 0
       NEXT_EXP: 0
       MAX_LEVEL: 0
-    baseHP: 1000
-    curHP: 1000
+    baseHP: 1030
+    curHP: 1030
     baseMP: 50
     curMP: 50
-    baseATK: 15
-    curATK: 15
-    baseMATK: 50
-    curMATK: 50
+    baseATK: 30
+    curATK: 30
+    baseMATK: 65
+    curMATK: 65
     maxATK: 25
     minATK: 10
     baseDEF: 10
     curDEF: 10
-    baseCRIT: 0.25
-    curCRIT: 0.25
+    baseCRIT: 25
+    curCRIT: 25
     critDamage: 1.5
     baseSpeed: 24
     curSpeed: 24
@@ -157,7 +157,7 @@ MonoBehaviour:
     baseDodge: 0
     baseHit: 0
     curHit: 0
-    strength: 99
+    strength: 102
     intellect: 14
     dexterity: 24
     agility: 22
@@ -166,11 +166,12 @@ MonoBehaviour:
     - {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
     MagicAttacks:
     - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    unspentStatPoints: 65
+    unspentStatPoints: 62
     maxRage: 150
     curRage: 0
     statpointsPerLevel: 5
     statIncreasePerLevel: 1
+    heroAvatar: {fileID: 0}
   currentState: 0
   Selector: {fileID: 2010790414523205899}
   EnemyToAttack: {fileID: 0}

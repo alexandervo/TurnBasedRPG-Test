@@ -98,7 +98,7 @@ public class EnemyStateMachine : MonoBehaviour
 
         //create panel and fill in info
         //CreateEnemyPanel();
-        currentState = TurnState.PROCESSING;
+        currentState = TurnState.CHOOSEACTION;
         Selector.SetActive (false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine> ();
         startposition = transform.position;
@@ -113,8 +113,10 @@ public class EnemyStateMachine : MonoBehaviour
         switch (currentState)
         {
             case (TurnState.PROCESSING):
-                // UpgradeProgressBar ();
-                currentState = TurnState.CHOOSEACTION;
+                if(BSM.battleStates == PerformAction.WAIT)
+                {
+                    currentState = TurnState.CHOOSEACTION;
+                }
                 break;
 
             case (TurnState.CHOOSEACTION):
@@ -190,6 +192,7 @@ public class EnemyStateMachine : MonoBehaviour
     {
         HandleTurn myAttack = new HandleTurn();
         myAttack.Attacker = enemy.theName;
+        myAttack.attackersSpeed = enemy.curSpeed;
         myAttack.Type = "Enemy";
         myAttack.AttackersGameObject = this.gameObject;
         //Target choice: Randomly choose the target from list. Editable for later.
@@ -276,6 +279,8 @@ public class EnemyStateMachine : MonoBehaviour
         BSM.PerformList.RemoveAt(0);
         //reset the battle state machine -> set to wait
         BSM.battleStates = BattleStateMachine.PerformAction.WAIT;
+
+        //BSM.battleStates = BattleStateMachine.PerformAction.START;
         //end coroutine
         actionStarted = false;
         //reset this enemy state
@@ -307,7 +312,7 @@ public class EnemyStateMachine : MonoBehaviour
         //float calc_damage = enemy.curATK + BSM.PerformList[0].choosenAttack.attackDamage;
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
         //critical strikes
-        if (Random.Range(0f, 1f) <= enemy.curCRIT)
+        if (Random.Range(0, 100) <= enemy.curCRIT)
         {
             Debug.Log("Critical hit!");
             isCriticalE = true;
@@ -394,11 +399,11 @@ public class EnemyStateMachine : MonoBehaviour
     {
         //for randomness
 
-        enemy.strength = Random.Range(40, 70);
-        enemy.intellect = Random.Range(10, 30);
-        enemy.dexterity = Random.Range(50, 70);
-        enemy.agility = Random.Range(10, 20);
-        enemy.stamina = Random.Range(20, 40);
+        enemy.strength = Random.Range(10, 20);
+        enemy.intellect = Random.Range(10, 20);
+        enemy.dexterity = Random.Range(10, 20);
+        enemy.agility = Random.Range(1, 2);
+        enemy.stamina = Random.Range(10, 20);
 
         //Calculate HP based on Stats
         enemy.baseHP = Mathf.Round(enemy.strength * enemy.hpPerStr) + (enemy.stamina * enemy.hpPerSta);

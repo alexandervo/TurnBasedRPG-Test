@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class BattleStateMachine : MonoBehaviour
 {
     
     public enum PerformAction
     {
+        START,
         WAIT,
         //WAITFORINPUT,
         TAKEACTION,
@@ -24,6 +27,11 @@ public class BattleStateMachine : MonoBehaviour
 
     public List<GameObject> HerosInBattle = new List<GameObject>();
     public List<GameObject> EnemysInBattle = new List<GameObject> ();
+
+    public List<GameObject> Actors = new List<GameObject> ();
+    public int ChoicesMade = 0;
+    public int CurrentTurn = 1;
+    [SerializeField] private TMP_Text turnText;
 
     public enum HeroGUI
     {
@@ -98,15 +106,33 @@ public class BattleStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        turnText.text = "Current Turn: " + CurrentTurn;
+
         switch (battleStates)
         {
+            //case (PerformAction.WAIT):
+            //    if (PerformList.Count >= 1)
+            //    {
+            //        battleStates = PerformAction.TAKEACTION;
+            //    }
+            //    break;
             case (PerformAction.WAIT):
-                    if (PerformList.Count >= 1)
+                if (ChoicesMade >= HerosInBattle.Count)
                 {
-                    battleStates = PerformAction.TAKEACTION;
+                    if(PerformList.Count == 0)
+                    {
+                        ChoicesMade = 0;
+                        CurrentTurn++;
+                    }
+                    if (PerformList.Count >= 1)
+                    {
+                        battleStates = PerformAction.TAKEACTION;
+                    }
                 }
                 break;
             case (PerformAction.TAKEACTION):
+                PerformList = PerformList.OrderBy(x => x.attackersSpeed).ToList();
+                PerformList.Reverse();
                 GameObject performer = GameObject.Find(PerformList[0].Attacker);
                 if (PerformList[0].Type == "Enemy")
                 {
@@ -135,6 +161,7 @@ public class BattleStateMachine : MonoBehaviour
                     HSM.EnemyToAttack = PerformList[0].AttackersTarget;
                     HSM.currentState = HeroStateMachine.TurnState.ACTION;
                 }
+
                 battleStates = PerformAction.PERFORMACTION;
                 break;
 
@@ -194,7 +221,7 @@ public class BattleStateMachine : MonoBehaviour
         switch (HeroInput)
         {
             case (HeroGUI.ACTIVATE):
-                    if(HeroesToManage.Count > 0)
+                    if(HeroesToManage.Count >= 1 && ChoicesMade < HerosInBattle.Count)
                     {
                         HeroesToManage[0].transform.Find("Selector").gameObject.SetActive(true);
                         HeroChoise = new HandleTurn();
@@ -248,6 +275,7 @@ public class BattleStateMachine : MonoBehaviour
     public void Input1() //attack button
     {
         HeroChoise.Attacker = HeroesToManage[0].name; //might be changed
+        HeroChoise.attackersSpeed = HeroesToManage[0].GetComponent<HeroStateMachine>().hero.curSpeed;
         HeroChoise.AttackersGameObject = HeroesToManage[0];
         HeroChoise.Type = "Hero";
         HeroChoise.choosenAttack = HeroesToManage[0].GetComponent<HeroStateMachine>().hero.attacks[0];
@@ -264,6 +292,7 @@ public class BattleStateMachine : MonoBehaviour
     void HeroInputDone()
     {
         PerformList.Add(HeroChoise);
+        ChoicesMade++;
         //cleanup attack panel
         clearAttackPanel();
 

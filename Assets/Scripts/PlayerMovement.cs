@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
     private Vector2 movement;
     private Vector2 lastMove;
+    private Vector3 target;
     private Animator anim;
 
 
@@ -25,33 +26,29 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         transform.position = GameManager.instance.nextHeroPosition;
+        target = transform.position;
     }
 
     void Update()
     {
+        // Mouse input move
+        /*
+        if (Input.GetMouseButtonDown(1))
+        {
+            target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            target.z = transform.position.z;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+
+        */
+
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Move();
     }
 
     void FixedUpdate()
     {
-
-        /*if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.position += Vector3.up * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.position += Vector3.down * speed * Time.deltaTime;
-        }*/
 
         curPos = transform.position;
         if (curPos == lastPos)

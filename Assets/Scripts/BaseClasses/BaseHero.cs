@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class BaseHero : BaseClass
@@ -21,5 +22,8 @@ public class BaseHero : BaseClass
     [Header("Statpoint growth")]
     public int statpointsPerLevel = 5;
     public int statIncreasePerLevel = 1;
+
+    [Header("Avatar")]
+    public Image heroAvatar;
 
 }

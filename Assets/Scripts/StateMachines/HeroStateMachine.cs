@@ -236,7 +236,6 @@ public class HeroStateMachine : MonoBehaviour
         if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
         {
             BSM.battleStates = BattleStateMachine.PerformAction.WAIT;
-        
             //reset this enemy state
             //cur_cooldown = 0f;
             currentState = TurnState.PROCESSING;
@@ -309,7 +308,7 @@ public class HeroStateMachine : MonoBehaviour
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
         //play attack sprites
         //critical strikes
-        if (Random.Range(0f, 1f) <= hero.curCRIT)
+        if (Random.Range(0, 100) <= hero.curCRIT)
         {
             Debug.Log("Critical hit!");
             isCriticalH = true;

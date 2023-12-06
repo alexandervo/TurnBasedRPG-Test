@@ -139,12 +139,14 @@ MonoBehaviour:
     curMP: 10
     baseATK: 5
     curATK: 5
+    baseMATK: 50
+    curMATK: 50
     maxATK: 25
     minATK: 10
     baseDEF: 2
     curDEF: 2
-    baseCRIT: 0.25
-    curCRIT: 0.25
+    baseCRIT: 25
+    curCRIT: 25
     critDamage: 1.5
     baseSpeed: 15
     curSpeed: 15
@@ -157,6 +159,10 @@ MonoBehaviour:
     dexterity: 0
     agility: 0
     stamina: 0
+    attacks: []
+    MagicAttacks: []
+    EnemyType: 0
+    rarity: 0
     hpPerStr: 10
     atkPerStr: 5
     mpPerInt: 10
@@ -167,10 +173,6 @@ MonoBehaviour:
     atkPerDex: 2
     hpPerSta: 25
     defPerSta: 5
-    attacks: []
-    MagicAttacks: []
-    EnemyType: 0
-    rarity: 0
   PossibleSkills:
   - possibleSkill: {fileID: -826301957630506485, guid: 96935a23224caf34ea228d0cbcf534d9, type: 3}
     skillSpawnChance: 100

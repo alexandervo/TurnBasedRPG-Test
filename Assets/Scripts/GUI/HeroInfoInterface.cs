@@ -8,19 +8,18 @@ using TMPro;
 public class HeroInfoInterface : MonoBehaviour
 {
     [SerializeField] GameObject HeroInfoPanelGameObject;
-    //[SerializeField] GameObject TestHero;
-    [SerializeField] Transform HeroListDisplay;
-    [SerializeField] GameObject button;
+    [SerializeField] private Transform HeroListDisplay;
+    [SerializeField] private GameObject button;
 
     public List<GameObject> heroList = new List<GameObject>();
-    public List<Button> buttonList = new List<Button>();
+    public List<GameObject> buttonObject = new List<GameObject>();
 
-    [Header("TEST")]
-    [SerializeField] GameObject heroPrefab;
+    [Header("Current hero")]
+    public GameObject heroPrefab;
+    public int curStatpts;
 
     //Main information and stat display
     [Header("Display Information")]
-    //public TMP_Text heroListName;
     public TMP_Text heroSlots;
 
     public TMP_Text heroName;
@@ -71,112 +70,85 @@ public class HeroInfoInterface : MonoBehaviour
 
     //Variables for stat pre-levelling
     [Header("Will be added")]
-    public int addedStr;
-    public int addedInt;
-    public int addedDex;
-    public int addedAgi;
-    public int addedSta;
+    private int addedStr;
+    private int addedInt;
+    private int addedDex;
+    private int addedAgi;
+    private int addedSta;
+    
+    private int addedStatpts;
+    
+    private float addedHP;
+    private float addedMP;
+    private float addedAtk;
+    private float addedMatk;
+    private float addedDef;
+    
+    private float addedCrit;
+    private float addedDodge;
+    private float addedHit;
+    private float addedSpeed;
 
-    public int addedStatpts;
 
-    public float addedHP;
-    public float addedMP;
-    public float addedAtk;
-    public float addedMatk;
-    public float addedDef;
-
-    public float addedCrit;
-    public float addedDodge;
-    public float addedHit;
-    public float addedSpeed;
-
-    [Header("Temporal display values")]
-    //public int curStr;
-    //public int curInt;
-    //public int curDex;
-    //public int curAgi;
-    //public int curSta;
-    public int curStatpts;
-
-    public int curSlots;
 
     [Header("Attribute multipliers")]
     public float hpPerStr = 10;
-    public float atkPerStr = 5;
+    public float atkPerStr = 10;
     public float mpPerInt = 10;
-    public float atkPerInt = 5;
+    public float atkPerInt = 3;
     public float spdPerAgi = 2;
     public float dodgePerAgi = 3;
     public float hitPerDex = 2;
     public float atkPerDex = 2;
     public float hpPerSta = 25;
     public float defPerSta = 5;
+    public float matkPerInt = 10;
+    public float matkPerStr = 3;
 
 
     private void Awake()
     {
         heroPrefab = heroList[0];
-        CreateCharNameButtons2();
-
+        CreateCharNameButtons();
     }
 
     private void Start()
     {
         UpdateStats();
-        SetCurStats();
         UpdateDisplayStats();
-        AssignClickEvents();
     }
 
-    public void CreateCharNameButtons2()
+    public void CreateCharNameButtons()
     {
         for (int i = 0; i < heroList.Count; i++)
         {
             GameObject Btn = Instantiate(button);
             Btn.GetComponentInChildren<TextMeshProUGUI>().text = heroList[i].GetComponent<HeroStateMachine>().hero.theName;
+            if(i == 0)
+            {
+                Btn.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+            }
             Btn.GetComponent<HeroOrderInList>().listOrder = i;
-            int a = i;
-            Btn.GetComponent<Button>().onClick.AddListener(() => { EnableHeroEditing(a); });
-            //Debug.Log("Iteration " + i);
             Btn.transform.SetParent(HeroListDisplay, false);
-            buttonList.Add(Btn.GetComponent<Button>());
+            buttonObject.Add(Btn);
         }
     }
 
 
-    private void AssignClickEvents()
-    {
-        for (int i = 0; i < buttonList.Count; i++)
-        {
-            int a = i;
-            buttonList[i].GetComponent<Button>().onClick.AddListener(() => { EnableHeroEditing(a); });
-        }
-    }
+    //Set the hero to work with
+
     public void EnableHeroEditing(int a)
     {
-        Debug.Log(a);
+        for (int i = 0; i < buttonObject.Count; i++)
+        {
+            if(i != a)
+            buttonObject[i].GetComponentInChildren<TextMeshProUGUI>().color = new Color32(255, 203, 25, 255);
+        }
         heroPrefab = heroList[a];
-        SetCurStats();
-        UpdateStats();
-        curStatpts = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
-        Debug.Log(curStatpts);
+        Clean();
     }
 
-    public void DecrStatpointDisplay()
-    {
-        heroStatptsPre.text = "-" + addedStatpts.ToString();
-    }
-
-    void SetCurStats()
-    {
-        //curStr = heroPrefab.GetComponent<HeroStateMachine>().hero.strength;
-        //curInt = heroPrefab.GetComponent<HeroStateMachine>().hero.intellect;
-        //curDex = heroPrefab.GetComponent<HeroStateMachine>().hero.dexterity;
-        //curAgi = heroPrefab.GetComponent<HeroStateMachine>().hero.agility;
-        //curSta = heroPrefab.GetComponent<HeroStateMachine>().hero.stamina;
-
-        
-    }
+    //Code related to adding / removing / setting and displaying the hero stats
 
     public void IncrStr()
     {
@@ -185,7 +157,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedStr++;
             curStatpts--;
             addedStatpts++;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -202,7 +173,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedStr--;
             curStatpts++;
             addedStatpts--;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -221,7 +191,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedInt++;
             curStatpts--;
             addedStatpts++;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -238,7 +207,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedInt--;
             curStatpts++;
             addedStatpts--;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -256,7 +224,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedDex++;
             curStatpts--;
             addedStatpts++;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -273,7 +240,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedDex--;
             curStatpts++;
             addedStatpts--;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -290,7 +256,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedAgi++;
             curStatpts--;
             addedStatpts++;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -307,7 +272,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedAgi--;
             curStatpts++;
             addedStatpts--;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -324,7 +288,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedSta++;
             curStatpts--;
             addedStatpts++;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -341,7 +304,6 @@ public class HeroInfoInterface : MonoBehaviour
             addedSta--;
             curStatpts++;
             addedStatpts--;
-            DecrStatpointDisplay();
             CalculateStatBonus();
             UpdateDisplayStats();
         }
@@ -355,13 +317,13 @@ public class HeroInfoInterface : MonoBehaviour
     {
         if (heroPrefab != null)
         {
-            //heroListName.text = heroPrefab.GetComponent<HeroStateMachine>().hero.theName;
-            heroSlots.text = heroList.Count.ToString() + " / " + heroList.Count.ToString();
+            curStatpts = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
+            heroSlots.text = heroList.Count.ToString() + "/" + heroList.Count.ToString();
             heroName.text = heroPrefab.GetComponent<HeroStateMachine>().hero.theName.ToString();
             heroLevel.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.currentlevel.ToString();
 
-            heroHP.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curHP.ToString() + " / " + heroPrefab.GetComponent<HeroStateMachine>().hero.baseHP.ToString();
-            heroMP.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curMP.ToString() + " / " + heroPrefab.GetComponent<HeroStateMachine>().hero.baseMP.ToString();
+            heroHP.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curHP.ToString() + "/" + heroPrefab.GetComponent<HeroStateMachine>().hero.baseHP.ToString();
+            heroMP.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curMP.ToString() + "/" + heroPrefab.GetComponent<HeroStateMachine>().hero.baseMP.ToString();
 
             heroAtk.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curATK.ToString();
             heroMatk.text = heroPrefab.GetComponent<HeroStateMachine>().hero.curMATK.ToString();
@@ -380,7 +342,7 @@ public class HeroInfoInterface : MonoBehaviour
 
             heroStatpts.text = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints.ToString();
 
-            heroExp.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.experience.ToString() + " / " + heroPrefab.GetComponent<HeroStateMachine>().hero.level.requiredExp.ToString();
+            heroExp.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.experience.ToString() + "/" + heroPrefab.GetComponent<HeroStateMachine>().hero.level.requiredExp.ToString();
         }
     }
 
@@ -498,7 +460,6 @@ public class HeroInfoInterface : MonoBehaviour
             heroPrefab.GetComponent<HeroStateMachine>().hero.curSpeed = heroPrefab.GetComponent<HeroStateMachine>().hero.baseSpeed;
 
             Clean();
-
         }
     }
 
@@ -529,28 +490,20 @@ public class HeroInfoInterface : MonoBehaviour
     {
         //Calculate HP based on Stats
         addedHP = Mathf.Round(addedStr * hpPerStr) + (addedSta * hpPerSta);
-
         //Calculate MP based on stats
         addedMP = Mathf.Round(addedInt * mpPerInt);
-
         //Calculate Attack based on stats
-        addedAtk = Mathf.Round((addedStr * atkPerStr) + (addedInt * atkPerInt) / 10);
-
+        addedAtk = Mathf.Round((addedStr * atkPerStr) + (addedInt * atkPerInt));
         //Calculate magic Attack based on stats
-        addedMatk = Mathf.Round((addedStr * atkPerStr) + (addedInt * atkPerInt) / 10);
-
+        addedMatk = Mathf.Round((addedStr * matkPerStr) + (addedInt * matkPerInt));
         //Calculate HIT based on stats
         addedHit = Mathf.Round(addedDex * hitPerDex);
-
         //Calculate dodge based on stats
         addedDodge = Mathf.Round(addedAgi * dodgePerAgi);
-
         //calculate def based on stats
-        addedDef = Mathf.Round((addedSta * defPerSta) / 2);
-
+        addedDef = Mathf.Round((addedSta * defPerSta));
         //calculate critrate based on stats
         addedCrit = 0;
-
         //calculate speed based on stats
         addedSpeed = Mathf.Round(addedAgi * spdPerAgi);
     }
@@ -558,7 +511,6 @@ public class HeroInfoInterface : MonoBehaviour
     void OnDisable()
     {
         Clean();
-
     }
 
 }

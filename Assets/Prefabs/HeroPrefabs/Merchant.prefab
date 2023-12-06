@@ -130,7 +130,7 @@ MonoBehaviour:
   hero:
     theName: Merchant
     level:
-      experience: 0
+      experience: 2525
       currentlevel: 0
       requiredExp: 0
       MAX_EXP: 0
@@ -148,11 +148,11 @@ MonoBehaviour:
     minATK: 10
     baseDEF: 10
     curDEF: 10
-    baseCRIT: 0.25
-    curCRIT: 0.25
+    baseCRIT: 25
+    curCRIT: 25
     critDamage: 1.5
-    baseSpeed: 24
-    curSpeed: 24
+    baseSpeed: 32
+    curSpeed: 32
     curDodge: 0
     baseDodge: 0
     baseHit: 0
@@ -171,6 +171,7 @@ MonoBehaviour:
     curRage: 0
     statpointsPerLevel: 5
     statIncreasePerLevel: 1
+    heroAvatar: {fileID: 0}
   currentState: 0
   Selector: {fileID: 2010790414523205899}
   EnemyToAttack: {fileID: 0}

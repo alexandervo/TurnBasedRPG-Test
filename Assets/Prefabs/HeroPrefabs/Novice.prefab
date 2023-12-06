@@ -130,7 +130,7 @@ MonoBehaviour:
   hero:
     theName: Novice
     level:
-      experience: 0
+      experience: 2525
       currentlevel: 0
       requiredExp: 0
       MAX_EXP: 0
@@ -148,11 +148,11 @@ MonoBehaviour:
     minATK: 10
     baseDEF: 10
     curDEF: 10
-    baseCRIT: 0.25
-    curCRIT: 0.25
+    baseCRIT: 25
+    curCRIT: 25
     critDamage: 1.5
-    baseSpeed: 14
-    curSpeed: 14
+    baseSpeed: 5
+    curSpeed: 5
     curDodge: 0
     baseDodge: 0
     baseHit: 0
@@ -171,6 +171,7 @@ MonoBehaviour:
     curRage: 0
     statpointsPerLevel: 5
     statIncreasePerLevel: 1
+    heroAvatar: {fileID: 0}
   currentState: 0
   Selector: {fileID: 3077622072488657479}
   EnemyToAttack: {fileID: 0}

@@ -7,6 +7,7 @@ using UnityEngine;
 public class HandleTurn
 {
     public string Attacker; //name of attacker
+    public float attackersSpeed; //speed of the attacker
     public string Type; // 
     public GameObject AttackersGameObject; //who attacks
     public GameObject AttackersTarget; // who is attacked
