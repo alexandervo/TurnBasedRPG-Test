@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public class CountdownTest : MonoBehaviour
 {
     [SerializeField] TMP_Text countdownText;
-    float currentCount = 0f;
-    [SerializeField] float startingCount = 3f;
+    private float currentCount = 0f;
+    public float startingCount = 3f;
 
 
     void Start()

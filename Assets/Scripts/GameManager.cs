@@ -31,6 +31,11 @@ public class GameManager : MonoBehaviour
     //Battlers
     public List<GameObject> battleHeroes = new List<GameObject>();
 
+    //autobattle basic attacks test
+    public bool autoBattle = false;
+    public int autoBattleTurns = 50;
+    public int remainingAutobattleTurns = 50;
+
 
     //Positions
     public Vector3 nextHeroPosition;
