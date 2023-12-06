@@ -3,12 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static BattleStateMachine;
-using System.Linq.Expressions;
-using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 using UnityEditor;
 using static GameManager;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -399,22 +395,22 @@ public class EnemyStateMachine : MonoBehaviour
     {
         //for randomness
 
-        enemy.strength = Random.Range(10, 20);
-        enemy.intellect = Random.Range(10, 20);
-        enemy.dexterity = Random.Range(10, 20);
-        enemy.agility = Random.Range(1, 2);
-        enemy.stamina = Random.Range(10, 20);
+        enemy.strength = Random.Range(15, 25);
+        enemy.intellect = Random.Range(15, 25);
+        enemy.dexterity = Random.Range(15, 25);
+        enemy.agility = Random.Range(10, 25);
+        enemy.stamina = Random.Range(15, 25);
 
         //Calculate HP based on Stats
         enemy.baseHP = Mathf.Round(enemy.strength * enemy.hpPerStr) + (enemy.stamina * enemy.hpPerSta);
         enemy.curHP = enemy.baseHP;
 
         //Calculate MP based on stats
-        enemy.baseMP = Mathf.Round((enemy.intellect * enemy.mpPerInt) * 5);
+        enemy.baseMP = Mathf.Round(enemy.intellect * enemy.mpPerInt);
         enemy.curMP = enemy.baseMP;
 
         //Calculate Attack based on stats
-        enemy.baseATK = Mathf.Round((enemy.strength * enemy.atkPerStr) + (enemy.intellect * enemy.atkPerInt) / 10);
+        enemy.baseATK = Mathf.Round((enemy.strength * enemy.atkPerStr) + (enemy.intellect * enemy.atkPerInt));
         enemy.curATK = enemy.baseATK;
 
         enemy.maxATK = enemy.baseATK + Random.Range(10, 50);
@@ -429,7 +425,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemy.curDodge = enemy.baseDodge;
 
         //calculate def based on stats
-        enemy.baseDEF = Mathf.Round((enemy.stamina * enemy.defPerSta) / 2);
+        enemy.baseDEF = Mathf.Round(enemy.stamina * enemy.defPerSta);
         enemy.curDEF = enemy.baseDEF;
 
         //calculate critrate based on stats

@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
-using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
 
-    public SceneAsset sceneToLoad;
+    public string sceneToLoad;
     public GameObject spawnPoint;
     //GameState
-
 
 }

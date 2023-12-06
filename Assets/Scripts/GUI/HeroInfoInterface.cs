@@ -458,6 +458,8 @@ public class HeroInfoInterface : MonoBehaviour
             heroPrefab.GetComponent<HeroStateMachine>().hero.curHit = heroPrefab.GetComponent<HeroStateMachine>().hero.baseHit;
             heroPrefab.GetComponent<HeroStateMachine>().hero.baseSpeed += addedSpeed;
             heroPrefab.GetComponent<HeroStateMachine>().hero.curSpeed = heroPrefab.GetComponent<HeroStateMachine>().hero.baseSpeed;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.minATK = heroPrefab.GetComponent<HeroStateMachine>().hero.curATK;
+            heroPrefab.GetComponent<HeroStateMachine>().hero.maxATK = (heroPrefab.GetComponent<HeroStateMachine>().hero.minATK / 100) * 120;
 
             Clean();
         }

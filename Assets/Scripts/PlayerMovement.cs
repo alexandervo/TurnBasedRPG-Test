@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         {
             CollisionHandler col = other.gameObject.GetComponent<CollisionHandler>();
             GameManager.instance.nextHeroPosition = col.spawnPoint.transform.position;
-            GameManager.instance.sceneToLoad = col.sceneToLoad.name;
+            GameManager.instance.sceneToLoad = col.sceneToLoad;
             GameManager.instance.LoadNextScene();
         }
 
@@ -76,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
         {
             CollisionHandler col = other.gameObject.GetComponent<CollisionHandler>();
             GameManager.instance.nextHeroPosition = col.spawnPoint.transform.position;
-            GameManager.instance.sceneToLoad = col.sceneToLoad.name;
+            GameManager.instance.sceneToLoad = col.sceneToLoad;
             GameManager.instance.LoadNextScene();
         }
 

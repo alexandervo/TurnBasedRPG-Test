@@ -949,7 +949,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2051967067280294562, guid: 2258ffb7e290f4b4c94feeb7d1a2ef8f, type: 3}
       propertyPath: m_fontSize
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2051967067280294562, guid: 2258ffb7e290f4b4c94feeb7d1a2ef8f, type: 3}
       propertyPath: m_fontAsset
@@ -961,7 +961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2051967067280294562, guid: 2258ffb7e290f4b4c94feeb7d1a2ef8f, type: 3}
       propertyPath: m_fontSizeBase
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 2051967067280294562, guid: 2258ffb7e290f4b4c94feeb7d1a2ef8f, type: 3}
       propertyPath: m_sharedMaterial
@@ -1057,7 +1057,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8880139794569619624, guid: 2258ffb7e290f4b4c94feeb7d1a2ef8f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 104
+      value: 224
       objectReference: {fileID: 0}
     - target: {fileID: 8880139794569619624, guid: 2258ffb7e290f4b4c94feeb7d1a2ef8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1510,7 +1510,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000061035156, y: 2.269}
+  m_AnchoredPosition: {x: 0.000061035156, y: 2.2689972}
   m_SizeDelta: {x: 121.8327, y: 68.3824}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &670752459
@@ -2155,11 +2155,11 @@ RectTransform:
   - {fileID: 670752458}
   m_Father: {fileID: 307142385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 556.9385, y: 0.1714}
-  m_SizeDelta: {x: 126.123, y: 80.1553}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 20}
+  m_SizeDelta: {x: 126.123, y: 80.155304}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!225 &1347454219
 CanvasGroup:
   m_ObjectHideFlags: 0

@@ -839,8 +839,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8020960900274384088, guid: e8d92750a86b9f14e94c76cba061ad89, type: 3}
       propertyPath: sceneToLoad
-      value: 
-      objectReference: {fileID: 102900000, guid: 2786b85d724d17646b59f51c1686a86a, type: 3}
+      value: WorldMap
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

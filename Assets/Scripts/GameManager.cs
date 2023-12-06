@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     {
         public string regionName;
         public int maxAmountEnemys = 8;
-        public SceneAsset battleScene;
+        public string battleScene;
         public List<GameObject> possibleEnemys = new List<GameObject>();
     }
 
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         lastScene = SceneManager.GetActiveScene().name;
 
         //Load level
-        SceneManager.LoadScene(Regions[curRegions].battleScene.name);
+        SceneManager.LoadScene(Regions[curRegions].battleScene);
 
         //reset player character
         isWalking = false;
