@@ -28,22 +28,20 @@ public class BattleStateMachine : MonoBehaviour
 
     public List<GameObject> HerosInBattle = new List<GameObject>();
     public List<GameObject> EnemysInBattle = new List<GameObject> ();
-
-    public List<GameObject> Actors = new List<GameObject> ();
    
     //Turn things
     public int ChoicesMade = 0;
     public int CurrentTurn = 1;
-    [SerializeField] private TMP_Text turnText;
-    [SerializeField] private TMP_Text countdownText;
+
+
     private float currentCount = 0f;
     public float startingCount = 20f;
 
     //autobattle?
     public bool autoBattle = false;
-    public int abTurns;
-    public int abTurnsR;
-    [SerializeField] private TMP_Text autoText;
+    public int autobattleTurns;
+
+    private bool countdownTrigger = false;
 
     public enum HeroGUI
     {
@@ -65,7 +63,13 @@ public class BattleStateMachine : MonoBehaviour
     public GameObject AttackPanel;
     public GameObject EnemySelectPanel;
     public GameObject MagicPanel;
+    public GameObject AutoBattlePanel;
 
+    [SerializeField] private TMP_Text turnText;
+    [SerializeField] private TMP_Text countdownText;
+    //[SerializeField] private GameObject fightText;
+    //[SerializeField] private Transform battleCanvas;
+    [SerializeField] private TMP_Text autoText;
 
     //magic attack
     public Transform actionSpacer;
@@ -99,14 +103,20 @@ public class BattleStateMachine : MonoBehaviour
             HerosInBattle.Add(NewHero);
         }
 
+        autobattleTurns = GameManager.instance.remainingAutobattleTurns;
         if (GameManager.instance.autoBattle == true)
         {
-            abTurnsR = GameManager.instance.remainingAutobattleTurns;
-            if(abTurnsR > 0)
+            if(autobattleTurns > 0)
             {
                 autoBattle = true;
-                Debug.Log("Autobattle is on, remaining autobattle turns: " + abTurns);
+                AutoBattlePanel.SetActive(true);
+                autoText.text = "Autobattle: ON" + Environment.NewLine + "Turns left: " + autobattleTurns;
+                Debug.Log("Autobattle is on, remaining autobattle turns: " + autobattleTurns);
             }
+        }
+        else
+        {
+            autoText.text = "Autobattle: OFF";
         }
 
     }
@@ -136,15 +146,16 @@ public class BattleStateMachine : MonoBehaviour
         switch (battleStates)
         {
             case (PerformAction.WAIT):
-
+                countdownTrigger = false;
                 //countdown thingies
-                if (currentCount > 0)
+                if (currentCount > 1)
                 {
                     currentCount -= 1 * Time.deltaTime;
                     countdownText.text = currentCount.ToString("0");
                 }
                 else {
-                    countdownText.text = "Action Time!";
+                    countdownText.text = "";
+                    countdownTrigger = true;
                 }
 
                 //Battle things
@@ -156,15 +167,17 @@ public class BattleStateMachine : MonoBehaviour
                         CurrentTurn++;
                         if (autoBattle == true)
                         {
-                            abTurnsR--;
-                            if(abTurnsR <= 0)
+                            autobattleTurns--;
+                            GameManager.instance.remainingAutobattleTurns--;
+                            autoText.text = "Autobattle: ON" + Environment.NewLine + "Turns left: " + autobattleTurns;
+                            if (autobattleTurns <= 0)
                             {
                                 autoBattle = false;
+                                autoText.text = "Autobattle: OFF";
                             }
                         }
+                        
                         currentCount = startingCount;
-                        countdownText.text = "Action Time!";
-                        WaitABit(2);
                     }
                     if (PerformList.Count >= 1)
                     {
@@ -261,8 +274,6 @@ public class BattleStateMachine : MonoBehaviour
                 break;
         }
 
-        if (autoBattle == false)
-        {
             switch (HeroInput)
             {
                 case (HeroGUI.ACTIVATE):
@@ -271,25 +282,31 @@ public class BattleStateMachine : MonoBehaviour
                         HeroesToManage[0].transform.Find("Selector").gameObject.SetActive(true);
                         HeroChoise = new HandleTurn();
                         //populate action buttons
-                        if (autoBattle == false)
+                        AttackPanel.SetActive(true);
+                        HeroInput = HeroGUI.WAITING;
+                        if (autoBattle == true || countdownTrigger == true)
                         {
-                            AttackPanel.SetActive(true);
+                            AutoSelect();
+                        }
+                        else
+                        {
+                            //populate action buttons
                             CreateAttackButtons();
                         }
-                        HeroInput = HeroGUI.WAITING;
                     }
                     break;
                 case (HeroGUI.WAITING):
-                    if (autoBattle == true)
+                    //waiting for input
+                    if (countdownTrigger == true)
                     {
                         AutoSelect();
                     }
-                    break;
+                break;
                 case (HeroGUI.DONE):
                     HeroInputDone();
                     break;
             }
-        }
+        
     }
 
     public void CollectActions(HandleTurn input)
@@ -429,7 +446,7 @@ public class BattleStateMachine : MonoBehaviour
         GameObject AutoSelectButton = Instantiate(actionButton) as GameObject;
         Text AutoSelectButtonText = AutoSelectButton.transform.Find("Text").gameObject.GetComponent<Text>();
         AutoSelectButtonText.text = "Auto";
-        AutoSelectButton.GetComponent<Button>().onClick.AddListener(() => AutoSelect());
+        AutoSelectButton.GetComponent<Button>().onClick.AddListener(() => ToggleAutoBattle(true));
         AutoSelectButton.transform.SetParent(actionSpacer, false);
         atkBtns.Add(AutoSelectButton);
 
@@ -481,21 +498,47 @@ public class BattleStateMachine : MonoBehaviour
         GameManager.instance.enemysToBattle.Clear();
     }
 
-    public void ToggleAutoBattle()
+    public void ToggleAutoBattle(bool once)
     {
-        autoBattle = !autoBattle;
-        if(autoBattle == true)
+        if (once)
         {
-            autoText.text = "Auto: ON" + Environment.NewLine + "Turns: " + abTurnsR;
+            autoBattle = true;
+            AutoBattlePanel.SetActive(true);
         }
         else
         {
-            autoText.text = "Auto: OFF";
+            autoBattle = !autoBattle;
+        }
+        if (autoBattle)
+        {
+            GameManager.instance.autoBattle = true;
+            autobattleTurns = GameManager.instance.autoBattleTurns;
+            autoText.text = "Autobattle: ON" + Environment.NewLine + "Turns left: " + autobattleTurns;
+            if(HeroInput == HeroGUI.WAITING)
+            {
+                AutoSelect();
+            }
+        }
+        else
+        {
+            GameManager.instance.autoBattle = false;
+            autoText.text = "Autobattle: OFF";
         }
     }
 
-    IEnumerator WaitABit(int sec)
+    IEnumerator WaitABit(float sec)
     {
-        yield return new WaitForSeconds(sec);
+        yield return new WaitForSeconds(sec * Time.deltaTime);
     }
+
+    //void InstantiateFightText()
+    //{
+    //    already = false;
+    //    if(already == false)
+    //    {
+    //        GameObject FightText = Instantiate(fightText);
+    //        FightText.transform.SetParent(battleCanvas, false);
+    //        already = true;
+    //    }
+    //}
 }

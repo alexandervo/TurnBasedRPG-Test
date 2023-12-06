@@ -130,20 +130,20 @@ MonoBehaviour:
   hero:
     theName: Merchant
     level:
-      experience: 2525
-      currentlevel: 0
+      experience: 0
+      currentlevel: 10
       requiredExp: 0
       MAX_EXP: 0
       NEXT_EXP: 0
       MAX_LEVEL: 0
-    baseHP: 1000
-    curHP: 1000
-    baseMP: 50
-    curMP: 50
+    baseHP: 50
+    curHP: 50
+    baseMP: 25
+    curMP: 25
     baseATK: 15
     curATK: 15
-    baseMATK: 50
-    curMATK: 50
+    baseMATK: 10
+    curMATK: 10
     maxATK: 25
     minATK: 10
     baseDEF: 10
@@ -151,22 +151,22 @@ MonoBehaviour:
     baseCRIT: 25
     curCRIT: 25
     critDamage: 1.5
-    baseSpeed: 32
-    curSpeed: 32
-    curDodge: 0
-    baseDodge: 0
-    baseHit: 0
-    curHit: 0
-    strength: 99
-    intellect: 14
-    dexterity: 24
-    agility: 22
-    stamina: 25
+    baseSpeed: 5
+    curSpeed: 5
+    curDodge: 5
+    baseDodge: 5
+    baseHit: 8
+    curHit: 8
+    strength: 0
+    intellect: 0
+    dexterity: 0
+    agility: 0
+    stamina: 0
     attacks:
-    - {fileID: 9208878251435068248, guid: a6a0a16540f55824199d806a44a476e7, type: 3}
+    - {fileID: -826301957630506485, guid: 96935a23224caf34ea228d0cbcf534d9, type: 3}
     MagicAttacks:
     - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    unspentStatPoints: 76
+    unspentStatPoints: 125
     maxRage: 150
     curRage: 0
     statpointsPerLevel: 5
