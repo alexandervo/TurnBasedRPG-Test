@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8020960900274384088}
   m_Layer: 0
   m_Name: Portal
-  m_TagString: Untagged
+  m_TagString: EnterTown
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,10 +28,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909098067741771175}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.3, y: -4.2, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -155,5 +155,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f17c4b66e60510439661c7f4cfbfeb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: WorldMap
-  spawnPoint: {fileID: 2313426959200997582, guid: 11b355d2b8e4be0409bf62f99a38de01, type: 3}
+  sceneToLoad: Town
+  spawnPoint: {fileID: 4615336764748260433, guid: e59eafbc460687d4cafaf6ca5fa8f979, type: 3}
