@@ -171,7 +171,7 @@ MonoBehaviour:
     curRage: 0
     statpointsPerLevel: 5
     statIncreasePerLevel: 1
-    heroAvatar: {fileID: 0}
+    heroAvatar: {fileID: 4604788810205375258, guid: 86dbc6b50ba342040813b96ec28ee42c, type: 3}
   currentState: 0
   Selector: {fileID: 3077622072488657479}
   EnemyToAttack: {fileID: 0}

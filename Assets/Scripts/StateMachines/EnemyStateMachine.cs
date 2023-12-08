@@ -136,9 +136,9 @@ public class EnemyStateMachine : MonoBehaviour
                 else
                 {
                     //change tag of enemy
-                    this.gameObject.tag = "DeadEnemy";
+                    gameObject.tag = "DeadEnemy";
                     //not attackable by heroes
-                    BSM.EnemysInBattle.Remove(this.gameObject);
+                    BSM.EnemysInBattle.Remove(gameObject);
                     //disable the selector
                     Selector.SetActive (false);
                     //remove all inputs
@@ -148,11 +148,11 @@ public class EnemyStateMachine : MonoBehaviour
                         {
                             if (i != 0)
                             {
-                                if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                                if (BSM.PerformList[i].AttackersGameObject == gameObject)
                                 {
                                     BSM.PerformList.Remove(BSM.PerformList[i]);
                                 }
-                                if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                                else if (BSM.PerformList[i].AttackersTarget == gameObject)
                                 {
                                     BSM.PerformList[i].AttackersTarget = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
                                 }
@@ -160,7 +160,7 @@ public class EnemyStateMachine : MonoBehaviour
                         }
                     }
                     //change the color to gray / play death animation
-                    this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
+                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
                     //make not alive
                     alive = false;
                     //reset enemy buttons
@@ -190,7 +190,7 @@ public class EnemyStateMachine : MonoBehaviour
         myAttack.Attacker = enemy.theName;
         myAttack.attackersSpeed = enemy.curSpeed;
         myAttack.Type = "Enemy";
-        myAttack.AttackersGameObject = this.gameObject;
+        myAttack.AttackersGameObject = gameObject;
         //Target choice: Randomly choose the target from list. Editable for later.
         myAttack.AttackersTarget = BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)];
         

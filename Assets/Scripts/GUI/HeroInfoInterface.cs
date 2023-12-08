@@ -9,7 +9,10 @@ public class HeroInfoInterface : MonoBehaviour
 {
     [SerializeField] GameObject HeroInfoPanelGameObject;
     [SerializeField] private Transform HeroListDisplay;
+    [SerializeField] private Transform heroPicture;
     [SerializeField] private GameObject button;
+    private GameObject myAv;
+    private GameObject avatar;
 
     public List<GameObject> heroList = new List<GameObject>();
     public List<GameObject> buttonObject = new List<GameObject>();
@@ -318,6 +321,7 @@ public class HeroInfoInterface : MonoBehaviour
         if (heroPrefab != null)
         {
             curStatpts = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints;
+
             heroSlots.text = heroList.Count.ToString() + "/" + heroList.Count.ToString();
             heroName.text = heroPrefab.GetComponent<HeroStateMachine>().hero.theName.ToString();
             heroLevel.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.currentlevel.ToString();
@@ -343,6 +347,11 @@ public class HeroInfoInterface : MonoBehaviour
             heroStatpts.text = heroPrefab.GetComponent<HeroStateMachine>().hero.unspentStatPoints.ToString();
 
             heroExp.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.experience.ToString() + "/" + heroPrefab.GetComponent<HeroStateMachine>().hero.level.requiredExp.ToString();
+
+            avatar = heroPrefab.GetComponent<HeroStateMachine>().hero.heroAvatar;
+            myAv = Instantiate(avatar) as GameObject;
+            myAv.transform.localScale = new Vector3(1.7f, 1.7f, 1);
+            myAv.transform.SetParent(heroPicture, false);
         }
     }
 
@@ -484,8 +493,10 @@ public class HeroInfoInterface : MonoBehaviour
         addedHit = 0;
         addedSpeed = 0;
 
+        Destroy(myAv);
         UpdateStats();
         UpdateDisplayStats();
+        
     }
 
     void CalculateStatBonus()

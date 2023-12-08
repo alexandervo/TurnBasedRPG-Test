@@ -132,6 +132,12 @@ public class GameManager : MonoBehaviour
         heroCharacter.SetActive(true);
     }
 
+    public IEnumerator WaitSeconds(float sec)
+    {
+        Debug.Log("Starting delay");
+        yield return new WaitForSeconds(sec * Time.deltaTime);
+        Debug.Log(sec + " seconds expired");
+    }
 
     void RandomEncounter() //will be that switch to get into battle
     {

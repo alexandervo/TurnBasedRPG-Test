@@ -24,6 +24,6 @@ public class BaseHero : BaseClass
     public int statIncreasePerLevel = 1;
 
     [Header("Avatar")]
-    public Image heroAvatar;
+    public GameObject heroAvatar;
 
 }
