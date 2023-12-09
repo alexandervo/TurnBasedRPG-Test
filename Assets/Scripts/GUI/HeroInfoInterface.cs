@@ -526,4 +526,9 @@ public class HeroInfoInterface : MonoBehaviour
         Clean();
     }
 
+    private void OnEnable()
+    {
+        Clean();
+    }
+
 }
