@@ -9,6 +9,7 @@ public class BasicAttack : BaseAttack
         attackName = "Basic Attack";
         attackDescription = "Simple melee attack with no modifications";
         attackType = "Melee";
+        attackTargets = 1;
         minDamage = 0;
         maxDamage = 0;
         attackDamage = 0;

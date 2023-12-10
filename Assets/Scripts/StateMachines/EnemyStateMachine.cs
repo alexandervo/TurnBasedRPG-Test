@@ -59,6 +59,7 @@ public class EnemyStateMachine : MonoBehaviour
     private Transform EnemyPanelSpacer;
     public HealthBar healthBar;
     public GameObject FloatingText;
+    [SerializeField] private GameObject MagicVFX;
     public GameObject HealVFX;
     public GameObject RessurectVFX;
 
@@ -72,6 +73,7 @@ public class EnemyStateMachine : MonoBehaviour
     
     //For testing purpouses
     public bool doubleHit;
+    private bool attackTwice = false;
     private int killStreak = 0;
 
     //alive
@@ -129,7 +131,7 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
 
             case (TurnState.DEAD):
-                if (!alive)
+                if(!alive)
                 {
                     return;
                 }
@@ -139,6 +141,8 @@ public class EnemyStateMachine : MonoBehaviour
                     gameObject.tag = "DeadEnemy";
                     //not attackable by heroes
                     BSM.EnemysInBattle.Remove(gameObject);
+                    //not able to manage the hero anymore
+                    //BSM.HeroesToManage.Remove(gameObject);
                     //disable the selector
                     Selector.SetActive (false);
                     //remove all inputs
@@ -152,9 +156,10 @@ public class EnemyStateMachine : MonoBehaviour
                                 {
                                     BSM.PerformList.Remove(BSM.PerformList[i]);
                                 }
-                                else if (BSM.PerformList[i].AttackersTarget == gameObject)
+                                else if (BSM.PerformList[i].AttackersTarget[0] == gameObject)
                                 {
-                                    BSM.PerformList[i].AttackersTarget = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
+                                    BSM.PerformList[i].AttackersTarget.Remove(gameObject);
+                                    BSM.PerformList[i].AttackersTarget.Add(BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)]);
                                 }
                             }
                         }
@@ -166,9 +171,9 @@ public class EnemyStateMachine : MonoBehaviour
                     //reset enemy buttons
                     BSM.EnemyButtons();
                     //check alive
-                    BSM.battleStates = BattleStateMachine.PerformAction.CHECKALIVE;
+                    BSM.battleStates = PerformAction.CHECKALIVE;
                 }
-                break;
+            break;
         }
     }
 
@@ -192,7 +197,7 @@ public class EnemyStateMachine : MonoBehaviour
         myAttack.Type = "Enemy";
         myAttack.AttackersGameObject = gameObject;
         //Target choice: Randomly choose the target from list. Editable for later.
-        myAttack.AttackersTarget = BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)];
+        myAttack.AttackersTarget.Add(BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)]);
         
         int num = Random.Range(0, enemy.attacks.Count);
         myAttack.choosenAttack = enemy.attacks[num];
@@ -220,6 +225,7 @@ public class EnemyStateMachine : MonoBehaviour
         }
 
         actionStarted = true;
+        attackTwice = false;
 
         //animate the enemy near the hero to attack
 
@@ -242,10 +248,15 @@ public class EnemyStateMachine : MonoBehaviour
         //Double Hit mechanic testing
         //If target died from first attack, do not attack for the second time
         //If we intend to attack, it has 35% chance to do so
-
-        if (doubleHit && HeroToAttack.GetComponent<HeroStateMachine>().hero.curHP > 0)
+        if (Random.Range(0, 100) < 35)
         {
-            if (Random.Range(0, 100) < 35)
+            attackTwice = true;
+        }
+
+
+        if (doubleHit && HeroToAttack.GetComponent<HeroStateMachine>().hero.curHP > 0 && attackTwice == true)
+        {
+            if (HeroToAttack.GetComponent<HeroStateMachine>().dodgedAtt == false)
             {
                 enemyAnim.Play("Attack");
                 enemyAudio.Play();
@@ -274,7 +285,7 @@ public class EnemyStateMachine : MonoBehaviour
         //remove this performer from the list in BSM
         BSM.PerformList.RemoveAt(0);
         //reset the battle state machine -> set to wait
-        BSM.battleStates = BattleStateMachine.PerformAction.WAIT;
+        BSM.battleStates = PerformAction.WAIT;
 
         //BSM.battleStates = BattleStateMachine.PerformAction.START;
         //end coroutine
@@ -336,32 +347,26 @@ public class EnemyStateMachine : MonoBehaviour
     {
         //Calculate if the attack hits
         hitChance = (heroHit / enemy.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
-        if (!isDodgeable)
+        if (isDodgeable == false)
         {
             hitChance = 100;
         }
-        if (Random.Range(1, 100) <= hitChance) //in 20 outs out of 100 we dodge
+        if (Random.Range(0, 101) <= hitChance)
         {
+            AttackEffectPlay();
             enemyAnim.Play("Hurt");
-            //new WaitForSeconds(.25f);
-            //take damage
-            getDamageAmount -= enemy.curDEF;
-            if (getDamageAmount < 0)
-            {
-                getDamageAmount = 0;
-            }
 
             enemy.curHP -= getDamageAmount;
             if (enemy.curHP <= 0)
             {
                 enemy.curHP = 0;
-                //passive ressurect skill testing (Chance%, HP%)
-
-                SelfRessurect(30, 50);
-
+                //passive ressurect skill
+                SelfRessurect(25, 50);
             }
+            
             //show popup damage
-            DamagePopup(isCriticalH, getDamageAmount, false);
+            DamagePopup(isCriticalH, getDamageAmount, false); //is critical? how many damage? is it heal?
+ 
             //update health bar
             healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
         }
@@ -370,6 +375,16 @@ public class EnemyStateMachine : MonoBehaviour
             DodgePopup();
         }
         //UpdateEnemyPanel();
+    }
+
+    private void AttackEffectPlay()
+    {
+        MagicVFX = BSM.GetComponent<BattleStateMachine>().PerformList[0].choosenAttack.attackVFX;
+        if (MagicVFX != null)
+        {
+            var vfx = Instantiate(MagicVFX, transform.position, Quaternion.identity, transform);
+        }
+
     }
 
     void CreateEnemyPanel()
@@ -468,7 +483,7 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
 
-    void DamagePopup(bool isCritical, float DamageAmount, bool isHeal)
+    private void DamagePopup(bool isCritical, float DamageAmount, bool isHeal)
     {
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
         if (isCritical == true)
@@ -478,7 +493,7 @@ public class EnemyStateMachine : MonoBehaviour
             go.GetComponent<TextMeshPro>().color = Color.red;
         }
 
-        if (isHeal)
+        else if (isHeal)
         {
             go.GetComponentInChildren<SpriteRenderer>().enabled = false;
             go.GetComponent<TextMeshPro>().color = Color.green;
@@ -524,8 +539,9 @@ public class EnemyStateMachine : MonoBehaviour
         }
         else
         {
-            currentState = TurnState.DEAD;
             enemyAnim.Play("Die");
+            currentState = TurnState.DEAD;
+            //Destroy(healthBar.gameObject);
         }
     }
 }

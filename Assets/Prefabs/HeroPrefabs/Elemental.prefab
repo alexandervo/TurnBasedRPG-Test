@@ -174,7 +174,7 @@ MonoBehaviour:
     heroAvatar: {fileID: 6589475788116216845, guid: ef83ef8f653975c44a7469f923088efc, type: 3}
   currentState: 0
   Selector: {fileID: 2010790414523205899}
-  EnemyToAttack: {fileID: 0}
+  EnemyToAttack: []
   HeroPanel: {fileID: 136959068690313752, guid: 7ee2ecfa83f1cb148bec16a0f74cf2f5, type: 3}
   healthBar: {fileID: 4501762832934671652}
   rageBar: {fileID: 6509906961530260161}

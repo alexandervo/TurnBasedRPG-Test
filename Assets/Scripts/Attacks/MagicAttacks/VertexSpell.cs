@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fire1Spell : BaseAttack
+public class VertexSpell : BaseAttack
 {
-    public Fire1Spell() 
+    public VertexSpell() 
     {
-        attackName = "Fire 1";
-        attackDescription = "Basic fire spell";
+        attackName = "Vertex";
+        attackDescription = "Mass electric spell";
         attackType = "Spell";
+        attackTargets = 3;
         minDamage = 5f;
         maxDamage = 15f;
         attackDamage = 15f;

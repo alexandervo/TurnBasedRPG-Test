@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7610865252807605982}
   - component: {fileID: -5125260466007318381}
   m_Layer: 0
-  m_Name: Poison1
+  m_Name: IceBurst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,10 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c165304f35b48b248bac462a2eb0bfb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackName: Poison1
-  attackDescription: Basic poison attack
+  attackName: IceBurst
+  attackDescription: Basic ice attack
+  attackLevel: 3
   attackType: Spell
-  attackVFX: {fileID: 7400000, guid: 1e2725a6844530e4da27ee78bf3f3003, type: 2}
+  attackTargets: 3
+  attackVFX: {fileID: 4278569215120854411, guid: 7d6f8f7c93536e241b8b4bea62f26f2c, type: 3}
   minDamage: 5
   maxDamage: 15
   attackDamage: 15

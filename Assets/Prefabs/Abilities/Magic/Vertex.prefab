@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6610596758187960289}
   - component: {fileID: 4232969548762815109}
   m_Layer: 0
-  m_Name: Fire1
+  m_Name: Vertex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,10 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645953573eed4f44c9d3d3177f3f25dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackName: Fire 1
+  attackName: Vertex
   attackDescription: Basic fire spell
+  attackLevel: 3
   attackType: Spell
-  attackVFX: {fileID: 7400000, guid: e178684772a045544a36979af95aabb1, type: 2}
+  attackTargets: 3
+  attackVFX: {fileID: 5914615269055057120, guid: 620213ac772b56f43a9114e7ce5c8e2a, type: 3}
   minDamage: 5
   maxDamage: 15
   attackDamage: 20

@@ -12,7 +12,7 @@ public class HeroInfoInterface : MonoBehaviour
     [SerializeField] private Transform heroPicture;
     [SerializeField] private GameObject button;
     private GameObject myAv;
-    private GameObject avatar;
+    //private GameObject avatar;
 
     public List<GameObject> heroList = new List<GameObject>();
     public List<GameObject> buttonObject = new List<GameObject>();
@@ -119,6 +119,7 @@ public class HeroInfoInterface : MonoBehaviour
     {
         UpdateStats();
         UpdateDisplayStats();
+        //UpdateAvatar();
     }
 
     public void CreateCharNameButtons()
@@ -149,6 +150,7 @@ public class HeroInfoInterface : MonoBehaviour
         }
         heroPrefab = heroList[a];
         Clean();
+        UpdateAvatar();
     }
 
     //Code related to adding / removing / setting and displaying the hero stats
@@ -348,11 +350,26 @@ public class HeroInfoInterface : MonoBehaviour
 
             heroExp.text = heroPrefab.GetComponent<HeroStateMachine>().hero.level.experience.ToString() + "/" + heroPrefab.GetComponent<HeroStateMachine>().hero.level.requiredExp.ToString();
 
-            avatar = heroPrefab.GetComponent<HeroStateMachine>().hero.heroAvatar;
-            myAv = Instantiate(avatar) as GameObject;
-            myAv.transform.localScale = new Vector3(1.7f, 1.7f, 1);
-            myAv.transform.SetParent(heroPicture, false);
         }
+    }
+
+    void UpdateAvatar()
+    {
+        if (myAv != null)
+        {
+            Destroy(myAv);
+        }
+
+        GameObject avatar = heroPrefab.GetComponent<HeroStateMachine>().hero.heroAvatar;
+        myAv = Instantiate(avatar) as GameObject;
+        myAv.transform.localScale = new Vector3(1.7f, 1.7f, 1);
+        myAv.transform.SetParent(heroPicture, false);
+    }
+
+    void DestroyAvatar()
+    {
+        if (myAv != null)
+            Destroy(myAv);
     }
 
     public void UpdateDisplayStats()
@@ -493,10 +510,9 @@ public class HeroInfoInterface : MonoBehaviour
         addedHit = 0;
         addedSpeed = 0;
 
-        Destroy(myAv);
+        DestroyAvatar();
         UpdateStats();
         UpdateDisplayStats();
-        
     }
 
     void CalculateStatBonus()
@@ -529,6 +545,7 @@ public class HeroInfoInterface : MonoBehaviour
     private void OnEnable()
     {
         Clean();
+        UpdateAvatar();
     }
 
 }

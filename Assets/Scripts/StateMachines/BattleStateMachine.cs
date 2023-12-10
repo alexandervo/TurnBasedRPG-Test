@@ -32,6 +32,8 @@ public class BattleStateMachine : MonoBehaviour
     public List<GameObject> HerosInBattle = new List<GameObject>();
     public List<GameObject> EnemysInBattle = new List<GameObject>();
 
+    private List<GameObject> randomEnemies = new List<GameObject>();
+
     //Turn things
     public int ChoicesMade = 0;
     public int CurrentTurn = 1;
@@ -73,6 +75,7 @@ public class BattleStateMachine : MonoBehaviour
     [SerializeField] private GameObject fightText;
     [SerializeField] private Transform battleCanvas;
     [SerializeField] private TMP_Text autoText;
+
 
     //magic attack
     public Transform actionSpacer;
@@ -119,133 +122,6 @@ public class BattleStateMachine : MonoBehaviour
 
         switch (battleStates)
         {
-            //case (PerformAction.START):
-            //    //check for pre- battle things
-            //    //set the turn number
-            //    CurrentTurn++;
-            //    //start countdown
-            //    currentCount = startingCount;
-            //    countdownTrigger = false;
-            //    //countdown thingies
-            //    if (currentCount > 1)
-            //    {
-            //        currentCount -= 1 * Time.deltaTime;
-            //        countdownText.text = currentCount.ToString("0");
-            //    }
-            //    else
-            //    {
-            //        countdownText.text = "";
-            //        countdownTrigger = true;
-            //    }
-            //    //input
-            //    if (ChoicesMade >= HerosInBattle.Count)
-            //    {
-            //        if (PerformList.Count == 0)
-            //        {
-            //            ChoicesMade = 0;
-            //            CurrentTurn++;
-            //            if (autoBattle == true)
-            //            {
-            //                autobattleTurns--;
-            //                GameManager.instance.remainingAutobattleTurns--;
-            //                autoText.text = "Autobattle: ON" + Environment.NewLine + "Turns left: " + autobattleTurns;
-            //                if (autobattleTurns <= 0)
-            //                {
-            //                    autoBattle = false;
-            //                    autoText.text = "Autobattle: OFF";
-            //                }
-            //            }
-
-            //            currentCount = startingCount;
-            //        }
-            //        if (PerformList.Count >= 1)
-            //        {
-            //            battleStates = PerformAction.PRECOMBAT;
-            //        }
-            //    }
-            //    break;
-
-            //case (PerformAction.PRECOMBAT):
-            //    //Use this before anyone does anything, like remove the debuffs
-            //    //Maybe respawn enemies / pets with undead etc
-            //    //stop countdown
-            //    //Sort Performlist
-            //    PerformList = PerformList.OrderBy(x => x.attackersSpeed).ToList();
-            //    PerformList.Reverse();
-            //    GameObject actor = GameObject.Find(PerformList[0].Attacker);
-            //    if (PerformList[0].Type == "Enemy")
-            //    {
-            //        EnemyStateMachine ESM = actor.GetComponent<EnemyStateMachine>();
-            //        for (int i = 0; i < HerosInBattle.Count; i++)
-            //        {
-            //            if (PerformList[0].AttackersTarget == HerosInBattle[i])
-            //            {
-            //                ESM.HeroToAttack = PerformList[0].AttackersTarget;
-            //                ESM.currentState = EnemyStateMachine.TurnState.ACTION;
-            //                break;
-            //            }
-            //            else
-            //            {
-            //                PerformList[0].AttackersTarget = HerosInBattle[UnityEngine.Random.Range(0, HerosInBattle.Count)];
-            //                ESM.HeroToAttack = PerformList[0].AttackersTarget;
-            //                ESM.currentState = EnemyStateMachine.TurnState.ACTION;
-            //            }
-            //        }
-
-            //    }
-
-            //    if (PerformList[0].Type == "Hero")
-            //    {
-            //        HeroStateMachine HSM = actor.GetComponent<HeroStateMachine>();
-            //        HSM.EnemyToAttack = PerformList[0].AttackersTarget;
-            //        HSM.currentState = HeroStateMachine.TurnState.ACTION;
-            //    }
-            //    battleStates = PerformAction.COMBAT;
-            //    break;
-
-            //case (PerformAction.COMBAT):
-            //    //Actors perform according to performlist
-            //    //For performlist: add can do everything / can't attack with melee / can't attack with magic / etc
-            //    break;
-
-            //case (PerformAction.POSTCOMBAT):
-            //    //Status effects removal
-            //    //For performlist: add can do everything / can't attack with melee / can't attack with magic / etc
-            //    break;
-
-            //case (PerformAction.WAIT):
-            //    countdownTrigger = false;
-            //    //countdown thingies
-            //    if (currentCount > 1)
-            //    {
-            //        currentCount -= 1 * Time.deltaTime;
-            //        countdownText.text = currentCount.ToString("0");
-            //    }
-            //    else
-            //    {
-            //        countdownText.text = "";
-            //        countdownTrigger = true;
-            //    }
-
-            //    //Battle things
-            //    if (ChoicesMade >= HerosInBattle.Count)
-            //    {
-            //        if (PerformList.Count == 0)
-            //        {
-            //            ChoicesMade = 0;
-            //            CurrentTurn++;
-            //            AutobattleControl();
-            //            currentCount = startingCount;
-            //        }
-            //        if (PerformList.Count >= 1)
-            //        {
-            //            countdownText.text = "";
-                        
-            //        }
-            //    }
-            //    battleStates = PerformAction.TAKEACTION;
-            //    break;
-
             case (PerformAction.WAIT):
                 countdownTrigger = false;
                 //countdown thingies
@@ -296,16 +172,16 @@ public class BattleStateMachine : MonoBehaviour
                     EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
                     for (int i = 0; i < HerosInBattle.Count; i++)
                     {
-                        if (PerformList[0].AttackersTarget == HerosInBattle[i])
+                        if (PerformList[0].AttackersTarget[0] == HerosInBattle[i])
                         {
-                            ESM.HeroToAttack = PerformList[0].AttackersTarget;
+                            ESM.HeroToAttack = PerformList[0].AttackersTarget[0];
                             ESM.currentState = EnemyStateMachine.TurnState.ACTION;
                             break;
                         }
                         else
                         {
-                            PerformList[0].AttackersTarget = HerosInBattle[UnityEngine.Random.Range(0, HerosInBattle.Count)];
-                            ESM.HeroToAttack = PerformList[0].AttackersTarget;
+                            PerformList[0].AttackersTarget[0] = HerosInBattle[UnityEngine.Random.Range(0, HerosInBattle.Count)];
+                            ESM.HeroToAttack = PerformList[0].AttackersTarget[0];
                             ESM.currentState = EnemyStateMachine.TurnState.ACTION;
                         }
                     }
@@ -315,7 +191,13 @@ public class BattleStateMachine : MonoBehaviour
                 if (PerformList[0].Type == "Hero")
                 {
                     HeroStateMachine HSM = performer.GetComponent<HeroStateMachine>();
-                    HSM.EnemyToAttack = PerformList[0].AttackersTarget;
+                    HSM.EnemyToAttack.Clear();
+                    for (int i = 0; i < PerformList[0].AttackersTarget.Count; i++)
+                    {
+                        HSM.EnemyToAttack.Add(PerformList[0].AttackersTarget[i]);
+                        Debug.Log("Added " + PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().enemy.theName + "to the AttackersTarget");
+                    }
+
                     HSM.currentState = HeroStateMachine.TurnState.ACTION;
                 }
 
@@ -342,6 +224,7 @@ public class BattleStateMachine : MonoBehaviour
                     //call function
                     clearAttackPanel();
                     HeroInput = HeroGUI.ACTIVATE;
+                    //battleStates = PerformAction.WAIT;
                 }
                 break;
 
@@ -362,8 +245,7 @@ public class BattleStateMachine : MonoBehaviour
                 {
                     HeroesToManage[0].transform.Find("Selector").gameObject.SetActive(true);
                     HeroChoise = new HandleTurn();
-                    //populate action buttons
-                    AttackPanel.SetActive(true);
+
                     HeroInput = HeroGUI.WAITING;
                     if (autoBattle == true || countdownTrigger == true)
                     {
@@ -372,6 +254,7 @@ public class BattleStateMachine : MonoBehaviour
                     }
                     else
                     {
+                        AttackPanel.SetActive(true);
                         //populate action buttons
                         CreateAttackButtons();
                     }
@@ -432,7 +315,7 @@ public class BattleStateMachine : MonoBehaviour
         HeroChoise.Type = "Hero";
         int num = UnityEngine.Random.Range(0, HeroesToManage[0].GetComponent<HeroStateMachine>().hero.attacks.Count);
         HeroChoise.choosenAttack = HeroesToManage[0].GetComponent<HeroStateMachine>().hero.attacks[num];
-        HeroChoise.AttackersTarget = EnemysInBattle[UnityEngine.Random.Range(0, EnemysInBattle.Count)];
+        HeroChoise.AttackersTarget.Add(EnemysInBattle[UnityEngine.Random.Range(0, EnemysInBattle.Count)]);
         HeroInput = HeroGUI.DONE;
     }
 
@@ -447,9 +330,47 @@ public class BattleStateMachine : MonoBehaviour
         EnemySelectPanel.SetActive(true);
     }
 
+
     public void Input2(GameObject choosenEnemy) //select enemy / target
     {
-        HeroChoise.AttackersTarget = choosenEnemy;
+        HeroChoise.AttackersTarget.Add(choosenEnemy);
+        if(HeroChoise.choosenAttack.attackTargets > 1 && EnemysInBattle.Count >= HeroChoise.choosenAttack.attackTargets)
+        {
+            randomEnemies = new List<GameObject>();
+            foreach (GameObject en in EnemysInBattle)
+            {
+                randomEnemies.Add(en);
+            }
+            randomEnemies.Remove(choosenEnemy);
+
+            var randomList = GetRandomElements(randomEnemies, HeroChoise.choosenAttack.attackTargets-1);
+
+            foreach (GameObject newEnemy in randomList)
+            {
+                HeroChoise.AttackersTarget.Add(newEnemy);
+            }
+        }
+        //else if(HeroChoise.choosenAttack.attackTargets >= EnemysInBattle.Count)
+        //{ 
+        //        randomEnemies = new List<GameObject>();
+        //        foreach (GameObject en in EnemysInBattle)
+        //        {
+        //            randomEnemies.Add(en);
+        //        }
+        //        if (randomEnemies.Count > 1)
+        //        {
+        //            randomEnemies.Remove(choosenEnemy);
+        //        }
+
+        //        var randomList = GetRandomElements(randomEnemies, HeroChoise.choosenAttack.attackTargets - 1);
+
+        //        foreach (GameObject newEnemy in randomList)
+        //        {
+        //            HeroChoise.AttackersTarget.Add(newEnemy);
+        //        }
+                  
+        //}
+
         HeroInput = HeroGUI.DONE;
     }
 
@@ -534,9 +455,9 @@ public class BattleStateMachine : MonoBehaviour
     public void Input4(BaseAttack choosenMagic) //chosen magic attack
     {
         HeroChoise.Attacker = HeroesToManage[0].name; //might be changed
+        HeroChoise.attackersSpeed = HeroesToManage[0].GetComponent<HeroStateMachine>().hero.curSpeed;
         HeroChoise.AttackersGameObject = HeroesToManage[0];
         HeroChoise.Type = "Hero";
-
         HeroChoise.choosenAttack = choosenMagic;
         MagicPanel.SetActive(false);
         EnemySelectPanel.SetActive(true);
@@ -677,6 +598,17 @@ public class BattleStateMachine : MonoBehaviour
             GameManager.instance.LoadSceneAfterBattle();
             GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
             GameManager.instance.enemysToBattle.Clear();
+    }
+
+    List<T> GetRandomElements<T>(List<T> inputList, int count)
+    {
+        List<T> outputList = new List<T>();
+        for (int i = 0; i < count; i++)
+        {
+            int index = UnityEngine.Random.Range(0, inputList.Count);
+            outputList.Add(inputList[index]);
+        }
+        return outputList;
     }
 
 }

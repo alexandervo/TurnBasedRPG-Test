@@ -1,10 +1,9 @@
-using JetBrains.Annotations;
 using System.Collections;
 //using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class HeroStateMachine : MonoBehaviour
 {
@@ -29,7 +28,7 @@ public class HeroStateMachine : MonoBehaviour
     */
     public GameObject Selector;
     //IeNumerator
-    public GameObject EnemyToAttack;
+    public List<GameObject> EnemyToAttack = new List<GameObject>();
     private bool actionStarted = false;
     private Vector3 startPosition;
     private float animSpeed = 10f;
@@ -41,13 +40,14 @@ public class HeroStateMachine : MonoBehaviour
     private Transform HeroPanelSpacer;
     public HealthBar healthBar;
     public RageBar rageBar;
+    private int critHits;
 
     private int rageAmount;
     //testing
     public bool dodgedAtt = false;
 
     //needed for melee / magic animations / hero movements
-    private bool isMelee;
+    public bool isMelee;
     private float hitChance;
 
     public GameObject FloatingText;
@@ -67,7 +67,7 @@ public class HeroStateMachine : MonoBehaviour
 
     void Start()
     {
-        
+        critHits = 0;
         //Set player rage
         rageBar.SetRageBarSize((((hero.curRage * 100) / hero.maxRage) / 100));
 
@@ -103,7 +103,7 @@ public class HeroStateMachine : MonoBehaviour
             break;
 
             case (TurnState.ADDTOLIST):
-                BSM.HeroesToManage.Add(this.gameObject);
+                BSM.HeroesToManage.Add(gameObject);
                 currentState = TurnState.WAITING;
             break;
 
@@ -124,11 +124,11 @@ public class HeroStateMachine : MonoBehaviour
                 else
                 {
                     //change tag of hero
-                    this.gameObject.tag = "DeadHero";
+                    gameObject.tag = "DeadHero";
                     //not attackable by enemy
-                    BSM.HerosInBattle.Remove(this.gameObject);
+                    BSM.HerosInBattle.Remove(gameObject);
                     //not able to manage the hero anymore
-                    BSM.HeroesToManage.Remove(this.gameObject);
+                    BSM.HeroesToManage.Remove(gameObject);
                     //deactivate the selector
                     Selector.SetActive(false);
                     //reset gui
@@ -141,24 +141,24 @@ public class HeroStateMachine : MonoBehaviour
                         {
                             if (i != 0)
                             {
-                                if (BSM.PerformList[i].AttackersGameObject == this.gameObject)
+                                if (BSM.PerformList[i].AttackersGameObject == gameObject)
                                 {
                                     BSM.PerformList.Remove(BSM.PerformList[i]);
                                 }
-
-                                if (BSM.PerformList[i].AttackersTarget == this.gameObject)
+                                else if (BSM.PerformList[i].AttackersTarget[0] == gameObject)
                                 {
-                                    BSM.PerformList[i].AttackersTarget = BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)];
+                                    BSM.PerformList[i].AttackersTarget.Remove(gameObject);
+                                    BSM.PerformList[i].AttackersTarget.Add(BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)]);
                                 }
                             }
                         }
                     }
                     //change appearance / play death animation
-                    this.gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
+                    gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
+                    //make not alive
                     alive = false;
                     //reset hero input
-                    BSM.battleStates = BattleStateMachine.PerformAction.CHECKALIVE;
-                    
+                    BSM.battleStates = BattleStateMachine.PerformAction.CHECKALIVE; 
                 }
             break;
         }
@@ -192,9 +192,9 @@ public class HeroStateMachine : MonoBehaviour
             isMelee = true;
         }
 
-        if (isMelee)
+        if (isMelee == true)
         {
-            Vector3 enemyPosition = new Vector3(EnemyToAttack.transform.position.x + 0.6f, EnemyToAttack.transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
+            Vector3 enemyPosition = new Vector3(EnemyToAttack[0].transform.position.x + 0.6f, EnemyToAttack[0].transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
             while (MoveTowardsEnemy(enemyPosition))
             {
                 yield return null;
@@ -208,19 +208,11 @@ public class HeroStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         //do damage
         DoDamage();
-
-        //try mass magic
-        //if (!isMelee && BSM.PerformList[0].choosenAttack.attackTargets == "Multiple")
-        //{
-        //    
-        //    yield return new WaitForSeconds(0.25f);
-        //    heroAnim.Play("Attack");
-        //    heroAudio.Play();
-        //    yield return new WaitForSeconds(0.7f);
-        //    //do damage
-        //    DoDamage();
-       // }
-
+        //
+        if(isMelee == false)
+        {
+            yield return new WaitForSeconds(1f);
+        }
         //animate back to start position
         if (isMelee)
         {
@@ -265,16 +257,16 @@ public class HeroStateMachine : MonoBehaviour
     public void TakeDamage(float getDamageAmount, bool isCriticalE, float enemyHit, bool isDodgeable)
     {
         hitChance = (enemyHit / hero.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
-        if (!isDodgeable)
+        if (isDodgeable == false)
         {
-            hitChance = 101;
+            hitChance = 100;
         }
-        if (Random.Range(1, 101) <= hitChance) //in 20 outs out of 100 we dodge
+        if (Random.Range(0, 101) <= hitChance) //in 20 outs out of 100 we dodge
         {
             dodgedAtt = false;
             heroAnim.Play("Hurt");
+
             hero.curHP -= getDamageAmount;
-            
             if (hero.curHP <= 0)
             {
                 hero.curHP = 0;
@@ -308,15 +300,46 @@ public class HeroStateMachine : MonoBehaviour
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
         //play attack sprites
         //critical strikes
-        if (Random.Range(0, 100) <= hero.curCRIT)
+
+        //add damage formula later on
+
+
+
+        //testing multiple targets
+        if (BSM.PerformList[0].choosenAttack.attackTargets > 1)
         {
-            Debug.Log("Critical hit!");
-            isCriticalH = true;
-            calc_damage = Mathf.Round(calc_damage * hero.critDamage);
-            AddRage(30);
+            for (int i = 0; i < BSM.PerformList[0].choosenAttack.attackTargets; i++)
+            {
+                if (Random.Range(0, 100) <= hero.curCRIT)
+                {
+                    Debug.Log("Critical hit!");
+                    isCriticalH = true;
+                    calc_damage = Mathf.Round(calc_damage * hero.critDamage);
+                    critHits++;
+                }
+                float opponentDef = EnemyToAttack[i].GetComponent<EnemyStateMachine>().enemy.curDEF;
+                calc_damage -= opponentDef;
+                EnemyToAttack[i].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+            }
+            if (critHits >= 1)
+            {
+                AddRage(10);
+                critHits = 0;
+            }
+
         }
-        //do damage
-        EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+        else
+        {
+            if (Random.Range(0, 100) <= hero.curCRIT)
+            {
+                Debug.Log("Critical hit!");
+                isCriticalH = true;
+                calc_damage = Mathf.Round(calc_damage * hero.critDamage);
+                AddRage(10);
+            }
+            EnemyToAttack[0].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+        }
+        
         AddRage(10);
         isCriticalH = false;
         //rage bar
@@ -371,11 +394,11 @@ public class HeroStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().text = "DODGE";
     }
     
-    void DamagePopup(bool isCritical, float DamageAmount)
+    private void DamagePopup(bool isCritical, float DamageAmount)
     {
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
         if (isCritical == true)
-          {
+        {
             go.GetComponentInChildren<SpriteRenderer>().enabled = true;
             go.GetComponent<TextMeshPro>().fontSize = 6;
             go.GetComponent<TextMeshPro>().color = Color.red;
