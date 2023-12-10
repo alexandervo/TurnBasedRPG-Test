@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -8,7 +9,7 @@ public class BaseClass
     [Header("Main Info")]
     public string theName;
     //public string displayName;
-
+    public TMP_Text displayNameText;
     public Level level;
     //public int requiredExp;
 

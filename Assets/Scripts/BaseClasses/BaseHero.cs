@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +24,8 @@ public class BaseHero : BaseClass
     public int statpointsPerLevel = 5;
     public int statIncreasePerLevel = 1;
 
-    [Header("Avatar")]
+    [Header("Avatar etc")]
     public GameObject heroAvatar;
+    
 
 }

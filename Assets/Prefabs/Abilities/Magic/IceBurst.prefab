@@ -46,11 +46,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: IceBurst
   attackDescription: Basic ice attack
-  attackLevel: 3
   attackType: Spell
+  isAttack: 1
   attackTargets: 3
   attackVFX: {fileID: 4278569215120854411, guid: 7d6f8f7c93536e241b8b4bea62f26f2c, type: 3}
   minDamage: 5
   maxDamage: 15
   attackDamage: 15
-  attackCost: 8
+  attackCost: 80

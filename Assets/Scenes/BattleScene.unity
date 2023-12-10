@@ -3168,6 +3168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleStates: 0
+  battlePhases: 0
   PerformList: []
   HerosInBattle: []
   EnemysInBattle: []
@@ -3179,6 +3180,7 @@ MonoBehaviour:
   HeroInput: 0
   HeroesToManage: []
   enemyButton: {fileID: 4838993487095297206, guid: 834a4c6e4bcaf124a86e49a691dd79c7, type: 3}
+  allyButton: {fileID: 4838993487095297206, guid: 69f95a7b781445742a158c245b3ed1ce, type: 3}
   Spacer: {fileID: 1471300949}
   AttackPanel: {fileID: 513413297}
   EnemySelectPanel: {fileID: 1876254784}

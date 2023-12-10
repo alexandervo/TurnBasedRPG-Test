@@ -39,6 +39,7 @@ public class HeroStateMachine : MonoBehaviour
     public GameObject HeroPanel;
     private Transform HeroPanelSpacer;
     public HealthBar healthBar;
+    public ManaBar manaBar;
     public RageBar rageBar;
     private int critHits;
 
@@ -46,11 +47,13 @@ public class HeroStateMachine : MonoBehaviour
     //testing
     public bool dodgedAtt = false;
 
+
     //needed for melee / magic animations / hero movements
     public bool isMelee;
     private float hitChance;
 
     public GameObject FloatingText;
+    public GameObject HealVFX;
 
     private Animator heroAnim;
     private AudioSource heroAudio;
@@ -67,6 +70,8 @@ public class HeroStateMachine : MonoBehaviour
 
     void Start()
     {
+        TMP_Text heroName = hero.displayNameText;
+        heroName.text = hero.theName.ToString();
         critHits = 0;
         //Set player rage
         rageBar.SetRageBarSize((((hero.curRage * 100) / hero.maxRage) / 100));
@@ -207,7 +212,15 @@ public class HeroStateMachine : MonoBehaviour
         heroAudio.Play();
         yield return new WaitForSeconds(0.7f);
         //do damage
-        DoDamage();
+        if (BSM.PerformList[0].choosenAttack.isAttack == false)
+        {
+            ApplyBuffsDebuffs();
+        }
+        else
+        {
+            DoDamage();
+        }
+        
         //
         if(isMelee == false)
         {
@@ -254,6 +267,7 @@ public class HeroStateMachine : MonoBehaviour
     }
 
 
+
     public void TakeDamage(float getDamageAmount, bool isCriticalE, float enemyHit, bool isDodgeable)
     {
         hitChance = (enemyHit / hero.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
@@ -275,7 +289,7 @@ public class HeroStateMachine : MonoBehaviour
             }
 
             //show popup damage
-            DamagePopup(isCriticalE, getDamageAmount);
+            DamagePopup(isCriticalE, getDamageAmount, false);
             //health bar
             healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
    
@@ -293,8 +307,9 @@ public class HeroStateMachine : MonoBehaviour
     }
 
     //do damage
-    void DoDamage()
+    public void DoDamage()
     {
+
         float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
         //float calc_damage = Mathf.Round(hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage);
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
@@ -303,25 +318,26 @@ public class HeroStateMachine : MonoBehaviour
 
         //add damage formula later on
 
-
-
         //testing multiple targets
-        if (BSM.PerformList[0].choosenAttack.attackTargets > 1)
+        if (BSM.PerformList[0].AttackersTarget.Count > 1)
         {
-            for (int i = 0; i < BSM.PerformList[0].choosenAttack.attackTargets; i++)
+            if (BSM.PerformList[0].AttackersTarget.Count > BSM.EnemysInBattle.Count)
             {
-                if (Random.Range(0, 100) <= hero.curCRIT)
+                
+                for (int i = 0; i < BSM.EnemysInBattle.Count; i++)
                 {
-                    Debug.Log("Critical hit!");
-                    isCriticalH = true;
-                    calc_damage = Mathf.Round(calc_damage * hero.critDamage);
-                    critHits++;
+                    CalcDamageForEachTarget(calc_damage, i);
                 }
-                float opponentDef = EnemyToAttack[i].GetComponent<EnemyStateMachine>().enemy.curDEF;
-                calc_damage -= opponentDef;
-                EnemyToAttack[i].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+
             }
-            if (critHits >= 1)
+            else
+            {
+                for (int i = 0; i < BSM.PerformList[0].AttackersTarget.Count; i++)
+                {
+                    CalcDamageForEachTarget(calc_damage, i);
+                }
+            }
+                if (critHits >= 1)
             {
                 AddRage(10);
                 critHits = 0;
@@ -337,13 +353,50 @@ public class HeroStateMachine : MonoBehaviour
                 calc_damage = Mathf.Round(calc_damage * hero.critDamage);
                 AddRage(10);
             }
-            EnemyToAttack[0].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+            BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
         }
-        
+
+        //mana bar things
+        hero.curMP -= BSM.PerformList[0].choosenAttack.attackCost;
+        if (hero.curMP <= 0)
+        {
+            hero.curMP = 0;
+        }
+        manaBar.SetSize(((hero.curMP * 100) / hero.baseMP) / 100);
+
         AddRage(10);
         isCriticalH = false;
         //rage bar
         UpdateRageBar();
+    }
+
+    public void ApplyBuffsDebuffs()
+    {
+        float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
+        float calc_buff = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
+        //actualy code
+        bool isHeal = true;
+        BSM.PerformList[0].AttackersTarget[0].GetComponent<HeroStateMachine>().AcceptBuffsDebuffs(calc_buff, isHeal);
+        //mana bar things
+        hero.curMP -= BSM.PerformList[0].choosenAttack.attackCost;
+        if (hero.curMP <= 0)
+        {
+            hero.curMP = 0;
+        }
+        manaBar.SetSize(((hero.curMP * 100) / hero.baseMP) / 100);
+
+        AddRage(10);
+        isCriticalH = false;
+        //rage bar
+        UpdateRageBar();
+    }
+
+    public void AcceptBuffsDebuffs(float buff_value, bool isHeal)
+    {
+        if (isHeal)
+        {
+            RestoreHP(buff_value, 100);
+        }
     }
 
     //create hero panel
@@ -394,7 +447,7 @@ public class HeroStateMachine : MonoBehaviour
         go.GetComponent<TextMeshPro>().text = "DODGE";
     }
     
-    private void DamagePopup(bool isCritical, float DamageAmount)
+    private void DamagePopup(bool isCritical, float DamageAmount, bool isHeal)
     {
         var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
         if (isCritical == true)
@@ -403,6 +456,13 @@ public class HeroStateMachine : MonoBehaviour
             go.GetComponent<TextMeshPro>().fontSize = 6;
             go.GetComponent<TextMeshPro>().color = Color.red;
         }
+
+        else if (isHeal)
+        {
+            go.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            go.GetComponent<TextMeshPro>().color = Color.green;
+        }
+
         else
         {
             go.GetComponentInChildren<SpriteRenderer>().enabled = false;
@@ -420,6 +480,38 @@ public class HeroStateMachine : MonoBehaviour
         hero.agility += hero.statIncreasePerLevel;
         hero.stamina += hero.statIncreasePerLevel;
 
+    }
+
+    public void RestoreHP(float damage, float percentage)
+    {
+        float vampAmount = Mathf.Round((damage * percentage) / 100);
+        hero.curHP += vampAmount;
+        if (hero.curHP > hero.baseHP)
+        {
+            hero.curHP = hero.baseHP;
+        }
+        DamagePopup(false, vampAmount, true);
+        Instantiate(HealVFX, transform.position, Quaternion.identity, transform);
+        healthBar.SetSize(((hero.curHP * 100) / hero.baseHP) / 100);
+    }
+
+    void CalcDamageForEachTarget(float calc_damage, int i)
+    {
+        if (Random.Range(0, 100) <= hero.curCRIT)
+        {
+            Debug.Log("Critical hit!");
+            isCriticalH = true;
+            calc_damage = Mathf.Round(calc_damage * hero.critDamage);
+            critHits++;
+        }
+        float opponentDef = BSM.PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().enemy.curDEF;
+        calc_damage -= opponentDef;
+
+        if (calc_damage < 0)
+        {
+            calc_damage = 0;
+        }
+        BSM.PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
     }
 
 }

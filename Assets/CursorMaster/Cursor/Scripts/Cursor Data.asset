@@ -14,13 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:VariableCode.Cursor:CursorDataObject
   data:
   - image:
-    - {fileID: 2800000, guid: 745ef8fa9f7548842b9fb6f2dae15458, type: 3}
-    - {fileID: 2800000, guid: 8dca6926770e35b41b01b9d2ec454dfa, type: 3}
-    - {fileID: 2800000, guid: 104173c7945a61f41b1c2237b8e0d7cb, type: 3}
-    - {fileID: 2800000, guid: 8b6e4a6b73d39ed43b01e931a9036766, type: 3}
-    - {fileID: 2800000, guid: 0c3b272576e6c344b9d8ee5eca77aa55, type: 3}
-    - {fileID: 2800000, guid: 18b074fc7a9099142a30093d599aef78, type: 3}
-    - {fileID: 2800000, guid: 3b655640c4658824bb56cb5419ddff4f, type: 3}
-    - {fileID: 2800000, guid: afaa1b989b2a5874a89b27e3e0ab9080, type: 3}
-    hotSpot: {x: 16, y: 16}
+    - {fileID: 2800000, guid: e2e5674f5d56cbd49962b7e84d0d707f, type: 3}
+    - {fileID: 2800000, guid: ee6e0e03c735bf04d9c2b849955519eb, type: 3}
+    - {fileID: 2800000, guid: 9461bb78f9108714b9610865ee047860, type: 3}
+    - {fileID: 2800000, guid: cf86cadc87fa5ca4a89c1daa970275b0, type: 3}
+    - {fileID: 2800000, guid: 447bb331c5558204f8cefd8100f5c43a, type: 3}
+    - {fileID: 2800000, guid: 3bd88b2860f510841827f10a48043a82, type: 3}
+    - {fileID: 2800000, guid: 5ec0d9d60acd81d4cb4e00af8577f1a9, type: 3}
+    - {fileID: 2800000, guid: 96eb731f2da6955498a67eb93a6497c2, type: 3}
+    - {fileID: 2800000, guid: 874b4a9ab8dc6a64ba4510e49e2caf9d, type: 3}
+    - {fileID: 2800000, guid: bd3380203a6128d449e4314d391cfe91, type: 3}
+    - {fileID: 2800000, guid: 0a02469fed8a83a4ca4ff3382df19909, type: 3}
+    hotSpot: {x: 0, y: 0}
     timePerFrame: 0.1

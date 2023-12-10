@@ -47,6 +47,8 @@ MonoBehaviour:
   attackName: Basic Attack
   attackDescription: Simple melee attack with no modifications
   attackType: Melee
+  isAttack: 1
+  attackTargets: 1
   attackVFX: {fileID: 0}
   minDamage: 0
   maxDamage: 0

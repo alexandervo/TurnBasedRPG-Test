@@ -45,12 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackName: Vertex
-  attackDescription: Basic fire spell
-  attackLevel: 3
+  attackDescription: Basic Vertex spell
   attackType: Spell
+  isAttack: 1
   attackTargets: 3
   attackVFX: {fileID: 5914615269055057120, guid: 620213ac772b56f43a9114e7ce5c8e2a, type: 3}
   minDamage: 5
   maxDamage: 15
   attackDamage: 20
-  attackCost: 10
+  attackCost: 50

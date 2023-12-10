@@ -5,6 +5,7 @@ using TMPro;
 using static BattleStateMachine;
 using UnityEditor;
 using static GameManager;
+using Unity.VisualScripting;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -88,9 +89,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     void Start()
     {
-        // According to tutorial: 
-        // currentState = TurnState.PROCESSING;
-        // we skip it cause of stupidass progress bar
+        TMP_Text enemyName = enemy.displayNameText;
+        enemyName.text = enemy.theName.ToString();
         //find spacer object
         EnemyPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("EnemyPanel").transform.Find("EnemyPanelSpacer");
 
@@ -141,8 +141,6 @@ public class EnemyStateMachine : MonoBehaviour
                     gameObject.tag = "DeadEnemy";
                     //not attackable by heroes
                     BSM.EnemysInBattle.Remove(gameObject);
-                    //not able to manage the hero anymore
-                    //BSM.HeroesToManage.Remove(gameObject);
                     //disable the selector
                     Selector.SetActive (false);
                     //remove all inputs
@@ -156,13 +154,32 @@ public class EnemyStateMachine : MonoBehaviour
                                 {
                                     BSM.PerformList.Remove(BSM.PerformList[i]);
                                 }
-                                else if (BSM.PerformList[i].AttackersTarget[0] == gameObject)
+                                //if someone has them as a target and it's single target atttack, we will replace it to someone random
+                                else if (BSM.PerformList[i].AttackersTarget[0] == gameObject && BSM.PerformList[i].AttackersTarget.Count == 1) //Look in all the lists of attack targets.
                                 {
                                     BSM.PerformList[i].AttackersTarget.Remove(gameObject);
+                                    if (BSM.PerformList[i].Type == "Hero")
+                                    {
+                                        BSM.PerformList[i].AttackersGameObject.GetComponent<HeroStateMachine>().EnemyToAttack.Remove(gameObject);
+                                    }
                                     BSM.PerformList[i].AttackersTarget.Add(BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)]);
+                                }
+                                else
+                                {
+                                    for (int j = 0; j < BSM.PerformList[i].AttackersTarget.Count; j++)
+                                    {
+                                        if (gameObject)
+                                            BSM.PerformList[i].AttackersTarget.Remove(gameObject);
+                                    }
                                 }
                             }
                         }
+                        //else tons load of shit is to do here:
+                        //Check for total alive enemies in battle,
+                        //make a list from them
+                        //add to new list different random targets
+                        //
+
                     }
                     //change the color to gray / play death animation
                     gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
@@ -177,17 +194,6 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
-    /* Progress bar shit
-    void UpgradeProcessBar()
-    {
-        cur_cooldown = cur_cooldown + Time.deltaTime;
-        
-        if(cur_cooldown >= max_cooldown)
-            {
-                currentState = TurnState.CHOOSEACTION;
-            }
-    }
-    */
 
     void ChooseAction()
     {
@@ -337,7 +343,7 @@ public class EnemyStateMachine : MonoBehaviour
         HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee);
         if (HeroToAttack.GetComponent<HeroStateMachine>().dodgedAtt == false)
         {
-            VampireHP(calc_damage);
+            RestoreHP(calc_damage, 30); //testing vampirism and restore HP. How much we should heal and how much %% from this.
         }
     
         isCriticalE = false;
@@ -516,9 +522,9 @@ public class EnemyStateMachine : MonoBehaviour
         go2.GetComponent<TextMeshPro>().text = ResHP.ToString();
     }
 
-    public void VampireHP(float damage)
+    public void RestoreHP(float damage, float percentage)
     {
-        float vampAmount = Mathf.Round((damage * 30) / 100);
+        float vampAmount = Mathf.Round((damage * percentage) / 100);
         enemy.curHP += vampAmount;
         if(enemy.curHP > enemy.baseHP)
         {
@@ -544,5 +550,6 @@ public class EnemyStateMachine : MonoBehaviour
             //Destroy(healthBar.gameObject);
         }
     }
+
 }
 

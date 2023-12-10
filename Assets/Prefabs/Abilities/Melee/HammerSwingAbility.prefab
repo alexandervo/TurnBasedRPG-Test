@@ -47,6 +47,9 @@ MonoBehaviour:
   attackName: Hammer Swing
   attackDescription: Swings hammer at enemy
   attackType: Melee
+  isAttack: 1
+  attackTargets: 1
+  attackVFX: {fileID: 0}
   minDamage: 10
   maxDamage: 25
   attackDamage: 15

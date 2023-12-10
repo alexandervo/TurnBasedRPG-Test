@@ -9,6 +9,7 @@ public class VertexSpell : BaseAttack
         attackName = "Vertex";
         attackDescription = "Mass electric spell";
         attackType = "Spell";
+        isAttack = true;
         attackTargets = 3;
         minDamage = 5f;
         maxDamage = 15f;

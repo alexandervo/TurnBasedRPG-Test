@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 9002155306390162985}
   - component: {fileID: 4582470190631689800}
   - component: {fileID: 1057555292848578261}
-  - component: {fileID: 2684262613409624143}
   - component: {fileID: 5083815608382211773}
+  - component: {fileID: 4176403976859845710}
   m_Layer: 5
-  m_Name: Target1Button
+  m_Name: AllyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,9 +125,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2684262613409624143}
-        m_TargetAssemblyTypeName: EnemySelectButton, Assembly-CSharp
-        m_MethodName: SelectEnemy
+      - m_Target: {fileID: 4176403976859845710}
+        m_TargetAssemblyTypeName: AllySelectButton, Assembly-CSharp
+        m_MethodName: SelectAlly
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -137,8 +137,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2684262613409624143}
-        m_TargetAssemblyTypeName: EnemySelectButton, Assembly-CSharp
+      - m_Target: {fileID: 4176403976859845710}
+        m_TargetAssemblyTypeName: AllySelectButton, Assembly-CSharp
         m_MethodName: HideSelector
         m_Mode: 1
         m_Arguments:
@@ -195,19 +195,6 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: 1
   m_LayoutPriority: 1
---- !u!114 &2684262613409624143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4838993487095297206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4b3448b6e1f79a4c9772085592c6cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 0}
 --- !u!114 &5083815608382211773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,8 +212,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2684262613409624143}
-          m_TargetAssemblyTypeName: EnemySelectButton, Assembly-CSharp
+        - m_Target: {fileID: 4176403976859845710}
+          m_TargetAssemblyTypeName: AllySelectButton, Assembly-CSharp
           m_MethodName: ShowSelector
           m_Mode: 1
           m_Arguments:
@@ -241,8 +228,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2684262613409624143}
-          m_TargetAssemblyTypeName: EnemySelectButton, Assembly-CSharp
+        - m_Target: {fileID: 4176403976859845710}
+          m_TargetAssemblyTypeName: AllySelectButton, Assembly-CSharp
           m_MethodName: HideSelector
           m_Mode: 1
           m_Arguments:
@@ -253,6 +240,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4176403976859845710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4838993487095297206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e587878c956e374fb7ff04191a7a8fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AllyPrefab: {fileID: 0}
 --- !u!1 &8563068367564830851
 GameObject:
   m_ObjectHideFlags: 0

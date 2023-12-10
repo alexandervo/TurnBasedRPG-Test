@@ -10,14 +10,19 @@ using System.Threading.Tasks;
 public class BattleStateMachine : MonoBehaviour
 {
 
+    public enum BattlePhases
+    {
+        PREACTION, //starts pre-action coroutine
+        FIGHT,
+        POSTFIGHT //starts post-fight coroutine
+    }
+
+    private bool prebattleStarted = false;
+    private bool postbattleStarted = false;
+
     public enum PerformAction
     {
-        START,
-        PRECOMBAT,
-        COMBAT,
-        POSTCOMBAT,
         WAIT,
-        PREACTION,
         TAKEACTION,
         PERFORMACTION,
         CHECKALIVE,
@@ -26,13 +31,15 @@ public class BattleStateMachine : MonoBehaviour
     }
 
     public PerformAction battleStates;
+    public BattlePhases battlePhases;
 
     public List<HandleTurn> PerformList = new List<HandleTurn>();
 
     public List<GameObject> HerosInBattle = new List<GameObject>();
     public List<GameObject> EnemysInBattle = new List<GameObject>();
 
-    private List<GameObject> randomEnemies = new List<GameObject>();
+    private List<GameObject> sortBySpeed = new List<GameObject>();
+    private List<GameObject> sortByHP = new List<GameObject>();
 
     //Turn things
     public int ChoicesMade = 0;
@@ -63,6 +70,7 @@ public class BattleStateMachine : MonoBehaviour
     private HandleTurn HeroChoise;
 
     public GameObject enemyButton;
+    public GameObject allyButton;
     public Transform Spacer;
 
     public GameObject AttackPanel;
@@ -86,6 +94,9 @@ public class BattleStateMachine : MonoBehaviour
 
     //enemy buttons
     private List<GameObject> enemyBtns = new List<GameObject>();
+    //ally buttons
+    private List<GameObject> allyBtns = new List<GameObject>();
+
 
     //spawnpoints
     public List<Transform> spawnPoints = new List<Transform>();
@@ -113,12 +124,29 @@ public class BattleStateMachine : MonoBehaviour
         MagicPanel.SetActive(false);
 
         EnemyButtons();
+        AllyButtons();
     }
 
     // Update is called once per frame
     void Update()
     {
         turnText.text = "Current Turn: " + CurrentTurn;
+
+        switch (battlePhases)
+        {
+            case (BattlePhases.PREACTION):
+                StartCoroutine(PreBattleActions());
+                break;
+
+            case (BattlePhases.FIGHT):
+                
+                break;
+
+
+            case (BattlePhases.POSTFIGHT):
+                StartCoroutine(PostBattleActions());
+                break;
+        }
 
         switch (battleStates)
         {
@@ -159,10 +187,6 @@ public class BattleStateMachine : MonoBehaviour
                 }
                 break;
 
-            case (PerformAction.PREACTION):
-                
-                break;
-
             case (PerformAction.TAKEACTION):
                 PerformList = PerformList.OrderBy(x => x.attackersSpeed).ToList();
                 PerformList.Reverse();
@@ -195,7 +219,7 @@ public class BattleStateMachine : MonoBehaviour
                     for (int i = 0; i < PerformList[0].AttackersTarget.Count; i++)
                     {
                         HSM.EnemyToAttack.Add(PerformList[0].AttackersTarget[i]);
-                        Debug.Log("Added " + PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().enemy.theName + "to the AttackersTarget");
+                        //Debug.Log("Added " + PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().enemy.theName + "to the AttackersTarget");
                     }
 
                     HSM.currentState = HeroStateMachine.TurnState.ACTION;
@@ -306,6 +330,33 @@ public class BattleStateMachine : MonoBehaviour
         }
     }
 
+    public void AllyButtons()
+    {
+        //cleanup
+        foreach (GameObject allyBtn in allyBtns)
+        {
+            allyBtn.GetComponent<AllySelectButton>().AllyPrefab.transform.Find("Selector").gameObject.SetActive(false);
+            Destroy(allyBtn);
+        }
+        allyBtns.Clear();
+        //create buttons for each enemy
+        foreach (GameObject ally in HerosInBattle)
+        {
+            GameObject newButton = Instantiate(allyButton) as GameObject;
+            AllySelectButton button = newButton.GetComponent<AllySelectButton>();
+
+            HeroStateMachine cur_enemy = ally.GetComponent<HeroStateMachine>();
+
+            Text buttonText = newButton.transform.Find("Text").gameObject.GetComponent<Text>();
+            buttonText.text = cur_enemy.hero.theName;
+
+            button.AllyPrefab = ally;
+
+            newButton.transform.SetParent(Spacer, false);
+            allyBtns.Add(newButton);
+        }
+    }
+
     public void AutoSelect()
     {
         //HeroChoise = new HandleTurn();
@@ -333,21 +384,33 @@ public class BattleStateMachine : MonoBehaviour
 
     public void Input2(GameObject choosenEnemy) //select enemy / target
     {
-        HeroChoise.AttackersTarget.Add(choosenEnemy);
+        HeroChoise.AttackersTarget.Add(choosenEnemy); //add initial target to list
         if(HeroChoise.choosenAttack.attackTargets > 1 && EnemysInBattle.Count >= HeroChoise.choosenAttack.attackTargets)
         {
-            randomEnemies = new List<GameObject>();
+            sortBySpeed = new List<GameObject>();
+            //add all enemies to the list 
             foreach (GameObject en in EnemysInBattle)
             {
-                randomEnemies.Add(en);
+                sortBySpeed.Add(en);
             }
-            randomEnemies.Remove(choosenEnemy);
-
-            var randomList = GetRandomElements(randomEnemies, HeroChoise.choosenAttack.attackTargets-1);
-
-            foreach (GameObject newEnemy in randomList)
+            //remove enemy that already is in the list by default
+            sortBySpeed.Remove(choosenEnemy);
+            //sort enemies in the list by the speed, then reverse, so we attack enemies with the highest speed
+            sortBySpeed = sortBySpeed.OrderBy(x => x.GetComponent<EnemyStateMachine>().enemy.curSpeed).ToList();
+            sortBySpeed.Reverse();
+            //add speedy enemies to the list
+            for (int i = 0; i < (HeroChoise.choosenAttack.attackTargets - 1); i++)
             {
-                HeroChoise.AttackersTarget.Add(newEnemy);
+                HeroChoise.AttackersTarget.Add(sortBySpeed[i]);
+            }
+
+        }
+        else if (HeroChoise.choosenAttack.attackTargets > EnemysInBattle.Count)
+        {
+            HeroChoise.AttackersTarget.Remove(choosenEnemy);
+            for (int i = 0; i < EnemysInBattle.Count; i++)
+            {
+                HeroChoise.AttackersTarget.Add(EnemysInBattle[i]);
             }
         }
         //else if(HeroChoise.choosenAttack.attackTargets >= EnemysInBattle.Count)
@@ -371,6 +434,40 @@ public class BattleStateMachine : MonoBehaviour
                   
         //}
 
+        HeroInput = HeroGUI.DONE;
+    }
+
+    public void Input6(GameObject choosenAlly) //select enemy / target
+    {
+        HeroChoise.AttackersTarget.Add(choosenAlly); //add initial target to list
+        if (HeroChoise.choosenAttack.attackTargets > 1 && HerosInBattle.Count >= HeroChoise.choosenAttack.attackTargets)
+        {
+            sortByHP = new List<GameObject>();
+            //add all enemies to the list 
+            foreach (GameObject al in HerosInBattle)
+            {
+                sortByHP.Add(al);
+            }
+            //remove enemy that already is in the list by default
+            sortByHP.Remove(choosenAlly);
+            //sort enemies in the list by the speed, then reverse, so we attack enemies with the highest speed
+            sortByHP = sortByHP.OrderBy(x => x.GetComponent<EnemyStateMachine>().enemy.curSpeed).ToList();
+            sortByHP.Reverse();
+            //add speedy enemies to the list
+            for (int i = 0; i < (HeroChoise.choosenAttack.attackTargets - 1); i++)
+            {
+                HeroChoise.AttackersTarget.Add(sortByHP[i]);
+            }
+
+        }
+        else if (HeroChoise.choosenAttack.attackTargets > HerosInBattle.Count)
+        {
+            HeroChoise.AttackersTarget.Remove(choosenAlly);
+            for (int i = 0; i < HerosInBattle.Count; i++)
+            {
+                HeroChoise.AttackersTarget.Add(HerosInBattle[i]);
+            }
+        }
         HeroInput = HeroGUI.DONE;
     }
 
@@ -609,6 +706,42 @@ public class BattleStateMachine : MonoBehaviour
             outputList.Add(inputList[index]);
         }
         return outputList;
+    }
+
+    private IEnumerator PreBattleActions()
+    {
+        if (prebattleStarted)
+        {
+            yield break;
+        }
+
+        prebattleStarted = true;
+
+        //check for buffs and debuffs and other status effects
+        //but for now let's just try to heal everyone
+        if (HerosInBattle.Count > 0)
+        {
+            for (int i = 0; i < HerosInBattle.Count; i++)
+            {
+                HerosInBattle[i].GetComponent<HeroStateMachine>().RestoreHP(500, 100); //restore 100% of 500HP for each hero in battle
+            }
+        }
+
+        battleStates = PerformAction.WAIT;
+        battlePhases = BattlePhases.FIGHT;
+
+        prebattleStarted = false;
+    }
+
+    private IEnumerator PostBattleActions()
+    {
+        if (postbattleStarted)
+        {
+            yield break;
+        }
+
+        postbattleStarted = true;
+
     }
 
 }

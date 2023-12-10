@@ -9,6 +9,8 @@ public class Slash : BaseAttack
         attackName = "Slash";
         attackDescription = "Slashes at enemy";
         attackType = "Melee";
+        isAttack = true;
+        attackTargets = 1;
         minDamage = 7f;
         maxDamage = 23f;
         attackDamage = 23f;
