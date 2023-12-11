@@ -65,6 +65,8 @@ public class EnemyStateMachine : MonoBehaviour
     public GameObject RessurectVFX;
 
     private bool isMelee;
+    public bool secondAttackRunning = false;
+    public bool counterAttack = false;
     private float hitChance;
 
     private Animator enemyAnim;
@@ -223,6 +225,7 @@ public class EnemyStateMachine : MonoBehaviour
         BSM.CollectActions(myAttack);
     }
 
+
     private IEnumerator TimeForAction()
     {
         if (actionStarted)
@@ -232,6 +235,7 @@ public class EnemyStateMachine : MonoBehaviour
 
         actionStarted = true;
         attackTwice = false;
+        secondAttackRunning = false;
 
         //animate the enemy near the hero to attack
 
@@ -250,20 +254,29 @@ public class EnemyStateMachine : MonoBehaviour
         enemyAudio.Play();
         DoDamage();
         yield return new WaitForSeconds(0.75f);
+        //check for counterattack
+        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<HeroStateMachine>().counterAttack == true)
+        {
+            yield return new WaitForSeconds(1f);
+        }
 
+        if (currentState == TurnState.DEAD)
+        {
+            //yield break;
+        }
         //Double Hit mechanic testing
         //If target died from first attack, do not attack for the second time
         //If we intend to attack, it has 35% chance to do so
-        if (Random.Range(0, 100) < 35)
+        if (Random.Range(0, 100) < 35 && enemy.curHP > 0)
         {
             attackTwice = true;
         }
-
 
         if (doubleHit && HeroToAttack.GetComponent<HeroStateMachine>().hero.curHP > 0 && attackTwice == true)
         {
             if (HeroToAttack.GetComponent<HeroStateMachine>().dodgedAtt == false)
             {
+                secondAttackRunning = true;
                 enemyAnim.Play("Attack");
                 enemyAudio.Play();
                 DoDamage();
@@ -279,7 +292,7 @@ public class EnemyStateMachine : MonoBehaviour
             Debug.Log("Kill Streak = " + killStreak);
         }
               
-        if (isMelee)
+        if (isMelee && enemy.curHP > 0)
         {
             //animate back to start position
             Vector3 firstPosition = startposition;
@@ -289,6 +302,7 @@ public class EnemyStateMachine : MonoBehaviour
             }
         }
         //remove this performer from the list in BSM
+
         BSM.PerformList.RemoveAt(0);
         //reset the battle state machine -> set to wait
         BSM.battleStates = PerformAction.WAIT;
@@ -298,7 +312,12 @@ public class EnemyStateMachine : MonoBehaviour
         actionStarted = false;
         //reset this enemy state
         //cur_cooldown = 0f;
-        currentState = TurnState.PROCESSING;
+        if(enemy.curHP > 0 && currentState != TurnState.DEAD)
+        {
+            currentState = TurnState.PROCESSING;
+        }
+
+
     }
 
     //Move sprite towards target

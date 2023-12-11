@@ -30,6 +30,7 @@ public class HeroStateMachine : MonoBehaviour
     //IeNumerator
     public List<GameObject> EnemyToAttack = new List<GameObject>();
     private bool actionStarted = false;
+    public bool counterAttack = false;
     private Vector3 startPosition;
     private float animSpeed = 10f;
     //dead
@@ -179,6 +180,7 @@ public class HeroStateMachine : MonoBehaviour
             }
     }
     */
+
     private IEnumerator TimeForAction()
     {
         if (actionStarted)
@@ -204,13 +206,15 @@ public class HeroStateMachine : MonoBehaviour
             {
                 yield return null;
             }
+
+
         }
 
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
         heroAnim.Play("Attack");
         heroAudio.Play();
-        yield return new WaitForSeconds(0.7f);
+        
         //do damage
         if (BSM.PerformList[0].choosenAttack.isAttack == false)
         {
@@ -218,7 +222,14 @@ public class HeroStateMachine : MonoBehaviour
         }
         else
         {
+            yield return new WaitForSeconds(0.7f);
             DoDamage();
+            yield return new WaitForSeconds(0.25f);
+
+            if(BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().counterAttack == true)
+            {
+                yield return new WaitForSeconds(1f);
+            }
         }
         
         //
@@ -227,7 +238,7 @@ public class HeroStateMachine : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         //animate back to start position
-        if (isMelee)
+        if (isMelee && hero.curHP > 0)
         {
             Vector3 firstPosition = startPosition;
             while (MoveTowardsStart(firstPosition))
@@ -300,7 +311,11 @@ public class HeroStateMachine : MonoBehaviour
             DodgePopup();
             AddRage(10);
         }
-        AddRage(20);
+        if (isDodgeable == true && Random.Range(0, 100) <= 100 && BSM.PerformList[0].AttackersGameObject.GetComponent<EnemyStateMachine>().secondAttackRunning == false)
+        {
+            StartCoroutine(CounterAttack());
+        }
+        AddRage(10);
         //UpdateHeroPanel();
         //rage bar
         UpdateRageBar();
@@ -313,8 +328,7 @@ public class HeroStateMachine : MonoBehaviour
         float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
         //float calc_damage = Mathf.Round(hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage);
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
-        //play attack sprites
-        //critical strikes
+
 
         //add damage formula later on
 
@@ -355,7 +369,7 @@ public class HeroStateMachine : MonoBehaviour
             }
             BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
         }
-
+        
         //mana bar things
         hero.curMP -= BSM.PerformList[0].choosenAttack.attackCost;
         if (hero.curMP <= 0)
@@ -368,6 +382,35 @@ public class HeroStateMachine : MonoBehaviour
         isCriticalH = false;
         //rage bar
         UpdateRageBar();
+    }
+
+    private IEnumerator CounterAttack()
+    {
+        if (counterAttack)
+        {
+            yield break;
+        }
+
+        counterAttack = true;
+
+        yield return new WaitForSeconds(0.75f);
+        heroAnim.Play("Attack");
+        heroAudio.Play();
+        yield return new WaitForSeconds(0.5f);
+        float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
+        //float calc_damage = Mathf.Round(hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage);
+        float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
+
+        if (Random.Range(0, 100) <= hero.curCRIT)
+        {
+            Debug.Log("Critical hit!");
+            isCriticalH = true;
+            calc_damage = Mathf.Round(calc_damage * hero.critDamage);
+            AddRage(10);
+        }
+        BSM.PerformList[0].AttackersGameObject.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+        AddRage(10);
+        counterAttack = false;
     }
 
     public void ApplyBuffsDebuffs()
@@ -399,25 +442,25 @@ public class HeroStateMachine : MonoBehaviour
         }
     }
 
-    //create hero panel
-    void CreateHeroPanel()
-    {
-        HeroPanel = Instantiate(HeroPanel) as GameObject;
-        stats = HeroPanel.GetComponent<HeroPanelStats>();
-        stats.HeroName.text = hero.theName;
-        stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
-        stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
+    ////create hero panel
+    //void CreateHeroPanel()
+    //{
+    //    HeroPanel = Instantiate(HeroPanel) as GameObject;
+    //    stats = HeroPanel.GetComponent<HeroPanelStats>();
+    //    stats.HeroName.text = hero.theName;
+    //    stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
+    //    stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
 
-        //ProgressBar = stats.ProgressBar;
-        HeroPanel.transform.SetParent(HeroPanelSpacer, false);
-    }
+    //    //ProgressBar = stats.ProgressBar;
+    //    HeroPanel.transform.SetParent(HeroPanelSpacer, false);
+    //}
 
-    //update visual stats upon taking damage / heal
-    void UpdateHeroPanel()
-    {
-        stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
-        stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
-    }
+    ////update visual stats upon taking damage / heal
+    //void UpdateHeroPanel()
+    //{
+    //    stats.HeroHP.text = "HP: " + hero.curHP + "/" + hero.baseHP;
+    //    stats.HeroMP.text = "MP: " + hero.curMP + "/" + hero.baseMP;
+    //}
 
     void UpdateRageBar()
     {
