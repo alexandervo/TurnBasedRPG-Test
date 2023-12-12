@@ -9,6 +9,16 @@ using System.Threading.Tasks;
 
 public class BattleStateMachine : MonoBehaviour
 {
+            //    Fight structure:
+            //      1) PreBattle
+            //      2) BATTLE (loop)
+            //          2.0) Input >
+            //          2.1) pre-turn >
+            //          2.2) turn >
+            //              2.2.1) win -> PostBattle
+            //              2.2.2) lose -> PostBattle
+            //          2.3) post-turn -> Input
+            //      3) PostBattle
 
     public enum BattlePhases
     {
