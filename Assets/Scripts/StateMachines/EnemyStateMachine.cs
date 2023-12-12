@@ -106,7 +106,7 @@ public class EnemyStateMachine : MonoBehaviour
         switch (currentState)
         {
             case (TurnState.PROCESSING):
-                if(BSM.battleStates == PerformAction.WAIT)
+                if(BSM.battleStates == PerformAction.IDLE)
                 {
                     currentState = TurnState.CHOOSEACTION;
                 }
@@ -293,7 +293,7 @@ public class EnemyStateMachine : MonoBehaviour
 
         BSM.PerformList.RemoveAt(0);
         //reset the battle state machine -> set to wait
-        BSM.battleStates = PerformAction.WAIT;
+        BSM.battleStates = PerformAction.START;
 
         //BSM.battleStates = BattleStateMachine.PerformAction.START;
         //end coroutine
@@ -334,7 +334,6 @@ public class EnemyStateMachine : MonoBehaviour
         //critical strikes
         if (Random.Range(0, 100) <= enemy.curCRIT)
         {
-            Debug.Log("Critical hit!");
             isCriticalE = true;
             calc_damage = Mathf.Round(calc_damage * enemy.critDamage);
         }
@@ -416,7 +415,6 @@ public class EnemyStateMachine : MonoBehaviour
 
         if (Random.Range(0, 100) <= enemy.curCRIT)
         {
-            Debug.Log("Critical hit!");
             isCriticalE = true;
             minMaxAtk = Mathf.Round(minMaxAtk * enemy.critDamage);
         }

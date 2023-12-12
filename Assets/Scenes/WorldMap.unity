@@ -1525,6 +1525,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 927697220542865968, guid: 43923c01bb8598140816e3ac596e40d2, type: 3}
+      propertyPath: postFightCooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 927697220542865968, guid: 43923c01bb8598140816e3ac596e40d2, type: 3}
       propertyPath: battleHeroes.Array.data[0]
       value: 
       objectReference: {fileID: 3994671865931211291, guid: 79cc6e993ba0c834dbb852818d38298e, type: 3}

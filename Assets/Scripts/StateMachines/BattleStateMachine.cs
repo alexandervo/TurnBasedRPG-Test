@@ -12,17 +12,22 @@ public class BattleStateMachine : MonoBehaviour
 
     public enum BattlePhases
     {
-        PREACTION, //starts pre-action coroutine
+        PREBATTLE,
+        PLAYERINPUT,
+        PREFIGHT,//starts pre-action coroutine
         FIGHT,
         POSTFIGHT //starts post-fight coroutine
     }
 
     private bool prebattleStarted = false;
     private bool postbattleStarted = false;
+    private bool postFightStarted = false;
+    private bool preFightStarted = false;
 
     public enum PerformAction
     {
-        WAIT,
+        IDLE,
+        START,
         TAKEACTION,
         PERFORMACTION,
         CHECKALIVE,
@@ -32,6 +37,8 @@ public class BattleStateMachine : MonoBehaviour
 
     public PerformAction battleStates;
     public BattlePhases battlePhases;
+
+
 
     public List<HandleTurn> PerformList = new List<HandleTurn>();
 
@@ -57,6 +64,7 @@ public class BattleStateMachine : MonoBehaviour
 
     public enum HeroGUI
     {
+        NOTACTIVE,
         ACTIVATE,
         WAITING,
         INPUT1, //select attack
@@ -111,13 +119,14 @@ public class BattleStateMachine : MonoBehaviour
 
     void Start()
     {
-        //Set starting batttlestate
-        battleStates = PerformAction.WAIT;
-
+        //Set starting enums to idle etc
+        HeroInput = HeroGUI.NOTACTIVE;
+        battleStates = PerformAction.IDLE;
+        battlePhases = BattlePhases.PREBATTLE;
         //countdown set count
         currentCount = startingCount;
 
-        HeroInput = HeroGUI.ACTIVATE;
+        
 
         AttackPanel.SetActive(false);
         EnemySelectPanel.SetActive(false);
@@ -130,33 +139,21 @@ public class BattleStateMachine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        turnText.text = "Current Turn: " + CurrentTurn;
-
         switch (battlePhases)
         {
-            case (BattlePhases.PREACTION):
+            case (BattlePhases.PREBATTLE):
                 StartCoroutine(PreBattleActions());
                 break;
 
-            case (BattlePhases.FIGHT):
-                
-                break;
-
-
-            case (BattlePhases.POSTFIGHT):
-                StartCoroutine(PostBattleActions());
-                break;
-        }
-
-        switch (battleStates)
-        {
-            case (PerformAction.WAIT):
-                countdownTrigger = false;
+            case (BattlePhases.PLAYERINPUT):
+                //wait for player input, countdown etc
+                //countdownTrigger = false;
                 //countdown thingies
                 if (currentCount > 1)
                 {
                     currentCount -= 1 * Time.deltaTime;
                     countdownText.text = currentCount.ToString("0");
+                    turnText.text = "Upcoming Turn: " + CurrentTurn;
                 }
                 else
                 {
@@ -164,32 +161,50 @@ public class BattleStateMachine : MonoBehaviour
                     countdownTrigger = true;
                 }
 
-                //Battle things
                 if (ChoicesMade >= HerosInBattle.Count)
                 {
-                    if (PerformList.Count == 0)
-                    {
-                        ChoicesMade = 0;
-                        CurrentTurn++;
-                        if (autoBattle == true)
-                        {
-                            AutobattleControl();
-                        }
-
-                        currentCount = startingCount;
-                        countdownTrigger = false;
-                    }
-                    if (PerformList.Count >= 1)
-                    {
-                        countdownText.text = "";
-                        battleStates = PerformAction.TAKEACTION;
-                    }
+                    countdownText.text = "";
+                    battlePhases = BattlePhases.PREFIGHT;
                 }
                 break;
 
+            case (BattlePhases.PREFIGHT):
+                StartCoroutine(PreFightActions());
+                break;
+            case (BattlePhases.FIGHT):
+                //idle and show that there's current turn running
+
+                break;
+
+            case (BattlePhases.POSTFIGHT):
+                StartCoroutine(PostFightActions());
+                break;
+        }
+
+        switch (battleStates)
+        {
+            case (PerformAction.IDLE):
+                //pre-battle waiting / just idling
+                break;
+            case (PerformAction.START):
+                //Battle things
+
+                    if (battlePhases == BattlePhases.FIGHT && PerformList.Count == 0)
+                    {
+                        battleStates = PerformAction.IDLE;
+                        battlePhases = BattlePhases.POSTFIGHT;
+                    }
+
+                    if (PerformList.Count >= 1)
+                    {
+                        turnText.text = "Current Turn: " + CurrentTurn;
+                        countdownText.text = "";
+                        battleStates = PerformAction.TAKEACTION;
+                    }
+                
+                break;
+
             case (PerformAction.TAKEACTION):
-                PerformList = PerformList.OrderBy(x => x.attackersSpeed).ToList();
-                PerformList.Reverse();
                 GameObject performer = GameObject.Find(PerformList[0].Attacker);
                 if (PerformList[0].Type == "Enemy")
                 {
@@ -247,23 +262,27 @@ public class BattleStateMachine : MonoBehaviour
                 {
                     //call function
                     clearAttackPanel();
-                    HeroInput = HeroGUI.ACTIVATE;
-                    //battleStates = PerformAction.WAIT;
+                    //battlePhases = BattlePhases.PLAYERINPUT;
+                    //HeroInput = HeroGUI.ACTIVATE;
+                    //battleStates = PerformAction.IDLE;
                 }
                 break;
 
             case (PerformAction.LOSE):
-                      PostcombatActions(false);
+                StartCoroutine(PostBattleActions(false));
                 break;
 
             case (PerformAction.WIN):
-                      PostcombatActions(true);
+                StartCoroutine(PostBattleActions(true));
                 break;
 
         }
 
         switch (HeroInput)
         {
+            case (HeroGUI.NOTACTIVE):
+                //just idle before battle
+                break;
             case (HeroGUI.ACTIVATE):
                 if (HeroesToManage.Count >= 1 && ChoicesMade < HerosInBattle.Count)
                 {
@@ -274,7 +293,7 @@ public class BattleStateMachine : MonoBehaviour
                     if (autoBattle == true || countdownTrigger == true)
                     {
                         AutoSelect();
-                        InstantiateFightText();
+                        
                     }
                     else
                     {
@@ -671,43 +690,19 @@ public class BattleStateMachine : MonoBehaviour
         }
     }
 
-    void PostcombatActions(bool battleWin)
-    {
-            if (battleWin == true)
-            {
-                Debug.Log("You won the battle");
-                for (int i = 0; i < HerosInBattle.Count; i++)
-                {
-                    HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
-                    HerosInBattle[i].GetComponent<HeroStateMachine>().hero.level.AddExp(1000);
-                    Debug.Log("Hero " + HerosInBattle[i].GetComponent<HeroStateMachine>().hero.theName + " gained 1000 EXP");
-                }
-            }
-            else
-            {
-                Debug.Log("You lost the battle");
-                for (int i = 0; i < HerosInBattle.Count; i++)
-                {
-                    HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
-                }
-            }
+    //List<T> GetRandomElements<T>(List<T> inputList, int count)
+    //{
+    //    List<T> outputList = new List<T>();
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        int index = UnityEngine.Random.Range(0, inputList.Count);
+    //        outputList.Add(inputList[index]);
+    //    }
+    //    return outputList;
+    //}
 
-            GameManager.instance.LoadSceneAfterBattle();
-            GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
-            GameManager.instance.enemysToBattle.Clear();
-    }
-
-    List<T> GetRandomElements<T>(List<T> inputList, int count)
-    {
-        List<T> outputList = new List<T>();
-        for (int i = 0; i < count; i++)
-        {
-            int index = UnityEngine.Random.Range(0, inputList.Count);
-            outputList.Add(inputList[index]);
-        }
-        return outputList;
-    }
-
+    //Set up some things that are to be made before battle even begins
+    //basically it's just for the pre-battle cooldown purpouse at this point
     private IEnumerator PreBattleActions()
     {
         if (prebattleStarted)
@@ -716,24 +711,110 @@ public class BattleStateMachine : MonoBehaviour
         }
 
         prebattleStarted = true;
+        
+        yield return new WaitForSeconds(GameManager.instance.preFightCooldown);
 
-        //check for buffs and debuffs and other status effects
-        //but for now let's just try to heal everyone
-        //if (HerosInBattle.Count > 0)
-        //{
-        //    for (int i = 0; i < HerosInBattle.Count; i++)
-        //    {
-        //        HerosInBattle[i].GetComponent<HeroStateMachine>().RestoreHP(500, 100); //restore 100% of 500HP for each hero in battle
-        //    }
-        //}
-
-        battleStates = PerformAction.WAIT;
-        battlePhases = BattlePhases.FIGHT;
+        //start the fight
+        HeroInput = HeroGUI.ACTIVATE;
+        battlePhases = BattlePhases.PLAYERINPUT;
 
         prebattleStarted = false;
     }
 
-    private IEnumerator PostBattleActions()
+
+    //At this point PreFight makes very little sense actually
+    private IEnumerator PreFightActions()
+    {
+        if (preFightStarted)
+        {
+            yield break;
+        }
+
+        preFightStarted = true;
+
+        InstantiateFightText();
+        //Order actors in performlist based on their speed 
+        UpdatePerformList();
+
+        yield return new WaitForSeconds(0.5f);
+
+        //apply all the effects that apply just right before the fight ends (like +-HP at the start of the turn)
+        if (HerosInBattle.Count > 0)
+        {
+            for (int i = 0; i < HerosInBattle.Count; i++)
+            {
+                HerosInBattle[i].GetComponent<HeroStateMachine>().RestoreHP(500, 100); //restore 100% of 500HP for each hero in battle
+            }
+        }
+        //put heroes with special attacks / skills waiting in front of the PerformList
+        //(like skills that require activation and will perform first at the start of the next turn)
+
+        yield return new WaitForSeconds(0.5f);
+
+        currentCount = startingCount;
+        countdownTrigger = false;
+
+        battleStates = PerformAction.START;
+        battlePhases = BattlePhases.FIGHT;
+
+        preFightStarted = false;
+    }
+
+
+
+    //Actions at the end of turn
+    private IEnumerator PostFightActions()
+    {
+        if (postFightStarted)
+        {
+            yield break;
+        }
+
+        postFightStarted = true;
+
+        CurrentTurn++;
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (EnemysInBattle.Count > 0)
+        {
+            for (int i = 0; i < EnemysInBattle.Count; i++)
+            {
+                EnemysInBattle[i].GetComponent<EnemyStateMachine>().RestoreHP(200, 100); //restore 100% of 200HP for each enemy in battle at the end of turn
+            }
+
+        }
+        //apply all the effects that apply just right before the fight ends (like -HP at the end of the turn)
+        //check for status effects and remove 1 tick from them
+        // BuffDurationTurns--;
+        // DebuffDurationTurns--;
+        ChoicesMade = 0;
+
+        //decrease autobattle turns
+        if (autoBattle == true)
+        {
+            AutobattleControl();
+        }
+        yield return new WaitForSeconds(0.5f);
+        //And start a new turn actions
+        //HeroInput = HeroGUI.ACTIVATE;
+        battlePhases = BattlePhases.PLAYERINPUT;
+
+        postFightStarted = false;
+    }
+
+
+    //we will use this later on when we will be using speed buffs
+    //and will trigger this method if some will get their speed modified mid-turn
+    //for no we will use it at the beginning of each turns
+    public void UpdatePerformList()
+    {
+        PerformList = PerformList.OrderBy(x => x.attackersSpeed).ToList();
+        PerformList.Reverse();
+    }
+
+    //win / lose / etc
+    private IEnumerator PostBattleActions(bool battleWin)
     {
         if (postbattleStarted)
         {
@@ -742,6 +823,34 @@ public class BattleStateMachine : MonoBehaviour
 
         postbattleStarted = true;
 
+        if (battleWin == true)
+        {
+            Debug.Log("You won the battle");
+            for (int i = 0; i < HerosInBattle.Count; i++)
+            {
+                HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
+                HerosInBattle[i].GetComponent<HeroStateMachine>().hero.level.AddExp(1000);
+                Debug.Log("Hero " + HerosInBattle[i].GetComponent<HeroStateMachine>().hero.theName + " gained 1000 EXP");
+            }
+        }
+        else
+        {
+            Debug.Log("You lost the battle");
+            for (int i = 0; i < HerosInBattle.Count; i++)
+            {
+                HerosInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
+            }
+        }
+
+        //Here goes saving
+
+        yield return new WaitForSeconds(GameManager.instance.postFightCooldown);
+
+        GameManager.instance.LoadSceneAfterBattle();
+        GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+        GameManager.instance.enemysToBattle.Clear();
+
+        postbattleStarted = false;
     }
 
 }

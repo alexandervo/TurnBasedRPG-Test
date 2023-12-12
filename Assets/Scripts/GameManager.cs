@@ -31,11 +31,13 @@ public class GameManager : MonoBehaviour
     //Battlers
     public List<GameObject> battleHeroes = new List<GameObject>();
 
-    //autobattle basic attacks test
+    //autobattle basic attacks
     public bool autoBattle = false;
     public int autoBattleTurns = 50;
     public int remainingAutobattleTurns = 50;
-
+    //battle phases etc things
+    [Range(0f, 10f)] public float preFightCooldown = 1f;
+    [Range(0f, 10f)] public float postFightCooldown = 1f;
 
     //Positions
     public Vector3 nextHeroPosition;
@@ -50,6 +52,8 @@ public class GameManager : MonoBehaviour
     public bool canGetEncounter = false;
     public bool gotAttacked = false;
 
+    //timescaling for testing purpouses
+    private float fixedDeltaTime;
 
 
     //enum
@@ -86,6 +90,7 @@ public class GameManager : MonoBehaviour
             Hero.name = "Player";
         }
         heroCharacter.SetActive(true);
+        this.fixedDeltaTime = Time.fixedDeltaTime;
     }
 
     void Update()
@@ -118,6 +123,29 @@ public class GameManager : MonoBehaviour
             case (GameStates.IDLE):
 
                 break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (Time.timeScale == 1.0f)
+            {
+                Time.timeScale = 2.0f;
+                Debug.Log("Time scale is changed to " + Time.timeScale);
+            }
+            else if (Time.timeScale == 2.0f)
+            {
+                Time.timeScale = 3.0f;
+                Debug.Log("Time scale is changed to " + Time.timeScale);
+            }
+            else
+            {
+                Time.timeScale = 1.0f;
+                Debug.Log("Time scale is changed to " + Time.timeScale);
+            }
+
+            // Adjust fixed delta time according to timescale
+            // The fixed delta time will now be 0.02 real-time seconds per frame
+            Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
         }
     }
 

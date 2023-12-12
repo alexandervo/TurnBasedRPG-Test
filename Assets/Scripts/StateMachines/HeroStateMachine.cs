@@ -216,9 +216,7 @@ public class HeroStateMachine : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(0.7f);
-            Debug.Log(BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.theName);
             DoDamage();
-            Debug.Log(BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP);
             yield return new WaitForSeconds(0.25f);
 
             //check for counterattack
@@ -227,7 +225,7 @@ public class HeroStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
             }
         }
-        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0)
+        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 && BSM.EnemysInBattle.Count > 0)
         {
             StartCoroutine(AttackNextTarget());
             while(attackNext == true)
@@ -254,7 +252,7 @@ public class HeroStateMachine : MonoBehaviour
         //reset the battle state machine -> set to wait
         if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
         {
-            BSM.battleStates = BattleStateMachine.PerformAction.WAIT;
+            BSM.battleStates = BattleStateMachine.PerformAction.START;
             //reset this enemy state
             //cur_cooldown = 0f;
             currentState = TurnState.PROCESSING;
@@ -366,7 +364,6 @@ public class HeroStateMachine : MonoBehaviour
         {
             if (Random.Range(0, 100) <= hero.curCRIT)
             {
-                Debug.Log("Critical hit!");
                 isCriticalH = true;
                 calc_damage = Mathf.Round(calc_damage * hero.critDamage);
                 AddRage(10);
@@ -405,7 +402,6 @@ public class HeroStateMachine : MonoBehaviour
 
         if (Random.Range(0, 100) <= hero.curCRIT)
         {
-            Debug.Log("Critical hit!");
             isCriticalH = true;
             minMaxAtk = Mathf.Round(minMaxAtk * hero.critDamage);
             AddRage(10);
@@ -545,7 +541,6 @@ public class HeroStateMachine : MonoBehaviour
     {
         if (Random.Range(0, 100) <= hero.curCRIT)
         {
-            Debug.Log("Critical hit!");
             isCriticalH = true;
             calc_damage = Mathf.Round(calc_damage * hero.critDamage);
             critHits++;
