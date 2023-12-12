@@ -719,13 +719,13 @@ public class BattleStateMachine : MonoBehaviour
 
         //check for buffs and debuffs and other status effects
         //but for now let's just try to heal everyone
-        if (HerosInBattle.Count > 0)
-        {
-            for (int i = 0; i < HerosInBattle.Count; i++)
-            {
-                HerosInBattle[i].GetComponent<HeroStateMachine>().RestoreHP(500, 100); //restore 100% of 500HP for each hero in battle
-            }
-        }
+        //if (HerosInBattle.Count > 0)
+        //{
+        //    for (int i = 0; i < HerosInBattle.Count; i++)
+        //    {
+        //        HerosInBattle[i].GetComponent<HeroStateMachine>().RestoreHP(500, 100); //restore 100% of 500HP for each hero in battle
+        //    }
+        //}
 
         battleStates = PerformAction.WAIT;
         battlePhases = BattlePhases.FIGHT;

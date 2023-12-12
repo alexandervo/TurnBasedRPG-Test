@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static BattleStateMachine;
-using UnityEditor;
-using static GameManager;
-using Unity.VisualScripting;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -43,11 +40,7 @@ public class EnemyStateMachine : MonoBehaviour
     }
 
     public TurnState currentState;
-    /* for pregressbar
-    //
-    // private float cur_cooldown = 0f;
-    // private float max_cooldown = 5f;
-    */
+
     private Vector3 startposition;
     //timeforaction
     private bool actionStarted = false;
@@ -55,9 +48,9 @@ public class EnemyStateMachine : MonoBehaviour
     private float animSpeed = 10f;
     public GameObject Selector;
     //enemy panel
-    private EnemyPanelStats stats;
-    public GameObject EnemyPanel;
-    private Transform EnemyPanelSpacer;
+    //private EnemyPanelStats stats;
+    //public GameObject EnemyPanel;
+    //private Transform EnemyPanelSpacer;
     public HealthBar healthBar;
     public GameObject FloatingText;
     [SerializeField] private GameObject MagicVFX;
@@ -94,11 +87,11 @@ public class EnemyStateMachine : MonoBehaviour
         TMP_Text enemyName = enemy.displayNameText;
         enemyName.text = enemy.theName.ToString();
         //find spacer object
-        EnemyPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("EnemyPanel").transform.Find("EnemyPanelSpacer");
+        //EnemyPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("EnemyPanel").transform.Find("EnemyPanelSpacer");
 
         //create panel and fill in info
         //CreateEnemyPanel();
-        currentState = TurnState.CHOOSEACTION;
+        currentState = TurnState.PROCESSING;
         Selector.SetActive (false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine> ();
         startposition = transform.position;
@@ -219,9 +212,6 @@ public class EnemyStateMachine : MonoBehaviour
             isMelee = true;
         }
 
-        
-        //Debug.Log(this.gameObject.name + " has choosen " + myAttack.choosenAttack.attackName + " and does " + myAttack.choosenAttack.attackDamage + " damage.");
-
         BSM.CollectActions(myAttack);
     }
 
@@ -252,18 +242,16 @@ public class EnemyStateMachine : MonoBehaviour
 
         enemyAnim.Play("Attack");
         enemyAudio.Play();
+
+        yield return new WaitForSeconds(0.7f);
         DoDamage();
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.25f);
         //check for counterattack
         if (BSM.PerformList[0].AttackersTarget[0].GetComponent<HeroStateMachine>().counterAttack == true)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.0f);
         }
 
-        if (currentState == TurnState.DEAD)
-        {
-            //yield break;
-        }
         //Double Hit mechanic testing
         //If target died from first attack, do not attack for the second time
         //If we intend to attack, it has 35% chance to do so
@@ -280,7 +268,7 @@ public class EnemyStateMachine : MonoBehaviour
                 enemyAnim.Play("Attack");
                 enemyAudio.Play();
                 DoDamage();
-                yield return new WaitForSeconds(0.75f);
+                yield return new WaitForSeconds(0.7f);
             }
         }
 
@@ -359,7 +347,7 @@ public class EnemyStateMachine : MonoBehaviour
             calc_damage = 0;
         }
 
-        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee);
+        HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage, isCriticalE, enemy.curHit, isMelee, false);
         if (HeroToAttack.GetComponent<HeroStateMachine>().dodgedAtt == false)
         {
             RestoreHP(calc_damage, 30); //testing vampirism and restore HP. How much we should heal and how much %% from this.
@@ -368,7 +356,7 @@ public class EnemyStateMachine : MonoBehaviour
         isCriticalE = false;
     }
 
-    public void TakeDamage(float getDamageAmount, bool isCriticalH, float heroHit, bool isDodgeable)
+    public void TakeDamage(float getDamageAmount, bool isCriticalH, float heroHit, bool isDodgeable, bool isCounterAttack)
     {
         //Calculate if the attack hits
         hitChance = (heroHit / enemy.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
@@ -388,10 +376,10 @@ public class EnemyStateMachine : MonoBehaviour
                 //passive ressurect skill
                 SelfRessurect(25, 50);
             }
-            
+
             //show popup damage
             DamagePopup(isCriticalH, getDamageAmount, false); //is critical? how many damage? is it heal?
- 
+
             //update health bar
             healthBar.SetSize(((enemy.curHP * 100) / enemy.baseHP) / 100);
         }
@@ -399,7 +387,42 @@ public class EnemyStateMachine : MonoBehaviour
         {
             DodgePopup();
         }
+
+
+        if (isDodgeable == true && Random.Range(0, 100) <= 100 && !isCounterAttack && enemy.curHP > 0)
+        {
+            StartCoroutine(CounterAttack());
+        }
+        
+
         //UpdateEnemyPanel();
+    }
+
+   
+    private IEnumerator CounterAttack()
+    {
+        if (counterAttack)
+        {
+            yield break;
+        }
+
+        counterAttack = true;
+
+        yield return new WaitForSeconds(0.5f);
+        enemyAnim.Play("Attack");
+        enemyAudio.Play();
+        yield return new WaitForSeconds(0.25f);
+        float minMaxAtk = Mathf.Round(Random.Range(enemy.minATK, enemy.maxATK));
+
+        if (Random.Range(0, 100) <= enemy.curCRIT)
+        {
+            Debug.Log("Critical hit!");
+            isCriticalE = true;
+            minMaxAtk = Mathf.Round(minMaxAtk * enemy.critDamage);
+        }
+        BSM.PerformList[0].AttackersGameObject.GetComponent<HeroStateMachine>().TakeDamage(minMaxAtk, isCriticalE, enemy.curHit, true, counterAttack);
+        yield return new WaitForSeconds(0.5f);
+        counterAttack = false;
     }
 
     private void AttackEffectPlay()
@@ -412,24 +435,24 @@ public class EnemyStateMachine : MonoBehaviour
 
     }
 
-    void CreateEnemyPanel()
-    {
-        EnemyPanel = Instantiate(EnemyPanel) as GameObject;
-        stats = EnemyPanel.GetComponent<EnemyPanelStats>();
-        stats.EnemyName.text = enemy.theName;
-        stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
-        stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
+    //void CreateEnemyPanel()
+    //{
+    //    EnemyPanel = Instantiate(EnemyPanel) as GameObject;
+    //    stats = EnemyPanel.GetComponent<EnemyPanelStats>();
+    //    stats.EnemyName.text = enemy.theName;
+    //    stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
+    //    stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
 
-        //ProgressBar = stats.ProgressBar;
-        EnemyPanel.transform.SetParent(EnemyPanelSpacer, false);
-    }
+    //    //ProgressBar = stats.ProgressBar;
+    //    EnemyPanel.transform.SetParent(EnemyPanelSpacer, false);
+    //}
 
     //update visual stats upon taking damage / heal
-    void UpdateEnemyPanel()
-    {
-        stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
-        stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
-    }
+    //void UpdateEnemyPanel()
+    //{
+    //    stats.EnemyHP.text = "HP: " + enemy.curHP + "/" + enemy.baseHP;
+    //    stats.EnemyMP.text = "MP: " + enemy.curMP + "/" + enemy.baseMP;
+    //}
 
     private void SetParams()
     {
@@ -514,7 +537,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (isCritical == true)
         {   
             go.GetComponentInChildren<SpriteRenderer>().enabled = true;
-            go.GetComponent<TextMeshPro>().fontSize = 6;
+            go.GetComponent<TextMeshPro>().fontSize = 5;
             go.GetComponent<TextMeshPro>().color = Color.red;
         }
 

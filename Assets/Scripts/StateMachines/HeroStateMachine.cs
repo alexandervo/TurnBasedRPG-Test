@@ -1,9 +1,7 @@
 using System.Collections;
-//using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class HeroStateMachine : MonoBehaviour
 {
@@ -29,26 +27,29 @@ public class HeroStateMachine : MonoBehaviour
     public GameObject Selector;
     //IeNumerator
     public List<GameObject> EnemyToAttack = new List<GameObject>();
+
     private bool actionStarted = false;
     public bool counterAttack = false;
+
     private Vector3 startPosition;
     private float animSpeed = 10f;
     //dead
     private bool alive = true;
     //hero panel
-    private HeroPanelStats stats;
+    //private HeroPanelStats stats;
     public GameObject HeroPanel;
-    private Transform HeroPanelSpacer;
+    //private Transform HeroPanelSpacer;
     public HealthBar healthBar;
     public ManaBar manaBar;
     public RageBar rageBar;
     private int critHits;
 
-    private int rageAmount;
+    //private int rageAmount;
     //testing
     public bool dodgedAtt = false;
+    public GameObject NewEnemyToAttack;
 
-
+    private bool attackNext = false;
     //needed for melee / magic animations / hero movements
     public bool isMelee;
     private float hitChance;
@@ -73,24 +74,27 @@ public class HeroStateMachine : MonoBehaviour
     {
         TMP_Text heroName = hero.displayNameText;
         heroName.text = hero.theName.ToString();
-        critHits = 0;
         //Set player rage
         rageBar.SetRageBarSize((((hero.curRage * 100) / hero.maxRage) / 100));
 
         heroAnim = GetComponent<Animator>();
         heroAudio = GetComponent<AudioSource>();
         //find spacer object
-        HeroPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
+        //HeroPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
         
         //create panel and fill in info
         //CreateHeroPanel();
-        // dadsa
         startPosition = transform.position;
 
         // cur_cooldown = Random.Range (0, 2.5f);
         Selector.SetActive(false);
         BSM = GameObject.Find("BattleManager").GetComponent<BattleStateMachine>();
         currentState = TurnState.PROCESSING;
+
+        //testing chain attacking
+        //hero.curATK = 1000;
+        //hero.minATK = hero.curATK;
+        //hero.maxATK = 1500;
 
     }
 
@@ -169,17 +173,6 @@ public class HeroStateMachine : MonoBehaviour
             break;
         }
     }
-    /* Progress bar shit
-    void UpgradeProcessBar()
-    {
-        cur_cooldown = cur_cooldown + Time.deltaTime;
-        float calc_cooldown = cur_cooldown / max_cooldown;
-              if(cur_cooldown >= max_cooldown)
-            {
-                currentState = TurnState.ADDTOLIST;
-            }
-    }
-    */
 
     private IEnumerator TimeForAction()
     {
@@ -209,9 +202,9 @@ public class HeroStateMachine : MonoBehaviour
 
 
         }
-
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
         yield return new WaitForSeconds(0.25f);
+
         heroAnim.Play("Attack");
         heroAudio.Play();
         
@@ -223,17 +216,27 @@ public class HeroStateMachine : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(0.7f);
+            Debug.Log(BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.theName);
             DoDamage();
+            Debug.Log(BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP);
             yield return new WaitForSeconds(0.25f);
 
-            if(BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().counterAttack == true)
+            //check for counterattack
+            if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().counterAttack == true)
             {
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1.0f);
             }
         }
-        
+        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0)
+        {
+            StartCoroutine(AttackNextTarget());
+            while(attackNext == true)
+            {
+                yield return null;
+            }
+        }
         //
-        if(isMelee == false)
+        if (isMelee == false)
         {
             yield return new WaitForSeconds(1f);
         }
@@ -279,7 +282,7 @@ public class HeroStateMachine : MonoBehaviour
 
 
 
-    public void TakeDamage(float getDamageAmount, bool isCriticalE, float enemyHit, bool isDodgeable)
+    public void TakeDamage(float getDamageAmount, bool isCriticalE, float enemyHit, bool isDodgeable, bool isCounterAttack)
     {
         hitChance = (enemyHit / hero.curDodge) * 100; //(80 / 100) * 100 = 80%    (200 / 100) * 100 = 200
         if (isDodgeable == false)
@@ -311,10 +314,15 @@ public class HeroStateMachine : MonoBehaviour
             DodgePopup();
             AddRage(10);
         }
-        if (isDodgeable == true && Random.Range(0, 100) <= 100 && BSM.PerformList[0].AttackersGameObject.GetComponent<EnemyStateMachine>().secondAttackRunning == false)
+
+        if (!isCounterAttack && hero.curHP > 0 && isDodgeable == true && Random.Range(0, 100) <= 100)
         {
-            StartCoroutine(CounterAttack());
+            if (BSM.PerformList[0].AttackersGameObject.GetComponent<EnemyStateMachine>().secondAttackRunning == false)
+            {
+                StartCoroutine(CounterAttack());
+            }
         }
+
         AddRage(10);
         //UpdateHeroPanel();
         //rage bar
@@ -326,11 +334,7 @@ public class HeroStateMachine : MonoBehaviour
     {
 
         float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
-        //float calc_damage = Mathf.Round(hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage);
         float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
-
-
-        //add damage formula later on
 
         //testing multiple targets
         if (BSM.PerformList[0].AttackersTarget.Count > 1)
@@ -367,7 +371,7 @@ public class HeroStateMachine : MonoBehaviour
                 calc_damage = Mathf.Round(calc_damage * hero.critDamage);
                 AddRage(10);
             }
-            BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+            BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee, false);
         }
         
         //mana bar things
@@ -393,23 +397,22 @@ public class HeroStateMachine : MonoBehaviour
 
         counterAttack = true;
 
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.5f);
         heroAnim.Play("Attack");
         heroAudio.Play();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
         float minMaxAtk = Mathf.Round(Random.Range(hero.minATK, hero.maxATK));
-        //float calc_damage = Mathf.Round(hero.curATK + BSM.PerformList[0].choosenAttack.attackDamage);
-        float calc_damage = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
 
         if (Random.Range(0, 100) <= hero.curCRIT)
         {
             Debug.Log("Critical hit!");
             isCriticalH = true;
-            calc_damage = Mathf.Round(calc_damage * hero.critDamage);
+            minMaxAtk = Mathf.Round(minMaxAtk * hero.critDamage);
             AddRage(10);
         }
-        BSM.PerformList[0].AttackersGameObject.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+        BSM.PerformList[0].AttackersGameObject.GetComponent<EnemyStateMachine>().TakeDamage(minMaxAtk, isCriticalH, hero.curHit, true, counterAttack);
         AddRage(10);
+        yield return new WaitForSeconds(0.5f);
         counterAttack = false;
     }
 
@@ -496,7 +499,7 @@ public class HeroStateMachine : MonoBehaviour
         if (isCritical == true)
         {
             go.GetComponentInChildren<SpriteRenderer>().enabled = true;
-            go.GetComponent<TextMeshPro>().fontSize = 6;
+            go.GetComponent<TextMeshPro>().fontSize = 5;
             go.GetComponent<TextMeshPro>().color = Color.red;
         }
 
@@ -554,7 +557,40 @@ public class HeroStateMachine : MonoBehaviour
         {
             calc_damage = 0;
         }
-        BSM.PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee);
+        BSM.PerformList[0].AttackersTarget[i].GetComponent<EnemyStateMachine>().TakeDamage(calc_damage, isCriticalH, hero.curHit, isMelee, false);
     }
+
+
+    //If we killed a target, chase next one. 
+    private IEnumerator AttackNextTarget()
+    {
+        if (attackNext)
+        {
+            yield break;
+        }
+
+        attackNext = true;
+        GameObject NewEnemyToAttack = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
+        BSM.PerformList[0].AttackersTarget[0] = NewEnemyToAttack;
+        Vector3 newEnemyPosition = new Vector3(NewEnemyToAttack.transform.position.x + 0.6f, NewEnemyToAttack.transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
+        while (MoveTowardsEnemy(newEnemyPosition))
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(0.25f);
+
+        heroAnim.Play("Attack");
+        heroAudio.Play();
+        yield return new WaitForSeconds(0.7f);
+        DoDamage();
+        yield return new WaitForSeconds(0.25f);
+        //check for counterattack
+        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().counterAttack == true)
+        {
+            yield return new WaitForSeconds(1.0f);
+        }
+        attackNext = false;
+    }
+
 
 }
