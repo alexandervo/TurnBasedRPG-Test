@@ -201,7 +201,7 @@ public class EnemyStateMachine : MonoBehaviour
             Color c = rend.material.color;
             c.a = f;
             rend.material.color = c;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.03f);
         }
         gameObject.SetActive(false);
     }

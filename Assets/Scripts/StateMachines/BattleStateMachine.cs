@@ -501,6 +501,11 @@ public class BattleStateMachine : MonoBehaviour
         HeroInput = HeroGUI.DONE;
     }
 
+    public void Input7()
+    {
+        //the start of the defence mechanics goes here
+    }
+
     void HeroInputDone()
     {
         PerformList.Add(HeroChoise);
@@ -552,6 +557,17 @@ public class BattleStateMachine : MonoBehaviour
         FleeButton.GetComponent<Button>().onClick.AddListener(() => Input5());
         FleeButton.transform.SetParent(actionSpacer, false);
         atkBtns.Add(FleeButton);
+
+        //Defence button
+        //Defence system: If in defence stance, take only XX % damage. Attack noone.
+        GameObject DefendButton = Instantiate(actionButton) as GameObject;
+        Text DefendButtonText = DefendButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        DefendButtonText.text = "Defend";
+        DefendButton.GetComponent<Button>().onClick.AddListener(() => Input7());
+        DefendButton.transform.SetParent(actionSpacer, false);
+        atkBtns.Add(DefendButton);
+        DefendButton.GetComponent<Button>().interactable = false;
+
 
         //Autobattle enable button
         GameObject AutoSelectButton = Instantiate(actionButton) as GameObject;
