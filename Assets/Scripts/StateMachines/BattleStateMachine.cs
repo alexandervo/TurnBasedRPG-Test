@@ -90,9 +90,11 @@ public class BattleStateMachine : MonoBehaviour
     public GameObject enemyButton;
     public GameObject allyButton;
     public Transform Spacer;
+    public Transform allySpacer;
 
     public GameObject AttackPanel;
     public GameObject EnemySelectPanel;
+    public GameObject AllySelectPanel;
     public GameObject MagicPanel;
     public GameObject AutoBattlePanel;
 
@@ -274,7 +276,7 @@ public class BattleStateMachine : MonoBehaviour
                     clearAttackPanel();
                     //battlePhases = BattlePhases.PLAYERINPUT;
                     //HeroInput = HeroGUI.ACTIVATE;
-                    //battleStates = PerformAction.IDLE;
+                    battleStates = PerformAction.PERFORMACTION;
                 }
                 break;
 
@@ -373,14 +375,14 @@ public class BattleStateMachine : MonoBehaviour
             GameObject newButton = Instantiate(allyButton) as GameObject;
             AllySelectButton button = newButton.GetComponent<AllySelectButton>();
 
-            HeroStateMachine cur_enemy = ally.GetComponent<HeroStateMachine>();
+            HeroStateMachine cur_ally = ally.GetComponent<HeroStateMachine>();
 
             Text buttonText = newButton.transform.Find("Text").gameObject.GetComponent<Text>();
-            buttonText.text = cur_enemy.hero.theName;
+            buttonText.text = cur_ally.hero.theName;
 
             button.AllyPrefab = ally;
 
-            newButton.transform.SetParent(Spacer, false);
+            newButton.transform.SetParent(allySpacer, false);
             allyBtns.Add(newButton);
         }
     }
@@ -514,6 +516,7 @@ public class BattleStateMachine : MonoBehaviour
     void clearAttackPanel()
     {
         EnemySelectPanel.SetActive(false);
+        AllySelectPanel.SetActive(false);
         AttackPanel.SetActive(false);
         MagicPanel.SetActive(false);
 
@@ -585,7 +588,14 @@ public class BattleStateMachine : MonoBehaviour
         HeroChoise.Type = "Hero";
         HeroChoise.choosenAttack = choosenMagic;
         MagicPanel.SetActive(false);
-        EnemySelectPanel.SetActive(true);
+        if(choosenMagic.isAttack == true)
+        {
+            EnemySelectPanel.SetActive(true);
+        }
+        else
+        {
+            AllySelectPanel.SetActive(true);
+        }
     }
 
     public void Input3() //switching to magic attacks
@@ -632,11 +642,6 @@ public class BattleStateMachine : MonoBehaviour
             GameManager.instance.autoBattle = false;
             autoText.text = "Autobattle: OFF";
         }
-    }
-
-    IEnumerator WaitABit(float sec)
-    {
-        yield return new WaitForSeconds(sec * Time.deltaTime);
     }
 
     void InstantiateFightText()

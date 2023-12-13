@@ -236,14 +236,18 @@ public class HeroStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
             }
         }
-        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 && BSM.EnemysInBattle.Count > 0 && isMelee == true)
-        {
-            StartCoroutine(AttackNextTarget());
-            while(attackNext == true)
+        //if (BSM.PerformList[0].AttackersTarget[0].CompareTag("Enemy"))
+        //{
+            if (isMelee == true && BSM.EnemysInBattle.Count > 0 && BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 )
             {
-                yield return null;
+                StartCoroutine(AttackNextTarget());
+                while (attackNext == true)
+                {
+                    yield return null;
+                }
             }
-        }
+        //}
+        
         //
         if (isMelee == false)
         {

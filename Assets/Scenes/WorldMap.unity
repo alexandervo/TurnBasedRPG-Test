@@ -2852,6 +2852,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3551875507214721273, guid: 93fbc1f117ef27645997dfde2ff7f304, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3987331348648021599, guid: 93fbc1f117ef27645997dfde2ff7f304, type: 3}
       propertyPath: heroPrefab
       value: 

@@ -178,8 +178,11 @@ public class EnemyStateMachine : MonoBehaviour
                     }
                     //change the color to gray / play death animation
                     gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
+                    healthBar.gameObject.SetActive(false);
                     //make not alive
                     alive = false;
+                    //
+                    StartCoroutine(FadeOut());
                     //reset enemy buttons
                     BSM.EnemyButtons();
                     //check alive
@@ -189,6 +192,19 @@ public class EnemyStateMachine : MonoBehaviour
         }
     }
 
+    private IEnumerator FadeOut()
+    {
+        SpriteRenderer rend;
+        rend = GetComponent<SpriteRenderer>();
+        for (float f = 1f; f >= -0.02f; f -= 0.02f)
+        {
+            Color c = rend.material.color;
+            c.a = f;
+            rend.material.color = c;
+            yield return new WaitForSeconds(0.02f);
+        }
+        gameObject.SetActive(false);
+    }
 
     void ChooseAction()
     {
