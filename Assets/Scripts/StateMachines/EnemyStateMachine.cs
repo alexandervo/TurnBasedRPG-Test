@@ -45,7 +45,7 @@ public class EnemyStateMachine : MonoBehaviour
     //timeforaction
     private bool actionStarted = false;
     public GameObject HeroToAttack;
-    private float animSpeed = 10f;
+    private float animSpeed = 15f;
     public GameObject Selector;
     //enemy panel
     //private EnemyPanelStats stats;
@@ -590,6 +590,27 @@ public class EnemyStateMachine : MonoBehaviour
             //Destroy(healthBar.gameObject);
         }
     }
+
+
+    //Undead mechanic
+    //Perk1: While enemy with undead dies, it will rise after X turns with X HP;
+    //Drawback: Undead takes 2x damage from holy property / Exorcism passive skill and if killed by holy/exorcism, can't rise
+    //Drawback / perk2: Can't be buffed or debuffed / healed neither by enemies or allies unless the skill level isn't maximal
+    //If undead: after death remove from PerformList, but don't remove from enemies in Battle so it can be targeted by players
+    //If is targeted by player, but hasn't risen at the start of the turn, then switch targets.
+    //At this point adding the rise method
+    //All those skill related methods with later be moved to corresponding places, at this point it all is for testing purposes.
+
+    public void UndeadRise()
+    {
+        alive = true;
+        gameObject.tag = "Enemy";
+        Selector.SetActive(true);
+        ChooseAction();
+    }
+
+    //TODO LIST OF SOME SORT
+    //hide / remove dead enemy gameobjects from the battlescene (at least make them completely transparent). Only enemies with Undead stay.
 
 }
 

@@ -24,30 +24,35 @@ public class HeroStateMachine : MonoBehaviour
     private float max_cooldown = 5f;
     private Image ProgressBar;
     */
-    public GameObject Selector;
+    
     //IeNumerator
     public List<GameObject> EnemyToAttack = new List<GameObject>();
-
+    public GameObject NewEnemyToAttack;
+    
     private bool actionStarted = false;
     public bool counterAttack = false;
 
     private Vector3 startPosition;
-    private float animSpeed = 10f;
+    private float animSpeed = 15f;
     //dead
     private bool alive = true;
     //hero panel
     //private HeroPanelStats stats;
     public GameObject HeroPanel;
     //private Transform HeroPanelSpacer;
+    public GameObject Selector;
     public HealthBar healthBar;
     public ManaBar manaBar;
     public RageBar rageBar;
+    //scream things
+    public GameObject scream;
+    public TextMeshProUGUI screamText;
     private int critHits;
 
     //private int rageAmount;
     //testing
     public bool dodgedAtt = false;
-    public GameObject NewEnemyToAttack;
+    
 
     private bool attackNext = false;
     //needed for melee / magic animations / hero movements
@@ -192,6 +197,10 @@ public class HeroStateMachine : MonoBehaviour
             isMelee = true;
         }
 
+        scream.SetActive(true);
+        screamText.text = BSM.PerformList[0].choosenAttack.name.ToString() + "!";
+        yield return new WaitForSeconds(0.25f);
+
         if (isMelee == true)
         {
             Vector3 enemyPosition = new Vector3(EnemyToAttack[0].transform.position.x + 0.6f, EnemyToAttack[0].transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
@@ -203,7 +212,9 @@ public class HeroStateMachine : MonoBehaviour
 
         }
         //wait a bit till animation of attack plays. Might wanna change later on based on animation.
+        
         yield return new WaitForSeconds(0.25f);
+        scream.SetActive(false);
 
         heroAnim.Play("Attack");
         heroAudio.Play();
@@ -587,5 +598,14 @@ public class HeroStateMachine : MonoBehaviour
         attackNext = false;
     }
 
+    //TODO LIST OF SOME SORT
+    // 1) Hide mechanic
+    //    hidden heroes can't be hit or targeted unless enemy has vision passive skill
+    // 2) Exorcism / holy mechanic to counter undead
+    // 3) Heal over time (buff that heals ally(allies) at the end or in the beginning of the turn)
+    // 4) Mana restoration skill
+    // 5) Poison over time. Same as heal over time, but drains %% HP / %% MP at the end of the turn.
+    // 6) Ressurect skill. Similar to what RiseUndead method in Enemy state machine does. Cleric / healer skill.
+    //
 
 }
