@@ -303,7 +303,6 @@ public class BattleStateMachine : MonoBehaviour
                     if (autoBattle == true || countdownTrigger == true)
                     {
                         AutoSelect();
-                        
                     }
                     else
                     {

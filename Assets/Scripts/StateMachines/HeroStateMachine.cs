@@ -236,7 +236,7 @@ public class HeroStateMachine : MonoBehaviour
                 yield return new WaitForSeconds(1.0f);
             }
         }
-        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 && BSM.EnemysInBattle.Count > 0)
+        if (BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 && BSM.EnemysInBattle.Count > 0 && isMelee == true)
         {
             StartCoroutine(AttackNextTarget());
             while(attackNext == true)
