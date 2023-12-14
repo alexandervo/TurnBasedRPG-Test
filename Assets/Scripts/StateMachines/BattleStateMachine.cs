@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using System;
-using System.Threading.Tasks;
 
 public class BattleStateMachine : MonoBehaviour
 {
@@ -122,11 +121,15 @@ public class BattleStateMachine : MonoBehaviour
     public List<Transform> spawnPoints = new List<Transform>();
     public List<Transform> heroSpawnPoints = new List<Transform>();
 
+    //timescalse
+    private float fixedDeltaTime;
+    private float timeModifier = 1;
+
     void Awake()
     {
         SpawnActors();
         AutobattleSetup();
-
+        this.fixedDeltaTime = Time.fixedDeltaTime;
     }
 
     void Start()
@@ -185,7 +188,6 @@ public class BattleStateMachine : MonoBehaviour
                 break;
             case (BattlePhases.FIGHT):
                 //idle and show that there's current turn running
-
                 break;
 
             case (BattlePhases.POSTFIGHT):
@@ -325,6 +327,13 @@ public class BattleStateMachine : MonoBehaviour
                 HeroInputDone();
                 break;
         }
+
+        if (battlePhases != BattlePhases.PLAYERINPUT && battleStates != PerformAction.WIN && battleStates != PerformAction.LOSE)
+        {
+            Time.timeScale = timeModifier;
+            Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
+        }
+
 
     }
 
@@ -761,7 +770,8 @@ public class BattleStateMachine : MonoBehaviour
         }
 
         preFightStarted = true;
-
+        Time.timeScale = timeModifier;
+        Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
         InstantiateFightText();
         //Order actors in performlist based on their speed 
         UpdatePerformList();
@@ -828,6 +838,8 @@ public class BattleStateMachine : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         //And start a new turn actions
         //HeroInput = HeroGUI.ACTIVATE;
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
         battlePhases = BattlePhases.PLAYERINPUT;
 
         postFightStarted = false;
@@ -876,11 +888,23 @@ public class BattleStateMachine : MonoBehaviour
 
         yield return new WaitForSeconds(GameManager.instance.postFightCooldown);
 
+        Time.timeScale = 1;
+        Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
+
         GameManager.instance.LoadSceneAfterBattle();
         GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
         GameManager.instance.enemysToBattle.Clear();
 
         postbattleStarted = false;
     }
+
+    public void SpeedUpTime(float modifier)
+    {
+        Debug.Log(modifier);
+        timeModifier = modifier;
+
+    }
+
+
 
 }

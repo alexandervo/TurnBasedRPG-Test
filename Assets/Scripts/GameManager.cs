@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
-        else if(instance != this)
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
             Hero.name = "Player";
         }
         heroCharacter.SetActive(true);
-        this.fixedDeltaTime = Time.fixedDeltaTime;
+        
     }
 
     void Update()
@@ -125,28 +125,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (Time.timeScale == 1.0f)
-            {
-                Time.timeScale = 2.0f;
-                Debug.Log("Time scale is changed to " + Time.timeScale);
-            }
-            else if (Time.timeScale == 2.0f)
-            {
-                Time.timeScale = 3.0f;
-                Debug.Log("Time scale is changed to " + Time.timeScale);
-            }
-            else
-            {
-                Time.timeScale = 1.0f;
-                Debug.Log("Time scale is changed to " + Time.timeScale);
-            }
 
-            // Adjust fixed delta time according to timescale
-            // The fixed delta time will now be 0.02 real-time seconds per frame
-            Time.fixedDeltaTime = this.fixedDeltaTime * Time.timeScale;
-        }
     }
 
     public void LoadNextScene()
@@ -172,13 +151,13 @@ public class GameManager : MonoBehaviour
         if (isWalking && canGetEncounter)
         {
             int eRate = Mathf.Abs(encounterRate - 11);
-            if(Random.Range(0, (eRate*1000)) < 10)
+            if (Random.Range(0, (eRate * 1000)) < 10)
             {
                 //Debug.Log("We got encounter!");
                 gotAttacked = true;
             }
         }
-        
+
     }
 
     void StartBattle()
@@ -208,4 +187,6 @@ public class GameManager : MonoBehaviour
         canGetEncounter = false;
         heroCharacter.SetActive(false);
     }
+
+
 }
