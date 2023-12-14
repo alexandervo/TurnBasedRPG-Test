@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using static BattleStateMachine;
+using Unity.VisualScripting;
 
 public class EnemyStateMachine : MonoBehaviour
 {
@@ -135,11 +136,12 @@ public class EnemyStateMachine : MonoBehaviour
                     //change tag of enemy
                     gameObject.tag = "DeadEnemy";
                     //not attackable by heroes
-                    BSM.EnemysInBattle.Remove(gameObject);
+                    BSM.EnemiesInBattle.Remove(gameObject);
                     //disable the selector
                     Selector.SetActive (false);
+                    healthBar.gameObject.SetActive(false);
                     //remove all inputs
-                    if (BSM.EnemysInBattle.Count > 0)
+                    if (BSM.EnemiesInBattle.Count > 0)
                     {
                         for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
@@ -157,7 +159,7 @@ public class EnemyStateMachine : MonoBehaviour
                                     {
                                         BSM.PerformList[i].AttackersGameObject.GetComponent<HeroStateMachine>().EnemyToAttack.Remove(gameObject);
                                     }
-                                    BSM.PerformList[i].AttackersTarget.Add(BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)]);
+                                    BSM.PerformList[i].AttackersTarget.Add(BSM.EnemiesInBattle[Random.Range(0, BSM.EnemiesInBattle.Count)]);
                                 }
                                 else
                                 {
@@ -178,10 +180,9 @@ public class EnemyStateMachine : MonoBehaviour
                     }
                     //change the color to gray / play death animation
                     gameObject.GetComponent<SpriteRenderer>().color = new Color32(61, 61, 61, 255);
-                    healthBar.gameObject.SetActive(false);
                     //make not alive
                     alive = false;
-                    //
+                    //fade out and make not active
                     StartCoroutine(FadeOut());
                     //reset enemy buttons
                     BSM.EnemyButtons();
@@ -201,9 +202,10 @@ public class EnemyStateMachine : MonoBehaviour
             Color c = rend.material.color;
             c.a = f;
             rend.material.color = c;
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.02f);
         }
-        gameObject.SetActive(false);
+        if(BSM.EnemiesInBattle.Count > 0)
+            gameObject.SetActive(false);
     }
 
     void ChooseAction()
@@ -214,7 +216,7 @@ public class EnemyStateMachine : MonoBehaviour
         myAttack.Type = "Enemy";
         myAttack.AttackersGameObject = gameObject;
         //Target choice: Randomly choose the target from list. Editable for later.
-        myAttack.AttackersTarget.Add(BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)]);
+        myAttack.AttackersTarget.Add(BSM.HeroesInBattle[Random.Range(0, BSM.HeroesInBattle.Count)]);
         
         int num = Random.Range(0, enemy.attacks.Count);
         myAttack.choosenAttack = enemy.attacks[num];
@@ -271,7 +273,7 @@ public class EnemyStateMachine : MonoBehaviour
         //Double Hit mechanic testing
         //If target died from first attack, do not attack for the second time
         //If we intend to attack, it has 35% chance to do so
-        if (Random.Range(0, 100) < 35 && enemy.curHP > 0)
+        if (Random.Range(0, 100) < GameManager.instance.doubleAttackChance && enemy.curHP > 0)
         {
             attackTwice = true;
         }
@@ -389,7 +391,7 @@ public class EnemyStateMachine : MonoBehaviour
             {
                 enemy.curHP = 0;
                 //passive ressurect skill
-                SelfRessurect(25, 50);
+                SelfRessurect(GameManager.instance.selfRessurrectChance, 50);
             }
 
             //show popup damage
@@ -475,7 +477,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemy.strength = Random.Range(15, 25);
         enemy.intellect = Random.Range(15, 25);
         enemy.dexterity = Random.Range(15, 25);
-        enemy.agility = Random.Range(10, 25);
+        enemy.agility = Random.Range(15, 35);
         enemy.stamina = Random.Range(15, 25);
 
         //Calculate HP based on Stats
@@ -512,6 +514,7 @@ public class EnemyStateMachine : MonoBehaviour
         enemy.baseSpeed = Mathf.Round(enemy.agility * enemy.spdPerAgi);
         enemy.curSpeed = enemy.baseSpeed;
 
+        enemy.expAmount = enemy.strength + enemy.intellect + enemy.dexterity + enemy.agility + enemy.stamina;
     }
 
     void PopulateSkilllist() //Take skills from the list of possible skills, calculate chances and spawn in according lists
@@ -593,7 +596,7 @@ public class EnemyStateMachine : MonoBehaviour
 
     public void SelfRessurect(int resChance, int resHP)
     {
-        if (Random.Range(0, 100) < resChance)
+        if (Random.Range(0, 100) <= resChance)
         {
             enemy.curHP = Mathf.Round((enemy.baseHP / 100) * resHP);
             ResPopup(enemy.curHP);
@@ -603,7 +606,6 @@ public class EnemyStateMachine : MonoBehaviour
         {
             enemyAnim.Play("Die");
             currentState = TurnState.DEAD;
-            //Destroy(healthBar.gameObject);
         }
     }
 
@@ -624,9 +626,6 @@ public class EnemyStateMachine : MonoBehaviour
         Selector.SetActive(true);
         ChooseAction();
     }
-
-    //TODO LIST OF SOME SORT
-    //hide / remove dead enemy gameobjects from the battlescene (at least make them completely transparent). Only enemies with Undead stay.
 
 }
 

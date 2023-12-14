@@ -129,7 +129,7 @@ MonoBehaviour:
     displayNameText: {fileID: 9005775997171948828}
     level:
       experience: 0
-      currentlevel: 0
+      currentlevel: 10
       requiredExp: 0
       MAX_EXP: 0
       NEXT_EXP: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
     MagicAttacks: []
     EnemyType: 0
     rarity: 0
+    expAmount: 0
     hpPerStr: 10
     atkPerStr: 5
     mpPerInt: 10
@@ -184,12 +185,13 @@ MonoBehaviour:
   currentState: 0
   HeroToAttack: {fileID: 0}
   Selector: {fileID: 2309396245263888184}
-  EnemyPanel: {fileID: 4699679240303395661, guid: 830fa304671a3db4484577278ad5bae9, type: 3}
   healthBar: {fileID: 2922290746925148608}
   FloatingText: {fileID: 6083108751297691823, guid: d0d5c89b1122ff14ca95931d29340ccc, type: 3}
   MagicVFX: {fileID: 0}
   HealVFX: {fileID: 820991795531764292, guid: 61ffae66595b22d4ebaadb28246dd26f, type: 3}
   RessurectVFX: {fileID: 798919206825524852, guid: 8af15d4b4d9dfb647b501716efca178d, type: 3}
+  secondAttackRunning: 0
+  counterAttack: 0
   doubleHit: 0
 --- !u!82 &8509882367103953039
 AudioSource:

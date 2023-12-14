@@ -28,6 +28,8 @@ public class HeroStateMachine : MonoBehaviour
     //IeNumerator
     public List<GameObject> EnemyToAttack = new List<GameObject>();
     public GameObject NewEnemyToAttack;
+
+    public List<StatusList> StatusList = new List<StatusList>();
     
     private bool actionStarted = false;
     public bool counterAttack = false;
@@ -70,7 +72,7 @@ public class HeroStateMachine : MonoBehaviour
     private void Awake()
     {
         //SetParams();
-        hero.level = new Level(1, OnLevelUp);
+        //hero.level = new Level(10, OnLevelUp);
         //UpdateHeroPanel();
        
     }
@@ -80,7 +82,7 @@ public class HeroStateMachine : MonoBehaviour
         TMP_Text heroName = hero.displayNameText;
         heroName.text = hero.theName.ToString();
         //Set player rage
-        rageBar.SetRageBarSize((((hero.curRage * 100) / hero.maxRage) / 100));
+        rageBar.SetRageBarSize(((hero.curRage * 100) / hero.maxRage) / 100);
 
         heroAnim = GetComponent<Animator>();
         heroAudio = GetComponent<AudioSource>();
@@ -141,7 +143,7 @@ public class HeroStateMachine : MonoBehaviour
                     //change tag of hero
                     gameObject.tag = "DeadHero";
                     //not attackable by enemy
-                    BSM.HerosInBattle.Remove(gameObject);
+                    BSM.HeroesInBattle.Remove(gameObject);
                     //not able to manage the hero anymore
                     BSM.HeroesToManage.Remove(gameObject);
                     //deactivate the selector
@@ -150,7 +152,7 @@ public class HeroStateMachine : MonoBehaviour
                     BSM.AttackPanel.SetActive(false);
                     BSM.EnemySelectPanel.SetActive(false);
                     //remove hero from performlist
-                    if (BSM.HerosInBattle.Count > 0)
+                    if (BSM.HeroesInBattle.Count > 0)
                     {
                         for (int i = 0; i < BSM.PerformList.Count; i++)
                         {
@@ -163,7 +165,7 @@ public class HeroStateMachine : MonoBehaviour
                                 else if (BSM.PerformList[i].AttackersTarget[0] == gameObject)
                                 {
                                     BSM.PerformList[i].AttackersTarget.Remove(gameObject);
-                                    BSM.PerformList[i].AttackersTarget.Add(BSM.HerosInBattle[Random.Range(0, BSM.HerosInBattle.Count)]);
+                                    BSM.PerformList[i].AttackersTarget.Add(BSM.HeroesInBattle[Random.Range(0, BSM.HeroesInBattle.Count)]);
                                 }
                             }
                         }
@@ -238,7 +240,7 @@ public class HeroStateMachine : MonoBehaviour
         }
         //if (BSM.PerformList[0].AttackersTarget[0].CompareTag("Enemy"))
         //{
-            if (isMelee == true && BSM.EnemysInBattle.Count > 0 && BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 )
+            if (isMelee == true && BSM.EnemiesInBattle.Count > 0 && BSM.PerformList[0].AttackersTarget[0].GetComponent<EnemyStateMachine>().enemy.curHP <= 0 )
             {
                 StartCoroutine(AttackNextTarget());
                 while (attackNext == true)
@@ -352,10 +354,10 @@ public class HeroStateMachine : MonoBehaviour
         //testing multiple targets
         if (BSM.PerformList[0].AttackersTarget.Count > 1)
         {
-            if (BSM.PerformList[0].AttackersTarget.Count > BSM.EnemysInBattle.Count)
+            if (BSM.PerformList[0].AttackersTarget.Count > BSM.EnemiesInBattle.Count)
             {
                 
-                for (int i = 0; i < BSM.EnemysInBattle.Count; i++)
+                for (int i = 0; i < BSM.EnemiesInBattle.Count; i++)
                 {
                     CalcDamageForEachTarget(calc_damage, i);
                 }
@@ -433,7 +435,17 @@ public class HeroStateMachine : MonoBehaviour
         float calc_buff = minMaxAtk + BSM.PerformList[0].choosenAttack.attackDamage;
         //actualy code
         bool isHeal = true;
-        BSM.PerformList[0].AttackersTarget[0].GetComponent<HeroStateMachine>().AcceptBuffsDebuffs(calc_buff, isHeal);
+
+        int count = BSM.PerformList[0].choosenAttack.attackTargets;
+        if(BSM.HeroesInBattle.Count < count)
+        {
+            count = BSM.HeroesInBattle.Count;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            BSM.PerformList[0].AttackersTarget[i].GetComponent<HeroStateMachine>().AcceptBuffsDebuffs(calc_buff, isHeal);
+        }
         //mana bar things
         hero.curMP -= BSM.PerformList[0].choosenAttack.attackCost;
         if (hero.curMP <= 0)
@@ -443,7 +455,6 @@ public class HeroStateMachine : MonoBehaviour
         manaBar.SetSize(((hero.curMP * 100) / hero.baseMP) / 100);
 
         AddRage(10);
-        isCriticalH = false;
         //rage bar
         UpdateRageBar();
     }
@@ -580,7 +591,7 @@ public class HeroStateMachine : MonoBehaviour
         }
 
         attackNext = true;
-        GameObject NewEnemyToAttack = BSM.EnemysInBattle[Random.Range(0, BSM.EnemysInBattle.Count)];
+        GameObject NewEnemyToAttack = BSM.EnemiesInBattle[Random.Range(0, BSM.EnemiesInBattle.Count)];
         BSM.PerformList[0].AttackersTarget[0] = NewEnemyToAttack;
         Vector3 newEnemyPosition = new Vector3(NewEnemyToAttack.transform.position.x + 0.6f, NewEnemyToAttack.transform.position.y - 0.2f /*, HeroToAttack.transform.position.z */);
         while (MoveTowardsEnemy(newEnemyPosition))

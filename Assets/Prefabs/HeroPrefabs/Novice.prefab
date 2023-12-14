@@ -132,7 +132,7 @@ MonoBehaviour:
     displayNameText: {fileID: 5489706020913391840}
     level:
       experience: 0
-      currentlevel: 10
+      currentlevel: 15
       requiredExp: 0
       MAX_EXP: 0
       NEXT_EXP: 0
@@ -177,6 +177,7 @@ MonoBehaviour:
   currentState: 0
   EnemyToAttack: []
   NewEnemyToAttack: {fileID: 0}
+  StatusList: []
   counterAttack: 0
   HeroPanel: {fileID: 136959068690313752, guid: 7ee2ecfa83f1cb148bec16a0f74cf2f5, type: 3}
   Selector: {fileID: 3077622072488657479}

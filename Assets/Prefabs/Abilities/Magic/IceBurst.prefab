@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c165304f35b48b248bac462a2eb0bfb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackName: IceBurst
+  attackName: Ice Burst
   attackDescription: Basic ice attack
   attackType: Spell
   isAttack: 1

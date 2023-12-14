@@ -20,10 +20,16 @@ public class GameManager : MonoBehaviour
     }
 
     public int curRegions;
-    [Range(1, 10)] public int encounterRate = 5;
+    [Range(0, 10)] public int encounterRate = 5;
 
     public List<RegionData> Regions = new List<RegionData>();
 
+    [Header("Some testing settings")]
+    [Range(0, 100)] public float counterAttackChance = 20;
+    [Range(0, 100)] public int selfRessurrectChance = 20;
+    [Range(0, 100)] public float doubleAttackChance = 35;
+    [Range(0, 10)] public float preFightCooldown = 1;
+    [Range(0, 10)] public float postFightCooldown = 1;
 
     //Hero
     public GameObject heroCharacter;
@@ -35,9 +41,9 @@ public class GameManager : MonoBehaviour
     public bool autoBattle = false;
     public int autoBattleTurns = 50;
     public int remainingAutobattleTurns = 50;
+    public float fightSpeed = 1;
     //battle phases etc things
-    [Range(0f, 10f)] public float preFightCooldown = 1f;
-    [Range(0f, 10f)] public float postFightCooldown = 1f;
+
 
     //Positions
     public Vector3 nextHeroPosition;
@@ -51,9 +57,6 @@ public class GameManager : MonoBehaviour
     public bool isWalking = false;
     public bool canGetEncounter = false;
     public bool gotAttacked = false;
-
-    //timescaling for testing purpouses
-    private float fixedDeltaTime;
 
 
     //enum
@@ -90,7 +93,6 @@ public class GameManager : MonoBehaviour
             Hero.name = "Player";
         }
         heroCharacter.SetActive(true);
-        
     }
 
     void Update()

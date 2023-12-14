@@ -132,7 +132,7 @@ MonoBehaviour:
     displayNameText: {fileID: 1408334336362144568}
     level:
       experience: 0
-      currentlevel: 10
+      currentlevel: 20
       requiredExp: 0
       MAX_EXP: 0
       NEXT_EXP: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
     - {fileID: -826301957630506485, guid: 96935a23224caf34ea228d0cbcf534d9, type: 3}
     MagicAttacks:
     - {fileID: 4232969548762815109, guid: 6aec7ddbb2b9a3f49a72a6fa11926668, type: 3}
-    - {fileID: 1158648547539004439, guid: ef7a6c93f3de5d34983a6dce59a18604, type: 3}
+    - {fileID: 5962701481153000514, guid: 1c915b783dc362843a20552808b50acb, type: 3}
     unspentStatPoints: 0
     maxRage: 150
     curRage: 0
@@ -177,6 +177,12 @@ MonoBehaviour:
   currentState: 0
   EnemyToAttack: []
   NewEnemyToAttack: {fileID: 0}
+  StatusList:
+  - AbilityGameObject: {fileID: 0}
+    name: 
+    type: 
+    duration: 0
+    endOfTurn: 0
   counterAttack: 0
   HeroPanel: {fileID: 136959068690313752, guid: 7ee2ecfa83f1cb148bec16a0f74cf2f5, type: 3}
   Selector: {fileID: 2734386053228371325}

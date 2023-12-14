@@ -25,6 +25,7 @@ public class BaseEnemy : BaseClass
 
     public Type EnemyType;
     public Rarity rarity;
+    public int expAmount;
 
     [Header("Attribute multipliers")]
     public float hpPerStr = 10;

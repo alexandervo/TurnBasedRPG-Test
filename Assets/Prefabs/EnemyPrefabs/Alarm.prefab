@@ -129,7 +129,7 @@ MonoBehaviour:
     displayNameText: {fileID: 6373007098047644050}
     level:
       experience: 0
-      currentlevel: 0
+      currentlevel: 10
       requiredExp: 0
       MAX_EXP: 0
       NEXT_EXP: 0
@@ -164,6 +164,7 @@ MonoBehaviour:
     MagicAttacks: []
     EnemyType: 0
     rarity: 0
+    expAmount: 0
     hpPerStr: 10
     atkPerStr: 5
     mpPerInt: 10
